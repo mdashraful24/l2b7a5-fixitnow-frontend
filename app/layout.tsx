@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { IBM_Plex_Sans, Source_Sans_3 } from "next/font/google";
+import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { TooltipProvider } from "radix-ui/tooltip";
+import { Toaster } from "sonner";
 
-const sourceSans3Heading = Source_Sans_3({subsets:['latin'],variable:'--font-heading'});
-
-const ibmPlexSans = IBM_Plex_Sans({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
   title: "FixItNow | Home Services Marketplace",
@@ -20,9 +20,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full antialiased", "font-sans", ibmPlexSans.variable, sourceSans3Heading.variable)}
+      className={cn("h-full antialiased", "font-sans", inter.variable)}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <TooltipProvider>
+          <Toaster richColors position="top-right" />
+          {children}
+        </TooltipProvider>
+      </body>
     </html>
   );
 }
