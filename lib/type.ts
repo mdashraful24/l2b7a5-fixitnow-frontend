@@ -44,3 +44,23 @@ export type IUser = {
 export type NavbarProps = {
     user: IUser
 }
+
+export interface IUserProfile {
+    name: string;
+    email: string;
+    phone?: string;
+    address?: string;
+    role: string;
+    status: string;
+    technicianProfile?: {
+        bio: string;
+        skills: string[];
+        experience: string;
+        location: string;
+        rating: number;
+    };
+}
+
+export type MyProfileProps = {
+    user: IUserProfile
+}

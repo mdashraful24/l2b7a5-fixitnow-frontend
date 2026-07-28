@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { NavbarProps } from '@/lib/type';
 import { logOut } from '@/services/logout';
-import { LayoutDashboard, LogOut, Settings, User } from 'lucide-react';
+import { LayoutDashboard, LogOut, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -19,7 +19,6 @@ import { toast } from 'sonner';
 // User dropdown options
 const userMenuItems = [
     { label: 'Profile', icon: User, action: "profile" },
-    { label: 'Settings', icon: Settings, action: "settings" },
     { label: 'Dashboard', icon: LayoutDashboard, action: "dashboard" },
 ];
 
@@ -27,16 +26,27 @@ export function Navbar({ user }: NavbarProps) {
     const router = useRouter();
     const pathname = usePathname();
 
+    const initials = user?.data?.name
+        ?.split(" ")
+        .slice(0, 2)
+        .map((word) => word[0])
+        .join("")
+        .toUpperCase();
+
     // Navigation items configuration
     const navItems = [
         { label: "Home", href: "/" },
-        { label: "About", href: "/about" },
         { label: "Services", href: "/services" },
-        { label: "Contact", href: "/contact" },
+        { label: "Technicians", href: "/technicians" },
     ];
 
     // Add your logout logic here
     const handleLogout = async (action: string) => {
+        if (action === "profile") {
+            router.push("/profile");
+            return;
+        }
+
         if (action === "dashboard") {
             if (user?.data?.role === "CUSTOMER") {
                 router.push("/dashboard/customer")
@@ -84,7 +94,7 @@ export function Navbar({ user }: NavbarProps) {
                             <DropdownMenuTrigger asChild>
                                 <div className="cursor-pointer">
                                     <div className="size-10 rounded-full bg-primary/10 flex items-center justify-center">
-                                        <User className="size-5 text-primary" />
+                                        {initials || <User className="size-5 text-primary" />}
                                     </div>
                                 </div>
                             </DropdownMenuTrigger>
@@ -97,7 +107,7 @@ export function Navbar({ user }: NavbarProps) {
                                     <div className="bg-linear-to-r from-primary/15 via-primary/10 to-primary/5 rounded-xl p-4">
                                         <div className="flex items-center gap-3">
                                             <div className="flex size-12 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                                                <User className="size-6" />
+                                                {initials || <User className="size-6" />}
                                             </div>
 
                                             <div className="flex-1">
