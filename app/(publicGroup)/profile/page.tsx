@@ -1,5 +1,5 @@
 import { getMe } from "@/services/getMe"
-import MyProfile from "../_components/MyProfile"
+import MyProfile from "../_components/profileInfo/MyProfile";
 
 const UserProfilePage = async () => {
     const user = await getMe();

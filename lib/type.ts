@@ -64,3 +64,41 @@ export interface IUserProfile {
 export type MyProfileProps = {
     user: IUserProfile
 }
+
+
+export interface IService {
+    id: string;
+    title: string;
+    description: string;
+    price: number;
+    hourlyRate: number | null;
+    duration: number;
+    isAvailable: boolean;
+    category: {
+        id: string;
+        name: string;
+        description: string;
+        icon: string;
+    };
+    technician: {
+        id: string;
+        location: string;
+        rating: number;
+        totalReviews: number;
+        user: {
+            name: string;
+        };
+    };
+}
+
+export interface IServicesResponse {
+    success: boolean;
+    message: string;
+    data: IService[];
+    meta: {
+        page: number;
+        limit: number;
+        total: number;
+        totalPage: number;
+    };
+}
