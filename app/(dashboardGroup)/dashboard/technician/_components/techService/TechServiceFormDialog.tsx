@@ -11,7 +11,7 @@ import { PencilIcon, PlusIcon } from "lucide-react";
 import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { ICategory, ITechService } from "@/lib/type";
-import { createPost, updatePost } from "@/app/(dashboardGroup)/_actions/technician";
+import { createService, updatedService } from "@/app/(dashboardGroup)/_actions/technician";
 
 type ServiceFormDialogProps = {
     mode: "create" | "edit";
@@ -24,8 +24,8 @@ export function TechServiceFormDialog({ mode, service, categories }: ServiceForm
     const [selectedCategoryId, setSelectedCategoryId] = useState(service?.categoryId ?? service?.category?.id ?? "");
 
     const action = mode === "edit" && service
-        ? updatePost.bind(null, service.id)
-        : createPost;
+        ? updatedService.bind(null, service.id)
+        : createService;
 
     const [state, formAction, pending] = useActionState(action, null) as any;
 
