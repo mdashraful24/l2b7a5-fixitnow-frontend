@@ -37,7 +37,7 @@ export function Navbar({ user }: NavbarProps) {
     const navItems = [
         { label: "Home", href: "/" },
         { label: "Services", href: "/services" },
-        { label: "Technicians", href: "/technicians" },
+        // { label: "Technicians", href: "/technicians" },
     ];
 
     // Add your logout logic here

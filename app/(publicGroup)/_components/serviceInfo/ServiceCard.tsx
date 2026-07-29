@@ -1,5 +1,6 @@
 import { IService } from "@/lib/type"
 import { Wrench, Star, MapPin, Clock, DollarSign } from "lucide-react"
+import Link from "next/link"
 
 interface ServiceCardProps {
     service: IService;
@@ -61,22 +62,30 @@ export function ServiceCard({ service }: ServiceCardProps) {
                 </div>
 
                 {/* Price and duration */}
-                <div className="mt-2 flex items-center justify-between border-t pt-3">
-                    <div className="flex items-center gap-1 text-sm">
-                        <Clock className="h-4 w-4 text-gray-400" />
-                        <span className="text-gray-600">{service.duration} min</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <DollarSign className="h-4 w-4 text-primary" />
-                        <span className="text-lg font-bold text-primary">
-                            {service.price}
-                        </span>
-                        {service.hourlyRate && (
-                            <span className="text-xs text-gray-400">
-                                /{service.hourlyRate} hr
+                <div className="mt-2 flex flex-col gap-3 border-t pt-3">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1 text-sm">
+                            <Clock className="h-4 w-4 text-gray-400" />
+                            <span className="text-gray-600">{service.duration} min</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                            <DollarSign className="h-4 w-4 text-primary" />
+                            <span className="text-lg font-bold text-primary">
+                                {service.price}
                             </span>
-                        )}
+                            {service.hourlyRate && (
+                                <span className="text-xs text-gray-400">
+                                    /{service.hourlyRate} hr
+                                </span>
+                            )}
+                        </div>
                     </div>
+                    <Link
+                        href={`/technicians/${service.technician.id}`}
+                        className="w-full rounded-md bg-primary/10 px-4 py-2 text-center text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-white"
+                    >
+                        View Technician
+                    </Link>
                 </div>
             </div>
         </div>
