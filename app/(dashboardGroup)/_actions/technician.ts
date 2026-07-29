@@ -3,7 +3,8 @@
 import { cookies } from "next/headers";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
-import { AvailabilitySlot, TechnicianActionResult, TechnicianBookingsResponse, UpdateTechnicianAvailabilityPayload, UpdateTechnicianBookingStatusPayload, UpdateTechnicianProfilePayload } from "@/lib/type";
+import { AvailabilitySlot, ICreateTechServicePayload, TechnicianActionResult, TechnicianBookingsResponse, UpdateTechnicianAvailabilityPayload, UpdateTechnicianBookingStatusPayload, UpdateTechnicianProfilePayload } from "@/lib/type";
+import { getValidAccessToken } from "@/services/refreshToken";
 
 const dayOptions = [
     "Sunday",
@@ -162,8 +163,12 @@ export const updateTechnicianProfile = async (payload: UpdateTechnicianProfilePa
     const result = await res.json();
 
     if (result.success) {
-        revalidateTag("my-profile", "max");
-        revalidateTag("technicians", "max");
+        revalidateTag("my-profile", {
+            expire: 0
+        });
+        revalidateTag("technicians", {
+            expire: 0
+        });
     }
 
     return result;
@@ -201,8 +206,12 @@ export const createTechnicianAvailability = async (payload: AvailabilitySlot): P
     const result = await res.json();
 
     if (result.success) {
-        revalidateTag("technicians", "max");
-        revalidateTag("my-profile", "max");
+        revalidateTag("technicians", {
+            expire: 0
+        });
+        revalidateTag("my-profile", {
+            expire: 0
+        });
     }
 
     return result;
@@ -242,8 +251,12 @@ export const updateTechnicianAvailability = async (payload: UpdateTechnicianAvai
     const result = await res.json();
 
     if (result.success) {
-        revalidateTag("technicians", "max");
-        revalidateTag("my-profile", "max");
+        revalidateTag("technicians", {
+            expire: 0
+        });
+        revalidateTag("my-profile", {
+            expire: 0
+        });
     }
 
     return result;
@@ -281,10 +294,165 @@ export const updateTechnicianBookingStatus = async (payload: UpdateTechnicianBoo
     const result = await res.json();
 
     if (result.success) {
-        revalidateTag("technician-bookings", "max");
-        revalidateTag("bookings", "max");
-        revalidateTag(`booking-${parsed.data.bookingId}`, "max");
+        revalidateTag("technician-bookings", {
+            expire: 0
+        });
+        revalidateTag("bookings", {
+            expire: 0
+        });
+        revalidateTag(`booking-${parsed.data.bookingId}`, {
+            expire: 0
+        });
     }
+
+    return result;
+};
+
+const serviceSchema = z.object({
+    title: z.string().trim().min(2, "Title is required"),
+    description: z.string().trim().min(2, "Description is required"),
+    price: z.coerce.number().positive("Price must be greater than 0"),
+    duration: z.coerce.number().int().positive("Duration must be greater than 0"),
+    categoryId: z.string().trim().min(1, "Category is required"),
+    hourlyRate: z.coerce.number().positive().optional().or(z.literal("")),
+    isAvailable: z.coerce.boolean().optional(),
+});
+
+export const createPost = async (prevState: unknown, formData: FormData): Promise<TechnicianActionResult> => {
+    const raw = {
+        title: formData.get("title"),
+        description: formData.get("description"),
+        price: formData.get("price"),
+        duration: formData.get("duration"),
+        categoryId: formData.get("categoryId"),
+        hourlyRate: formData.get("hourlyRate") || undefined,
+        isAvailable: formData.get("isAvailable") === "on" || formData.get("isAvailable") === "true",
+    };
+
+    const parsed = serviceSchema.safeParse(raw);
+
+    if (!parsed.success) {
+        return {
+            success: false,
+            message: "Please fix the highlighted fields.",
+            fieldErrors: flattenFieldErrors(parsed.error),
+        };
+    }
+
+    const accessToken = await getValidAccessToken();
+
+    if (!accessToken) {
+        return { success: false, message: "Not authenticated" };
+    }
+
+    const payload: ICreateTechServicePayload = {
+        title: parsed.data.title,
+        description: parsed.data.description,
+        price: parsed.data.price,
+        duration: parsed.data.duration,
+        categoryId: parsed.data.categoryId,
+        ...(typeof parsed.data.hourlyRate === "number" && { hourlyRate: parsed.data.hourlyRate }),
+        isAvailable: parsed.data.isAvailable ?? true,
+    };
+
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/services`, {
+        method: "POST",
+        headers: {
+            cookie: `accessToken=${accessToken}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+        revalidateTag("tech-services", {
+            expire: 0
+        });
+    }
+
+    return result;
+};
+
+export const updatePost = async (postId: string, prevState: unknown, formData: FormData): Promise<TechnicianActionResult> => {
+    const raw = {
+        title: formData.get("title"),
+        description: formData.get("description"),
+        price: formData.get("price"),
+        duration: formData.get("duration"),
+        categoryId: formData.get("categoryId"),
+        hourlyRate: formData.get("hourlyRate") || undefined,
+        isAvailable: formData.get("isAvailable") === "on" || formData.get("isAvailable") === "true",
+    };
+
+    const parsed = serviceSchema.safeParse(raw);
+
+    if (!parsed.success) {
+        return {
+            success: false,
+            message: "Please fix the highlighted fields.",
+            fieldErrors: flattenFieldErrors(parsed.error),
+        };
+    }
+
+    const accessToken = await getValidAccessToken();
+
+    if (!accessToken) {
+        return { success: false, message: "Not authenticated" };
+    }
+
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/services/${postId}`, {
+        method: "PATCH",
+        headers: {
+            cookie: `accessToken=${accessToken}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            title: parsed.data.title,
+            description: parsed.data.description,
+            price: parsed.data.price,
+            duration: parsed.data.duration,
+            categoryId: parsed.data.categoryId,
+            ...(typeof parsed.data.hourlyRate === "number" && { hourlyRate: parsed.data.hourlyRate }),
+            isAvailable: parsed.data.isAvailable,
+        }),
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+        revalidateTag("tech-services", {
+            expire: 0
+        });
+    }
+
+    return result;
+};
+
+export const getTechServices = async () => {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+
+    if (!accessToken) {
+        return {
+            success: false,
+            message: "User not logged in!",
+        };
+    }
+
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/services/my-services`, {
+        headers: {
+            cookie: `accessToken=${accessToken}`,
+        },
+        cache: "force-cache",
+        next: {
+            revalidate: 60 * 60 * 24,
+            tags: ["tech-services"],
+        },
+    });
+
+    const result = await res.json();
 
     return result;
 };

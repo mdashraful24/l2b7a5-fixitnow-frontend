@@ -65,12 +65,35 @@ export type MyProfileProps = {
     user: IUserProfile
 }
 
-
 export interface ICategory {
     id: string;
     name: string;
     description: string;
     icon: string;
+}
+
+export interface ICreateTechServicePayload {
+    title: string;
+    description: string;
+    price: number;
+    duration: number;
+    categoryId: string;
+    hourlyRate?: number;
+    isAvailable?: boolean;
+}
+
+export interface ITechService {
+    id: string;
+    title: string;
+    description: string;
+    price: number;
+    hourlyRate: number | null;
+    duration: number;
+    isAvailable: boolean;
+    categoryId: string;
+    category: ICategory;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export interface IService {

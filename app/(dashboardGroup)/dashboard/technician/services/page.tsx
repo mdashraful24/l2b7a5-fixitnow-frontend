@@ -1,0 +1,30 @@
+import { Suspense } from 'react'
+import TechServiceSkeleton from '../_components/techService/TechServiceSkeleton'
+import { TechServiceFormDialog } from '../_components/techService/TechServiceFormDialog'
+import { TechServiceList } from '../_components/techService/TechServiceList'
+import { getAllCategories } from '@/app/(publicGroup)/_actions/allCategories'
+
+const TechnicianServicesPage = async () => {
+    const categoriesResult = await getAllCategories();
+    const categories = categoriesResult?.data ?? [];
+
+    return (
+        <div className='space-y-6'>
+            <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
+                <div>
+                    <h1 className="text-2xl font-semibold">My Services</h1>
+                    <p className="text-sm text-muted-foreground">
+                        Create and manage your services.
+                    </p>
+                </div>
+                <TechServiceFormDialog mode='create' categories={categories} />
+            </div>
+
+            <Suspense fallback={<TechServiceSkeleton />}>
+                <TechServiceList />
+            </Suspense>
+        </div>
+    )
+}
+
+export default TechnicianServicesPage

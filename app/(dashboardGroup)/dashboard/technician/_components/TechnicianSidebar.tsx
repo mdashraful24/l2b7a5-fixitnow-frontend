@@ -19,6 +19,7 @@ const navLinks = [
     { href: "/dashboard/technician/bookings", label: "Bookings", icon: CalendarDays, exact: false },
     { href: "/dashboard/technician/availability", label: "Availability", icon: Clock3, exact: false },
     { href: "/dashboard/technician/updated-profile", label: "Updated Profile", icon: User, exact: false },
+    { href: "/dashboard/technician/services", label: "Services", icon: Clock3, exact: false },
     { href: "/profile", label: "Profile", icon: User2, exact: true },
     { href: "/", label: "Home", icon: Home, exact: true },
 ];
