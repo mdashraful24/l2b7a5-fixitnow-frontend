@@ -355,6 +355,14 @@ export interface UpdateTechnicianBookingStatusPayload {
     status: string;
 }
 
+export interface CustomerSidebarProps {
+    user: {
+        name: string;
+        email: string;
+        role: string;
+    };
+}
+
 export const statusBadge: Record<string, { bg: string; text: string; border: string; icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> }> = {
     REQUESTED: {
         bg: "bg-blue-50",

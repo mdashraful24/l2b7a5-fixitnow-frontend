@@ -33,7 +33,7 @@ export function BookingCard({ booking, statusColors }: BookingCardProps) {
                 {/* Left info */}
                 <div className="flex-1 space-y-2">
                     <div className="flex flex-wrap items-center gap-2">
-                        <h3 className="font-semibold text-gray-900">{booking.service?.title}</h3>
+                        <h3 className="font-semibold">{booking.service?.title}</h3>
                         <span
                             className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusColors[booking.status]}`}
                         >
@@ -41,7 +41,7 @@ export function BookingCard({ booking, statusColors }: BookingCardProps) {
                         </span>
                     </div>
 
-                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-500">
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-700">
                         <span className="flex items-center gap-1">
                             <User className="h-3.5 w-3.5" />
                             {booking.technician?.user?.name}
@@ -63,11 +63,11 @@ export function BookingCard({ booking, statusColors }: BookingCardProps) {
                 {/* Right: price + actions */}
                 <div className="flex flex-col items-end gap-2">
                     <p className="text-lg font-bold text-primary">${booking.totalAmount}</p>
-                    <div className="flex gap-2">
+                    <div className="flex gap-4">
                         {canCancel && <CancelBookingButton bookingId={booking.id} />}
                         <Link
                             href={`/dashboard/customer/bookings/${booking.id}`}
-                            className="flex items-center gap-1 rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-600 transition bg-blue-100 hover:border-primary/40 hover:text-primary"
+                            className="flex items-center gap-1 rounded-lg border border-gray-200 px-3 py-1.5 text-sm font-semibold transition bg-blue-100 hover:border-primary/40 hover:text-primary"
                         >
                             Details
                             <ArrowRight className="h-3.5 w-3.5" />
