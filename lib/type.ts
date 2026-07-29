@@ -99,14 +99,39 @@ export interface ITechService {
     updatedAt?: string;
 }
 
+// export interface IService {
+//     id: string;
+//     title: string;
+//     description: string;
+//     price: number;
+//     hourlyRate: number | null;
+//     duration: number;
+//     isAvailable: boolean;
+//     category: ICategory;
+//     technician: {
+//         id: string;
+//         location: string;
+//         rating: number;
+//         totalReviews: number;
+//         user: {
+//             name: string;
+//         };
+//     };
+// }
+
+// lib/type.ts - Update IService
 export interface IService {
     id: string;
+    technicianId: string;
+    categoryId: string;
     title: string;
     description: string;
     price: number;
     hourlyRate: number | null;
     duration: number;
     isAvailable: boolean;
+    createdAt?: string;
+    updatedAt?: string;
     category: ICategory;
     technician: {
         id: string;
@@ -115,7 +140,12 @@ export interface IService {
         totalReviews: number;
         user: {
             name: string;
+            phone?: string;
+            email?: string;
+            address?: string;
         };
+        availability: IAvailableSlot[];
+        services?: IService[];
     };
 }
 
@@ -256,13 +286,13 @@ export interface IBookingDetailsResponse {
     scheduledAt: string;
 }
 
-export interface IAvailableSlot {
-    id: string;
-    dayOfWeek: string;
-    startAt: string;
-    endAt: string;
-    isAvailable: boolean;
-}
+// export interface IAvailableSlot {
+//     id: string;
+//     dayOfWeek: string;
+//     startAt: string;
+//     endAt: string;
+//     isAvailable: boolean;
+// }
 
 export type StatusFilter = "ALL" | 'REQUESTED' | 'ACCEPTED' | 'DECLINED' | 'PAID' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
 

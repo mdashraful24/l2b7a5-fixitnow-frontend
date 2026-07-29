@@ -7,7 +7,7 @@ interface ServiceCardProps {
 }
 
 export function ServiceCard({ service }: ServiceCardProps) {
-    const bookingHref = `/booking?serviceId=${service.id}&technicianId=${service.technician.id}&categoryId=${service.category.id}`;
+    const bookingHref = `/booking?serviceId=${service.id}`;
 
     return (
         <div className="group relative flex flex-col overflow-hidden rounded-lg border bg-white transition-all hover:shadow-lg">

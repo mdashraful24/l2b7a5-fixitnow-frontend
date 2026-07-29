@@ -3,34 +3,49 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createBooking } from "../_actions/createBooking";
-import { getTechnicianById } from "../_actions/getTechnician";
-import { ITechnicianPublic, IAvailableSlot, ICreateBookingPayload } from "@/lib/type";
+import { IAvailableSlot, ICreateBookingPayload, IService } from "@/lib/type";
 import {
     CalendarCheck, Clock, DollarSign, MapPin, Star, User,
     Wrench, CheckCircle, AlertCircle, ArrowLeft, Loader2
 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
+import { getServiceById } from "../_actions/allServices";
 
 function formatTime(dateStr: string) {
     return new Date(dateStr).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
-function getDayDates(dayOfWeek: string): string[] {
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const targetDay = days.indexOf(dayOfWeek);
-    if (targetDay === -1) return [];
+function formatDate(dateStr: string) {
+    return new Date(dateStr).toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    });
+}
 
-    const dates: string[] = [];
-    const today = new Date();
-    for (let i = 0; i <= 30; i++) {
-        const d = new Date(today);
-        d.setDate(today.getDate() + i);
-        if (d.getDay() === targetDay) {
-            dates.push(d.toISOString().split("T")[0]);
-        }
+// Generate time options within a slot's range (30-minute intervals)
+function getTimeOptions(slot: IAvailableSlot): string[] {
+    const options: string[] = [];
+    const startDate = new Date(slot.startAt);
+    const endDate = new Date(slot.endAt);
+
+    const startMinutes = startDate.getHours() * 60 + startDate.getMinutes();
+    const endMinutes = endDate.getHours() * 60 + endDate.getMinutes();
+
+    // Generate 30-minute intervals
+    let currentMinutes = Math.ceil(startMinutes / 30) * 30;
+
+    while (currentMinutes < endMinutes) {
+        const hours = Math.floor(currentMinutes / 60);
+        const mins = currentMinutes % 60;
+        const timeStr = `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
+        options.push(timeStr);
+        currentMinutes += 30;
     }
-    return dates;
+
+    return options;
 }
 
 export default function BookingPage() {
@@ -38,85 +53,130 @@ export default function BookingPage() {
     const searchParams = useSearchParams();
 
     const serviceId = searchParams.get("serviceId") || "";
-    const technicianId = searchParams.get("technicianId") || "";
-    const categoryId = searchParams.get("categoryId") || "";
 
-    const [technician, setTechnician] = useState<ITechnicianPublic | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [service, setService] = useState<IService | null>(null);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     // Form state
     const [selectedSlot, setSelectedSlot] = useState<IAvailableSlot | null>(null);
-    const [selectedDate, setSelectedDate] = useState<string>("");
     const [selectedTime, setSelectedTime] = useState<string>("");
     const [address, setAddress] = useState<string>("");
     const [notes, setNotes] = useState<string>("");
+    const [timeOptions, setTimeOptions] = useState<string[]>([]);
 
-    const fetchTechnician = useCallback(async () => {
-        if (!technicianId) { setError("Missing technician ID"); setLoading(false); return; }
-        setLoading(true);
-        const res = await getTechnicianById(technicianId);
-        if (res.success) {
-            setTechnician(res.data);
-        } else {
-            setError("Technician not found");
+    // Fetch service data
+    const fetchService = useCallback(async () => {
+        if (!serviceId) {
+            setError("Missing service ID");
+            return;
         }
-        setLoading(false);
-    }, [technicianId]);
 
-    useEffect(() => { fetchTechnician(); }, [fetchTechnician]);
+        try {
+            const res = await getServiceById(serviceId);
 
-    const service = technician?.services.find((s) => s.id === serviceId);
-    const availableSlots = technician?.availability.filter((s) => s.isAvailable) ?? [];
-    const availableDates = selectedSlot ? getDayDates(selectedSlot.dayOfWeek) : [];
+            if (res.success && res.data) {
+                setService(res.data);
+                // Auto-select first available slot if available
+                const availableSlots = res.data?.technician?.availability?.filter(
+                    (slot: IAvailableSlot) => slot.isAvailable
+                ) ?? [];
+                if (availableSlots.length > 0) {
+                    setSelectedSlot(availableSlots[0]);
+                }
+            } else {
+                setError("Service not found");
+            }
+        } catch (error) {
+            setError("Failed to load service details");
+            console.error("Error fetching service:", error);
+        }
+    }, [serviceId]);
 
-    // Build scheduledAt ISO string from selected date + time
+    // Load service on mount
+    useEffect(() => {
+        fetchService();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // Update time options when slot changes
+    useEffect(() => {
+        if (selectedSlot) {
+            const options = getTimeOptions(selectedSlot);
+            setTimeOptions(options);
+            setSelectedTime("");
+        } else {
+            setTimeOptions([]);
+        }
+    }, [selectedSlot]);
+
+    const technician = service?.technician;
+    const availableSlots = service?.technician?.availability?.filter(
+        (slot: IAvailableSlot) => slot.isAvailable
+    ) ?? [];
+
+    // Build scheduledAt ISO string from selected slot and time
     const buildScheduledAt = () => {
-        if (!selectedDate || !selectedTime) return "";
-        return new Date(`${selectedDate}T${selectedTime}:00`).toISOString();
+        if (!selectedSlot || !selectedTime) return "";
+
+        // Get the date from the slot's startAt
+        const slotDate = new Date(selectedSlot.startAt);
+        const [hours, minutes] = selectedTime.split(':').map(Number);
+
+        // Create new date with the slot's date but selected time
+        const scheduledDate = new Date(slotDate);
+        scheduledDate.setHours(hours, minutes, 0, 0);
+
+        return scheduledDate.toISOString();
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!selectedSlot || !selectedDate || !selectedTime || !address) {
+
+        if (!selectedSlot || !selectedTime || !address) {
             toast.error("Please fill in all required fields.");
             return;
         }
 
+        if (!service || !technician) {
+            toast.error("Service or technician information is missing.");
+            return;
+        }
+
         const scheduledAt = buildScheduledAt();
+        if (!scheduledAt) {
+            toast.error("Invalid time selection.");
+            return;
+        }
+
         const payload: ICreateBookingPayload = {
-            technicianId,
-            categoryId,
-            serviceId,
+            technicianId: technician.id,
+            categoryId: service.categoryId,
+            serviceId: service.id,
             availableSlotId: selectedSlot.id,
             scheduledAt,
             address,
             notes: notes || undefined,
-            totalAmount: service?.price ?? 0,
+            totalAmount: service.price ?? 0,
         };
 
         setSubmitting(true);
-        const result = await createBooking(payload);
-        setSubmitting(false);
-
-        if (result.success) {
-            toast.success("Booking created successfully!");
-            router.push("/dashboard/customer");
-        } else {
-            toast.error(result.message || "Failed to create booking.");
+        try {
+            const result = await createBooking(payload);
+            if (result.success) {
+                toast.success("Booking created successfully!");
+                router.push("/dashboard/customer");
+            } else {
+                toast.error(result.message || "Failed to create booking.");
+            }
+        } catch (error) {
+            toast.error("An error occurred while creating the booking.");
+        } finally {
+            setSubmitting(false);
         }
     };
 
-    if (loading) {
-        return (
-            <div className="flex min-h-[60vh] items-center justify-center">
-                <Loader2 className="h-10 w-10 animate-spin text-primary" />
-            </div>
-        );
-    }
-
-    if (error || !technician || !service) {
+    if (error || !service || !technician) {
         return (
             <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
                 <AlertCircle className="h-14 w-14 text-red-500" />
@@ -161,7 +221,7 @@ export default function BookingPage() {
                                             <Clock className="h-3.5 w-3.5" /> {service.duration} min
                                         </span>
                                         <span className="flex items-center gap-1 font-semibold text-primary">
-                                            <DollarSign className="h-3.5 w-3.5" /> {service.price}
+                                            <DollarSign className="h-3.5 w-3.5" /> ${service.price}
                                         </span>
                                     </div>
                                 </div>
@@ -192,16 +252,16 @@ export default function BookingPage() {
                         </div>
 
                         {/* Booking summary */}
-                        {selectedSlot && selectedDate && selectedTime && (
+                        {selectedSlot && selectedTime && (
                             <div className="rounded-xl border border-green-200 bg-green-50 p-5">
                                 <div className="flex items-center gap-2 mb-3">
                                     <CheckCircle className="h-5 w-5 text-green-600" />
                                     <h2 className="text-sm font-semibold text-green-800">Booking Summary</h2>
                                 </div>
                                 <div className="space-y-1.5 text-sm text-green-700">
-                                    <p><span className="font-medium">Day:</span> {selectedSlot.dayOfWeek}</p>
-                                    <p><span className="font-medium">Date:</span> {new Date(selectedDate).toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</p>
+                                    <p><span className="font-medium">Date:</span> {formatDate(selectedSlot.startAt)}</p>
                                     <p><span className="font-medium">Time:</span> {selectedTime}</p>
+                                    <p><span className="font-medium">Duration:</span> {service.duration} minutes</p>
                                     <div className="mt-3 border-t border-green-200 pt-3">
                                         <p className="flex justify-between">
                                             <span>Total Amount</span>
@@ -234,16 +294,16 @@ export default function BookingPage() {
                                                 type="button"
                                                 onClick={() => {
                                                     setSelectedSlot(slot);
-                                                    setSelectedDate("");
                                                     setSelectedTime("");
                                                 }}
-                                                className={`group flex flex-col rounded-xl border-2 p-4 text-left transition-all ${
-                                                    selectedSlot?.id === slot.id
+                                                className={`group flex flex-col rounded-xl border-2 p-4 text-left transition-all ${selectedSlot?.id === slot.id
                                                         ? "border-primary bg-primary/5"
                                                         : "border-gray-200 hover:border-primary/50 hover:bg-gray-50"
-                                                }`}
+                                                    }`}
                                             >
-                                                <span className="font-semibold text-gray-900">{slot.dayOfWeek}</span>
+                                                <span className="font-semibold text-gray-900">
+                                                    {formatDate(slot.startAt)}
+                                                </span>
                                                 <span className="mt-1 text-sm text-gray-500">
                                                     {formatTime(slot.startAt)} – {formatTime(slot.endAt)}
                                                 </span>
@@ -256,63 +316,44 @@ export default function BookingPage() {
                                 )}
                             </div>
 
-                            {/* Step 2: Pick a date */}
+                            {/* Step 2: Pick a time */}
                             {selectedSlot && (
                                 <div className="rounded-xl border bg-white p-6 shadow-sm">
                                     <h2 className="mb-1 text-base font-semibold text-gray-900">
-                                        Step 2: Select a Date
+                                        Step 2: Select a Time
                                     </h2>
                                     <p className="mb-4 text-sm text-gray-500">
-                                        Dates that fall on <strong>{selectedSlot.dayOfWeek}</strong> in the next 30 days.
-                                    </p>
-                                    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                                        {availableDates.map((date) => (
-                                            <button
-                                                key={date}
-                                                type="button"
-                                                onClick={() => { setSelectedDate(date); setSelectedTime(""); }}
-                                                className={`rounded-lg border-2 px-3 py-2.5 text-sm font-medium transition-all ${
-                                                    selectedDate === date
-                                                        ? "border-primary bg-primary text-white"
-                                                        : "border-gray-200 hover:border-primary/50 hover:bg-primary/5"
-                                                }`}
-                                            >
-                                                {new Date(date + "T00:00:00").toLocaleDateString("en-US", {
-                                                    month: "short",
-                                                    day: "numeric",
-                                                })}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Step 3: Pick a time */}
-                            {selectedSlot && selectedDate && (
-                                <div className="rounded-xl border bg-white p-6 shadow-sm">
-                                    <h2 className="mb-1 text-base font-semibold text-gray-900">
-                                        Step 3: Select a Time
-                                    </h2>
-                                    <p className="mb-4 text-sm text-gray-500">
-                                        Must be between{" "}
+                                        Available times on <strong>{formatDate(selectedSlot.startAt)}</strong> between{" "}
                                         <strong>{formatTime(selectedSlot.startAt)}</strong> and{" "}
                                         <strong>{formatTime(selectedSlot.endAt)}</strong>.
                                     </p>
-                                    <input
-                                        type="time"
-                                        value={selectedTime}
-                                        min={formatTime(selectedSlot.startAt).replace(" AM", "").replace(" PM", "")}
-                                        onChange={(e) => setSelectedTime(e.target.value)}
-                                        className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                                    />
+                                    {timeOptions.length === 0 ? (
+                                        <p className="text-sm text-amber-600">No available time slots.</p>
+                                    ) : (
+                                        <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+                                            {timeOptions.map((time) => (
+                                                <button
+                                                    key={time}
+                                                    type="button"
+                                                    onClick={() => setSelectedTime(time)}
+                                                    className={`rounded-lg border-2 px-3 py-2.5 text-sm font-medium transition-all ${selectedTime === time
+                                                            ? "border-primary bg-primary text-white"
+                                                            : "border-gray-200 hover:border-primary/50 hover:bg-primary/5"
+                                                        }`}
+                                                >
+                                                    {time}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             )}
 
-                            {/* Step 4: Address & notes */}
-                            {selectedSlot && selectedDate && selectedTime && (
+                            {/* Step 3: Address & notes */}
+                            {selectedSlot && selectedTime && (
                                 <div className="rounded-xl border bg-white p-6 shadow-sm">
                                     <h2 className="mb-1 text-base font-semibold text-gray-900">
-                                        Step 4: Your Details
+                                        Step 3: Your Details
                                     </h2>
                                     <p className="mb-4 text-sm text-gray-500">Provide your service address.</p>
                                     <div className="space-y-4">
@@ -348,7 +389,7 @@ export default function BookingPage() {
                             {/* Submit */}
                             <button
                                 type="submit"
-                                disabled={submitting || !selectedSlot || !selectedDate || !selectedTime || !address}
+                                disabled={submitting || !selectedSlot || !selectedTime || !address}
                                 className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-4 text-base font-semibold text-white transition-all hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
                             >
                                 {submitting ? (

@@ -1,3 +1,5 @@
+"use server";
+
 export const getAllServices = async ({
     query
 }: {
@@ -24,6 +26,18 @@ export const getAllServices = async ({
             tags: ["services"],
         },
     });
+
+    return res.json();
+};
+
+
+export const getServiceById = async (id: string) => {
+    const res = await fetch(
+        `${process.env.BACKEND_API_URL}/api/services/${id}`,
+        {
+            cache: "no-store",
+        }
+    );
 
     return res.json();
 };
