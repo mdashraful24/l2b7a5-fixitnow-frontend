@@ -26,11 +26,11 @@ This frontend talks to the backend service in `fixitnow-backend` through the end
 
 ## Technician Flow
 
-- Technician dashboard profile data uses `GET /api/auth/me`.
-- Technician bookings use `GET /api/technicians/bookings`.
-- Technician profile updates use `PUT /api/technicians/profile`.
-- Availability updates use `POST /api/technicians/availability` and `PUT /api/technicians/availability`.
-- Booking status actions use `PATCH /api/technicians/bookings/:id`.
+- `/dashboard/technician` uses `GET /api/auth/me`, `GET /api/technicians/:id`, and `GET /api/technicians/bookings` for dashboard stats and recent jobs.
+- `/dashboard/technician/profile` uses `GET /api/auth/me`, `GET /api/technicians/:id`, and `PUT /api/technicians/profile`.
+- `/dashboard/technician/availability` uses `GET /api/auth/me`, `GET /api/technicians/:id`, `POST /api/technicians/availability`, and `PUT /api/technicians/availability`.
+- `/dashboard/technician/bookings` and `/dashboard/technician/bookings/[id]` use `GET /api/auth/me` and `GET /api/technicians/bookings`.
+- Technician booking actions use `PATCH /api/technicians/bookings/:id`.
 
 ## Admin Flow
 

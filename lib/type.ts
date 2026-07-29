@@ -237,3 +237,94 @@ export interface IAvailableSlot {
     endAt: string;
     isAvailable: boolean;
 }
+
+export type StatusFilter = "ALL" | 'REQUESTED' | 'ACCEPTED' | 'DECLINED' | 'PAID' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+
+export type AvailabilitySlot = {
+    id: string;
+    dayOfWeek: string;
+    startAt: string;
+    endAt: string;
+    isAvailable: boolean;
+};
+
+export interface TechnicianBookingRecord {
+    id: string;
+    status: string;
+    scheduledAt: string;
+    address: string;
+    totalAmount: number;
+    notes?: string;
+    createdAt: string;
+    updatedAt: string;
+    service: {
+        id: string;
+        title: string;
+        description: string;
+        price: number;
+        duration: number;
+    };
+    customer?: {
+        id: string;
+        name: string;
+        email: string;
+        phone?: string;
+    };
+    technician?: {
+        location?: string;
+        user?: {
+            name: string;
+            email: string;
+            phone?: string;
+            address?: string;
+        };
+    };
+}
+
+export interface TechnicianBookingsResponse {
+    success: boolean;
+    message: string;
+    data: TechnicianBookingRecord[];
+    meta: {
+        page: number;
+        limit: number;
+        total: number;
+        totalPage: number;
+    } | null;
+}
+
+export interface TechnicianActionResult<T = unknown> {
+    success: boolean;
+    message: string;
+    data?: T;
+    fieldErrors?: Record<string, string>;
+}
+
+export interface UpdateTechnicianProfilePayload {
+    name: string;
+    email: string;
+    password?: string;
+    phone?: string;
+    address?: string;
+    bio?: string;
+    skills?: string[];
+    experience?: string;
+    description?: string;
+    location?: string;
+}
+
+export interface TechnicianAvailabilityPayload {
+    dayOfWeek: string;
+    startAt: string;
+    endAt: string;
+    isAvailable?: boolean;
+}
+
+export interface UpdateTechnicianAvailabilityPayload extends TechnicianAvailabilityPayload {
+    availabilitySlotId: string;
+}
+
+export interface UpdateTechnicianBookingStatusPayload {
+    bookingId: string;
+    status: string;
+}
