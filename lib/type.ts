@@ -104,3 +104,136 @@ export interface IServicesResponse {
         totalPage: number;
     };
 }
+
+export interface IAvailableSlot {
+    id: string;
+    dayOfWeek: string;
+    startAt: string;
+    endAt: string;
+    isAvailable: boolean;
+}
+
+export interface ITechnicianPublic {
+    id: string;
+    bio?: string;
+    description?: string;
+    experience?: string;
+    skills: string[];
+    location?: string;
+    rating: number;
+    totalReviews: number;
+    user: {
+        name: string;
+        phone?: string;
+        email?: string;
+        status: string;
+    };
+    services: {
+        id: string;
+        title: string;
+        description: string;
+        price: number;
+        hourlyRate?: number | null;
+        duration: number;
+        categoryId: string;
+    }[];
+    availability: IAvailableSlot[];
+    reviews: {
+        rating: number;
+        comment?: string;
+        createdAt: string;
+        customer: { name: string };
+    }[];
+    reviewStats: {
+        totalReviews: number;
+        averageRating: number;
+        ratingDistribution: Record<string, number>;
+    };
+}
+
+export interface ICreateBookingPayload {
+    technicianId: string;
+    categoryId: string;
+    serviceId: string;
+    availableSlotId: string;
+    scheduledAt: string;
+    address: string;
+    notes?: string;
+    totalAmount: number;
+}
+
+export type BookingStatus = 'REQUESTED' | 'ACCEPTED' | 'DECLINED' | 'PAID' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+
+export interface IBooking {
+    id: string;
+    customerId: string;
+    technicianId: string;
+    serviceId: string;
+    availableSlotId?: string;
+    status: BookingStatus;
+    scheduledAt: string;
+    address: string;
+    notes?: string;
+    totalAmount: number;
+    createdAt: string;
+    updatedAt: string;
+    service: {
+        id: string;
+        title: string;
+        description: string;
+        price: number;
+        duration: number;
+    };
+    technician: {
+        id: string;
+        location?: string;
+        user: {
+            name: string;
+            email: string;
+            phone?: string;
+        };
+    };
+    availableSlot?: {
+        dayOfWeek: string;
+        startAt: string;
+        endAt: string;
+        isAvailable: boolean;
+    };
+    customer?: {
+        id: string;
+        name: string;
+        email: string;
+    };
+}
+
+export interface IBookingsResponse {
+    success: boolean;
+    message: string;
+    data: IBooking[];
+    meta: {
+        page: number;
+        limit: number;
+        total: number;
+        totalPage: number;
+    };
+}
+
+export interface IBookingDetailsResponse {
+    id: string;
+    customerId: string;
+    technicianId: string;
+    title: string;
+    description: string;
+    price: number;
+    duration: number;
+    status: BookingStatus;
+    scheduledAt: string;
+}
+
+export interface IAvailableSlot {
+    id: string;
+    dayOfWeek: string;
+    startAt: string;
+    endAt: string;
+    isAvailable: boolean;
+}

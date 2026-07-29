@@ -1,8 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getTechnicianById } from "../../_actions/getTechnician";
 import { notFound } from "next/navigation";
 import { Star, MapPin, User, Mail, Phone, Briefcase, Calendar } from "lucide-react";
 import React from "react";
+import { Badge } from "@/components/ui/badge";
+import { IAvailableSlot, IBookingDetailsResponse } from "@/lib/type";
 
 export default async function TechnicianByIdPage({
     params
@@ -25,8 +26,15 @@ export default async function TechnicianByIdPage({
                 {/* Left Column - Profile Info */}
                 <div className="md:col-span-1 space-y-6">
                     <div className="bg-white rounded-xl shadow-sm border p-6 text-center">
-                        <div className="mx-auto h-24 w-24 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                        <div className="relative mx-auto h-24 w-24 bg-primary/10 rounded-full flex items-center justify-center mb-4">
                             <User className="h-12 w-12 text-primary" />
+
+                            <Badge
+                                variant={user.status === "ACTIVE" ? "default" : "secondary"}
+                                className="absolute -right-4 top-0"
+                            >
+                                {user.status === "ACTIVE" ? "Active" : "Inactive"}
+                            </Badge>
                         </div>
                         <h1 className="text-2xl font-bold text-gray-900">{user.name}</h1>
                         <div className="flex items-center justify-center gap-2 text-gray-500 mt-2">
@@ -55,6 +63,12 @@ export default async function TechnicianByIdPage({
                                     <span>{user.phone}</span>
                                 </div>
                             )}
+                            {user.role && (
+                                <div className="flex items-center gap-3">
+                                    <Briefcase className="h-4 w-4 text-gray-400" />
+                                    <span>{user.role}</span>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -65,7 +79,7 @@ export default async function TechnicianByIdPage({
                     <div className="bg-white rounded-xl shadow-sm border p-6">
                         <h2 className="text-xl font-bold mb-4">About Me</h2>
                         <p className="text-gray-600">{technician.bio || technician.description || "No description provided."}</p>
-                        
+
                         <div className="mt-6 flex items-center gap-2">
                             <Briefcase className="h-5 w-5 text-gray-400" />
                             <span className="font-medium text-gray-700">Experience:</span>
@@ -91,7 +105,7 @@ export default async function TechnicianByIdPage({
                         <div className="bg-white rounded-xl shadow-sm border p-6">
                             <h2 className="text-xl font-bold mb-4">Offered Services</h2>
                             <div className="space-y-4">
-                                {services.map((service: any) => (
+                                {services.map((service: IBookingDetailsResponse) => (
                                     <div key={service.id} className="border rounded-lg p-4 flex justify-between items-center hover:bg-gray-50 transition-colors">
                                         <div>
                                             <h4 className="font-semibold text-gray-900">{service.title}</h4>
@@ -115,11 +129,11 @@ export default async function TechnicianByIdPage({
                                 Availability
                             </h2>
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                                {availability.map((slot: any) => (
+                                {availability.map((slot: IAvailableSlot) => (
                                     <div key={slot.id} className="bg-gray-50 border rounded-lg p-3 text-center">
-                                        <div className="font-medium text-gray-900 text-sm">{slot.dayOfWeek}</div>
-                                        <div className="text-xs text-gray-500 mt-1">
-                                            {new Date(slot.startAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - 
+                                        <div className="font-medium text-md">{slot.dayOfWeek}</div>
+                                        <div className="text-sm text-gray-700 mt-1">
+                                            {new Date(slot.startAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
                                             {new Date(slot.endAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                         </div>
                                     </div>

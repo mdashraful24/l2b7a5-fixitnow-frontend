@@ -1,5 +1,5 @@
 import { IService } from "@/lib/type"
-import { Wrench, Star, MapPin, Clock, DollarSign } from "lucide-react"
+import { Wrench, Star, MapPin, Clock, DollarSign, CalendarCheck } from "lucide-react"
 import Link from "next/link"
 
 interface ServiceCardProps {
@@ -7,10 +7,12 @@ interface ServiceCardProps {
 }
 
 export function ServiceCard({ service }: ServiceCardProps) {
+    const bookingHref = `/booking?serviceId=${service.id}&technicianId=${service.technician.id}&categoryId=${service.category.id}`;
+
     return (
         <div className="group relative flex flex-col overflow-hidden rounded-lg border bg-white transition-all hover:shadow-lg">
-            {/* Image placeholder - you can replace with actual image if available */}
-            <div className="relative h-48 bg-linear-to-br from-primary/10 to-primary/5">
+            {/* Header image area */}
+            <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
                 <div className="absolute inset-0 flex items-center justify-center">
                     <Wrench className="h-12 w-12 text-primary/40" />
                 </div>
@@ -80,12 +82,27 @@ export function ServiceCard({ service }: ServiceCardProps) {
                             )}
                         </div>
                     </div>
-                    <Link
-                        href={`/technicians/${service.technician.id}`}
-                        className="w-full rounded-md bg-primary/10 px-4 py-2 text-center text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-white"
-                    >
-                        View Technician
-                    </Link>
+
+                    {/* Action Buttons */}
+                    <div className="grid grid-cols-2 gap-2">
+                        <Link
+                            href={`/technicians/${service.technician.id}`}
+                            className="rounded-md border border-primary/30 px-3 py-2 text-center text-xs font-medium text-primary transition-colors hover:bg-primary/10"
+                        >
+                            View Technician
+                        </Link>
+                        <Link
+                            href={service.isAvailable ? bookingHref : "#"}
+                            className={`flex items-center justify-center gap-1.5 rounded-md px-3 py-2 text-center text-xs font-semibold transition-colors ${
+                                service.isAvailable
+                                    ? "bg-primary text-white hover:bg-primary/90"
+                                    : "cursor-not-allowed bg-gray-200 text-gray-400"
+                            }`}
+                        >
+                            <CalendarCheck className="h-3.5 w-3.5" />
+                            Book Now
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
