@@ -12,7 +12,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
     return (
         <div className="group relative flex flex-col overflow-hidden rounded-lg border bg-white transition-all hover:shadow-lg">
             {/* Header image area */}
-            <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
+            <div className="relative h-48 bg-linear-to-br from-primary/10 to-primary/5">
                 <div className="absolute inset-0 flex items-center justify-center">
                     <Wrench className="h-12 w-12 text-primary/40" />
                 </div>

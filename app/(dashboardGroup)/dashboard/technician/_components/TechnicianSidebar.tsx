@@ -18,8 +18,8 @@ const navLinks = [
     { href: "/dashboard/technician", label: "Overview", icon: LayoutDashboard, exact: true },
     { href: "/dashboard/technician/bookings", label: "Bookings", icon: CalendarDays, exact: false },
     { href: "/dashboard/technician/availability", label: "Availability", icon: Clock3, exact: false },
-    { href: "/dashboard/technician/updated-profile", label: "Updated Profile", icon: User, exact: false },
     { href: "/dashboard/technician/services", label: "Services", icon: Clock3, exact: false },
+    { href: "/dashboard/technician/updated-profile", label: "Edit Profile", icon: User, exact: false },
     { href: "/profile", label: "Profile", icon: User2, exact: true },
     { href: "/", label: "Home", icon: Home, exact: true },
 ];
@@ -43,14 +43,14 @@ export function TechnicianSidebar({ user }: TechnicianSidebarProps) {
 
     return (
         <div className="sticky top-8 space-y-4">
-            <div className="rounded-xl border bg-white p-5 shadow-sm">
+            <div className="rounded-xl border bg-white p-4 shadow-sm">
                 <div className="flex items-center gap-3">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
                         {initials}
                     </div>
                     <div className="min-w-0">
-                        <p className="truncate font-semibold">{user.name}</p>
-                        <p className="truncate text-xs text-gray-700">{user.email}</p>
+                        <p className="font-semibold">{user.name}</p>
+                        <p className="text-xs text-gray-700">{user.email}</p>
                         <span className="mt-1 inline-block rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
                             {user.role}
                         </span>

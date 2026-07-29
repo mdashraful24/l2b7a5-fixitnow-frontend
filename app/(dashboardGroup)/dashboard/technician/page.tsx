@@ -1,19 +1,24 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { CalendarDays, CheckCircle2, Clock3, DollarSign, Star, UserRound, BadgeCheck, XCircle, CreditCard } from "lucide-react";
+import {
+    CalendarDays,
+    CheckCircle2,
+    Clock3,
+    DollarSign,
+    Star,
+    UserRound,
+    CreditCard,
+    AlertCircle,
+    Loader2,
+    Ban,
+    Clock,
+    ThumbsUp,
+    ThumbsDown
+} from "lucide-react";
 import { getMe } from "@/services/getMe";
 import { getTechnicianById } from "@/app/(publicGroup)/_actions/getTechnician";
 import { getTechnicianBookings } from "@/app/(dashboardGroup)/_actions/technician";
-
-const statusBadge: Record<string, string> = {
-    REQUESTED: "bg-blue-50 text-blue-700 border-blue-200",
-    ACCEPTED: "bg-teal-100 text-teal-700 border-teal-200",
-    DECLINED: "bg-indigo-50 text-indigo-700 border-indigo-200",
-    PAID: "bg-indigo-50 text-indigo-700 border-indigo-200",
-    IN_PROGRESS: "bg-amber-50 text-amber-700 border-amber-200",
-    COMPLETED: "bg-green-50 text-green-700 border-green-200",
-    CANCELLED: "bg-red-50 text-red-700 border-red-200",
-};
+import { statusBadge } from "@/lib/type";
 
 export default async function TechnicianDashboardPage() {
     const user = await getMe();
@@ -62,9 +67,9 @@ export default async function TechnicianDashboardPage() {
         accepted: bookings.filter((booking) => booking.status === "ACCEPTED").length,
         declined: bookings.filter((booking) => booking.status === "DECLINED").length,
         paid: bookings.filter((booking) => booking.status === "PAID").length,
-        confirmed: bookings.filter((booking) => booking.status === "CONFIRMED").length,
         inProgress: bookings.filter((booking) => booking.status === "IN_PROGRESS").length,
         completed: bookings.filter((booking) => booking.status === "COMPLETED").length,
+        cancelled: bookings.filter((booking) => booking.status === "CANCELLED").length,
         earnings: bookings
             .filter((booking) => booking.status === "COMPLETED")
             .reduce((total, booking) => total + (booking.totalAmount || 0), 0),
@@ -94,19 +99,76 @@ export default async function TechnicianDashboardPage() {
 
             <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
                 {[
-                    { label: "Total Bookings", value: stats.total, icon: CalendarDays, color: "bg-gray-900" },
-                    { label: "Accepted", value: stats.accepted, icon: CheckCircle2, color: "bg-teal-500" },
-                    { label: "Declined", value: stats.declined, icon: XCircle, color: "bg-indigo-500" },
-                    { label: "Paid", value: stats.paid, icon: CreditCard, color: "bg-indigo-500" },
-                    { label: "Requested", value: stats.requested, icon: Clock3, color: "bg-amber-500" },
-                    { label: "Confirmed", value: stats.confirmed, icon: BadgeCheck, color: "bg-indigo-500" },
-                    { label: "Completed", value: stats.completed, icon: CheckCircle2, color: "bg-green-500" },
-                    { label: "Earnings", value: `$${stats.earnings}`, icon: DollarSign, color: "bg-emerald-600" },
+                    {
+                        label: "Total Bookings",
+                        value: stats.total,
+                        icon: CalendarDays,
+                        color: "bg-gradient-to-br from-gray-700 to-gray-900",
+                        iconColor: "text-gray-300"
+                    },
+                    {
+                        label: "Requested",
+                        value: stats.requested,
+                        icon: Clock,
+                        color: "bg-gradient-to-br from-blue-500 to-blue-600",
+                        iconColor: "text-blue-200"
+                    },
+                    {
+                        label: "Declined",
+                        value: stats.declined,
+                        icon: ThumbsDown,
+                        color: "bg-gradient-to-br from-gray-400 to-gray-500",
+                        iconColor: "text-gray-200"
+                    },
+                    {
+                        label: "Accepted",
+                        value: stats.accepted,
+                        icon: CheckCircle2,
+                        color: "bg-gradient-to-br from-teal-500 to-teal-600",
+                        iconColor: "text-teal-200"
+                    },
+                    {
+                        label: "Paid",
+                        value: stats.paid,
+                        icon: CreditCard,
+                        color: "bg-gradient-to-br from-indigo-500 to-indigo-600",
+                        iconColor: "text-indigo-200"
+                    },
+                    {
+                        label: "In Progress",
+                        value: stats.inProgress,
+                        icon: Loader2,
+                        color: "bg-gradient-to-br from-amber-500 to-amber-600",
+                        iconColor: "text-amber-200"
+                    },
+                    {
+                        label: "Completed",
+                        value: stats.completed,
+                        icon: ThumbsUp,
+                        color: "bg-gradient-to-br from-green-500 to-green-600",
+                        iconColor: "text-green-200"
+                    },
+                    {
+                        label: "Cancelled",
+                        value: stats.cancelled,
+                        icon: Ban,
+                        color: "bg-gradient-to-br from-red-500 to-red-600",
+                        iconColor: "text-red-200"
+                    },
+                    // {
+                    //     label: "Earnings",
+                    //     value: `$${stats.earnings}`,
+                    //     icon: DollarSign,
+                    //     color: "bg-gradient-to-br from-emerald-600 to-emerald-700",
+                    //     iconColor: "text-emerald-200"
+                    // },
                 ].map((item) => (
-                    <div key={item.label} className={`${item.color} rounded-2xl p-5 text-white shadow-sm`}>
-                        <item.icon className="h-5 w-5 opacity-80" />
-                        <p className="mt-4 text-3xl font-bold">{item.value}</p>
-                        <p className="mt-1 text-sm text-white/80">{item.label}</p>
+                    <div key={item.label} className={`${item.color} rounded-xl px-5 py-3 text-white shadow-lg transition-transform hover:scale-[1.02]`}>
+                        <div className="flex items-center gap-2 mb-2">
+                            <item.icon className={`h-5 w-5 ${item.iconColor}`} />
+                            <p className="text-sm text-white/90">{item.label}</p>
+                        </div>
+                        <p className="text-3xl font-bold">{item.value}</p>
                     </div>
                 ))}
             </div>
@@ -129,24 +191,35 @@ export default async function TechnicianDashboardPage() {
                                 No bookings have been assigned to you yet.
                             </div>
                         ) : (
-                            recentBookings.map((booking) => (
-                                <div key={booking.id} className="rounded-xl border p-4 transition hover:border-primary/40 hover:bg-gray-50">
-                                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                                        <div>
-                                            <div className="flex flex-wrap items-center gap-2">
-                                                <h3 className="font-semibold text-gray-900">{booking.service?.title}</h3>
-                                                <span className={`rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusBadge[booking.status] || "bg-gray-100 text-gray-600 border-gray-200"}`}>
-                                                    {booking.status}
-                                                </span>
+                            recentBookings.map((booking) => {
+                                const statusInfo = statusBadge[booking.status] || {
+                                    bg: "bg-gray-50",
+                                    text: "text-gray-700",
+                                    border: "border-gray-200",
+                                    icon: AlertCircle
+                                };
+                                const StatusIcon = statusInfo.icon;
+
+                                return (
+                                    <div key={booking.id} className="rounded-xl border p-4 transition hover:border-primary/40 hover:bg-gray-50">
+                                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                            <div>
+                                                <div className="flex flex-wrap items-center gap-2">
+                                                    <h3 className="font-semibold text-gray-900">{booking.service?.title}</h3>
+                                                    <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusInfo.bg} ${statusInfo.text} ${statusInfo.border}`}>
+                                                        <StatusIcon className="h-3 w-3" />
+                                                        {booking.status}
+                                                    </span>
+                                                </div>
+                                                <p className="mt-1 text-sm text-gray-500">
+                                                    {booking.customer?.name || "Customer"} • {new Date(booking.scheduledAt).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
+                                                </p>
                                             </div>
-                                            <p className="mt-1 text-sm text-gray-500">
-                                                {booking.customer?.name || "Customer"} • {new Date(booking.scheduledAt).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
-                                            </p>
+                                            <div className="text-sm font-semibold text-gray-900">${booking.totalAmount}</div>
                                         </div>
-                                        <div className="text-sm font-semibold text-gray-900">${booking.totalAmount}</div>
                                     </div>
-                                </div>
-                            ))
+                                );
+                            })
                         )}
                     </div>
                 </div>
@@ -183,13 +256,13 @@ export default async function TechnicianDashboardPage() {
                     <div className="rounded-2xl border bg-white p-6 shadow-sm">
                         <h2 className="text-lg font-semibold text-gray-900">Quick links</h2>
                         <div className="mt-4 space-y-2">
-                            <Link href="/dashboard/technician/bookings" className="block rounded-lg border border-gray-200 px-4 py-3 text-sm text-gray-700 hover:border-primary/40 hover:text-primary">
+                            <Link href="/dashboard/technician/bookings" className="block rounded-lg border border-gray-200 px-4 py-3 text-sm text-gray-700 hover:border-primary/40 hover:text-primary transition-colors">
                                 Manage incoming bookings
                             </Link>
-                            <Link href="/dashboard/technician/availability" className="block rounded-lg border border-gray-200 px-4 py-3 text-sm text-gray-700 hover:border-primary/40 hover:text-primary">
+                            <Link href="/dashboard/technician/availability" className="block rounded-lg border border-gray-200 px-4 py-3 text-sm text-gray-700 hover:border-primary/40 hover:text-primary transition-colors">
                                 Set working hours
                             </Link>
-                            <Link href="/services" className="block rounded-lg border border-gray-200 px-4 py-3 text-sm text-gray-700 hover:border-primary/40 hover:text-primary">
+                            <Link href="/services" className="block rounded-lg border border-gray-200 px-4 py-3 text-sm text-gray-700 hover:border-primary/40 hover:text-primary transition-colors">
                                 Browse public services
                             </Link>
                         </div>
