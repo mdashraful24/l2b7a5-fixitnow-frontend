@@ -66,6 +66,13 @@ export type MyProfileProps = {
 }
 
 
+export interface ICategory {
+    id: string;
+    name: string;
+    description: string;
+    icon: string;
+}
+
 export interface IService {
     id: string;
     title: string;
@@ -74,12 +81,7 @@ export interface IService {
     hourlyRate: number | null;
     duration: number;
     isAvailable: boolean;
-    category: {
-        id: string;
-        name: string;
-        description: string;
-        icon: string;
-    };
+    category: ICategory;
     technician: {
         id: string;
         location: string;

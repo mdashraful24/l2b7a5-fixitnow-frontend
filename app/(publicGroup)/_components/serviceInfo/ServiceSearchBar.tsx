@@ -18,7 +18,7 @@ export function ServiceSearchBar () {
         }
 
         debouncedReference.current = setTimeout(() => {
-            const params = new URLSearchParams();
+            const params = new URLSearchParams(searchParams.toString());
 
             if (value) {
                 params.set("searchTerm", value);

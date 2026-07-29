@@ -8,6 +8,15 @@ export const getAllServices = async ({
     if (query && query.searchTerm) {
         params.set("searchTerm", query.searchTerm as string);
     }
+    
+    // Add additional filters
+    if (query?.category) params.set("category", query.category as string);
+    if (query?.location) params.set("location", query.location as string);
+    if (query?.minPrice) params.set("minPrice", query.minPrice as string);
+    if (query?.maxPrice) params.set("maxPrice", query.maxPrice as string);
+    if (query?.rating) params.set("rating", query.rating as string);
+    if (query?.page) params.set("page", query.page as string);
+    if (query?.limit) params.set("limit", query.limit as string);
 
     const res = await fetch(`${process.env.BACKEND_API_URL}/api/services?${params}`, {
         next: {
