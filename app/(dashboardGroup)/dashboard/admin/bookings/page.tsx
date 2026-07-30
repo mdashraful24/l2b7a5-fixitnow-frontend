@@ -1,7 +1,53 @@
-const AdminBookingsPage = () => {
-    return (
-        <div>AdminBookingsPage</div>
-    )
-}
+import { Suspense } from "react";
+import { BookingList } from "../_components/bookings/BookingList";
+import { BookingSearchBar } from "../_components/bookings/BookingSearchBar";
+import { BookingFilters } from "../_components/bookings/BookingFilters";
+import BookingSkeleton from "../_components/bookings/BookingSkeleton";
 
-export default AdminBookingsPage
+const AdminBookingsPage = async ({
+    searchParams
+}: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) => {
+    return (
+        <div className="space-y-8">
+            {/* Header */}
+            <div className="rounded-xl border bg-card p-6 shadow-sm">
+                <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="space-y-2">
+                        <h1 className="text-3xl font-bold tracking-tight">
+                            Booking Management
+                        </h1>
+                        <p className="text-sm text-gray-700 max-w-xl">
+                            View all bookings across your platform.
+                        </p>
+                    </div>
+                    <BookingSearchBar />
+                </div>
+            </div>
+
+            {/* Filters */}
+            <div className="rounded-xl border bg-card p-4 shadow-sm">
+                <BookingFilters />
+            </div>
+
+            {/* Bookings List */}
+            <div className="rounded-xl border bg-card p-6 shadow-sm">
+                <div className="mb-6">
+                    <h2 className="text-xl font-semibold">
+                        All Bookings
+                    </h2>
+                    <p className="text-sm text-gray-700">
+                        View all bookings.
+                    </p>
+                </div>
+
+                <Suspense fallback={<BookingSkeleton />}>
+                    <BookingList searchParams={searchParams} />
+                </Suspense>
+            </div>
+        </div>
+    );
+};
+
+export default AdminBookingsPage;

@@ -443,6 +443,69 @@ export type UserStats = {
     bannedUsers: number;
 };
 
+export interface IAdminBookings{
+    id: string;
+    customerId: string;
+    technicianId: string;
+    serviceId: string;
+    availableSlotId: string;
+    status: BookingStatus;
+    scheduledAt: string;
+    address: string;
+    notes: string;
+    totalAmount: number;
+    createdAt: string;
+    updatedAt: string;
+    customer: {
+        id: string;
+        name: string;
+        email: string;
+    };
+    technician: {
+        id: string;
+        bio: string;
+        skills: string[];
+        experience: string;
+        description: string;
+        location: string;
+        rating: number;
+        totalReviews: number;
+        userId: string;
+        createdAt: string;
+        updatedAt: string;
+        user: {
+            id: string;
+            name: string;
+            email: string;
+            status: string;
+        };
+    };
+    service: {
+        id: string;
+        technicianId: string;
+        categoryId: string;
+        title: string;
+        description: string;
+        price: number;
+        hourlyRate: number;
+        duration: number;
+        isAvailable: boolean;
+        createdAt: string;
+        updatedAt: string;
+    };
+}
+
+export type BookingStats = {
+    totalBookings: number;
+    requestedBookings: number;
+    acceptedBookings: number;
+    declinedBookings: number;
+    paidBookings: number;
+    inProgressBookings: number;
+    completedBookings: number;
+    cancelledBookings: number;
+};
+
 export const statusBadge: Record<string, { bg: string; text: string; border: string; icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> }> = {
     REQUESTED: {
         bg: "bg-blue-50",
