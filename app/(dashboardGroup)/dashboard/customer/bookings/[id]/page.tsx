@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { CancelBookingButton } from "../../_components/CancelBookingButton";
+import { EditBookingModal } from "../../_components/EditBookingModal";
 
 const nonCancellableStatuses: BookingStatus[] = [
     "IN_PROGRESS",
@@ -90,7 +91,7 @@ export default async function BookingDetailPage({
                 </span>
             </div>
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 {/* Service Info */}
                 <div className="rounded-xl border bg-white p-6 shadow-sm">
                     <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-gray-600">
@@ -198,6 +199,10 @@ export default async function BookingDetailPage({
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div className="flex justify-end mt-4">
+                <EditBookingModal booking={booking} />
             </div>
 
             {/* Actions */}

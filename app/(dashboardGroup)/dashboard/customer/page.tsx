@@ -4,9 +4,6 @@ import {
     CalendarDays,
     CheckCircle,
     Clock,
-    XCircle,
-    Package,
-    FileText,
     Loader2,
     Ban,
     ThumbsUp,
@@ -51,7 +48,6 @@ export default async function CustomerDashboardPage({
     const result = await getAllBookings(activeStatus === "ALL" ? undefined : activeStatus);
     const bookings: IBooking[] = result?.data ?? [];
 
-    // Stats from all bookings (we fetch all once for stats, filter separately)
     const allResult = await getAllBookings();
 
     const allBookings = Array.isArray(allResult?.data)
@@ -87,7 +83,7 @@ export default async function CustomerDashboardPage({
                 </Link>
             </div>
 
-            {/* Stats Grid - Same style as TechnicianDashboardPage */}
+            {/* Stats Grid */}
             <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
                 {[
                     {

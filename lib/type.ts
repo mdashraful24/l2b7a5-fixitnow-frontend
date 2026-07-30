@@ -294,6 +294,15 @@ export interface IAvailableSlot {
     isAvailable: boolean;
 }
 
+export interface IUpdatedAvailableSlot {
+    id: string;
+    dayOfWeek: string;
+    startAt: string;
+    endAt: string;
+    isAvailable: boolean;
+    technicianId: string;
+}
+
 export type StatusFilter = "ALL" | 'REQUESTED' | 'ACCEPTED' | 'DECLINED' | 'PAID' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
 
 export type AvailabilitySlot = {

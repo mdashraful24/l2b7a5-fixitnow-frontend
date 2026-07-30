@@ -3,7 +3,7 @@ import { getTechnicianById } from "@/app/(publicGroup)/_actions/getTechnician";
 import { redirect } from "next/navigation";
 import { TechnicianProfileForm } from "../_components/TechnicianProfileForm";
 
-export default async function TechnicianProfilePage() {
+export default async function TechnicianUpdateProfilePage() {
     const user = await getMe();
 
     if (!user?.success) {
