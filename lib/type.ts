@@ -400,6 +400,41 @@ export interface CustomerSidebarProps {
     };
 }
 
+export interface AdminSidebarProps {
+    user: {
+        name: string;
+        email: string;
+        role: string;
+    };
+}
+
+export type IAdminUsers = {
+    id: string;
+    name: string;
+    email: string;
+    phone?: string;
+    address?: string;
+    status: string;
+    role: UserRole;
+    createdAt: string;
+    updatedAt: string;
+    technicianProfile?: {
+        id: string;
+        bio: string;
+        skills: string[];
+        experience: string;
+        description: string;
+        location: string;
+        availability: {
+            id: string;
+            dayOfWeek: string;
+            startAt: string;
+            endAt: string;
+            isAvailable: boolean;
+        }[];
+    };
+};
+
 export const statusBadge: Record<string, { bg: string; text: string; border: string; icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> }> = {
     REQUESTED: {
         bg: "bg-blue-50",

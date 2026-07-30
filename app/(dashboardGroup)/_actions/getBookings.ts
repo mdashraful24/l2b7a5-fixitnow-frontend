@@ -21,14 +21,14 @@ export const getAllBookings = async (status?: string) => {
             },
             cache: "force-cache",
             next: {
-                revalidate: 60 * 60 * 6,
+                revalidate: 60 * 60 * 1,
                 tags: ["bookings"],
             },
         }
     );
 
     const result = await res.json();
-    
+
     const bookings = Array.isArray(result?.data?.data)
         ? result.data.data
         : Array.isArray(result?.data)
