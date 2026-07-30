@@ -21,8 +21,8 @@ const TechnicianDashboardLayout = async ({
     return (
         <div className="min-h-screen bg-gray-50">
             <div className="container mx-auto max-w-7xl px-4 py-8">
-                <div className="flex flex-col gap-8 lg:flex-row">
-                    <aside className="w-full shrink-0 lg:w-72">
+                <div className="flex flex-col gap-10 md:gap-8 md:flex-row">
+                    <aside className="w-full shrink-0 md:w-48 lg:w-64">
                         <TechnicianSidebar user={user.data} />
                     </aside>
                     <main className="min-w-0 flex-1">{children}</main>

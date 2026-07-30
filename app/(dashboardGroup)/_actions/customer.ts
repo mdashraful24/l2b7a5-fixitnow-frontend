@@ -95,3 +95,102 @@ export const updateBooking = async (bookingId: string, prevState: ICreateBooking
     return result;
 };
 
+// Payment
+export const createPaymentIntent = async (bookingId: string) => {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+
+    if (!accessToken) {
+        return { success: false, message: "Not authenticated" };
+    }
+
+    const res = await fetch(
+        `${process.env.BACKEND_API_URL}/api/payments/create`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                cookie: `accessToken=${accessToken}`,
+            },
+            body: JSON.stringify({ bookingId }),
+        }
+    );
+
+    return res.json();
+};
+
+export const confirmPayment = async (sessionId: string) => {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+
+    if (!accessToken) {
+        return { success: false, message: "Not authenticated" };
+    }
+
+    const res = await fetch(
+        `${process.env.BACKEND_API_URL}/api/payments/confirm`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                cookie: `accessToken=${accessToken}`,
+            },
+            body: JSON.stringify({ sessionId }),
+        }
+    );
+
+    const result = await res.json();
+
+    if (result.success) {
+        revalidateTag("bookings", {
+            expire: 0
+        });
+        revalidateTag(`booking-${result.data?.bookingId}`, {
+            expire: 0
+        });
+    }
+
+    return result;
+};
+
+export const getPaymentHistory = async () => {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+
+    if (!accessToken) {
+        return { success: false, message: "Not authenticated", data: [] };
+    }
+
+    const res = await fetch(
+        `${process.env.BACKEND_API_URL}/api/payments`,
+        {
+            headers: {
+                cookie: `accessToken=${accessToken}`,
+            },
+            cache: "no-store",
+        }
+    );
+
+    return res.json();
+};
+
+export const getPaymentDetails = async (paymentId: string) => {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+
+    if (!accessToken) {
+        return { success: false, message: "Not authenticated" };
+    }
+
+    const res = await fetch(
+        `${process.env.BACKEND_API_URL}/api/payments/${paymentId}`,
+        {
+            headers: {
+                cookie: `accessToken=${accessToken}`,
+            },
+            cache: "no-store",
+        }
+    );
+
+    return res.json();
+};

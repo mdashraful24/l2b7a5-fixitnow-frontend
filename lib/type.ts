@@ -218,7 +218,7 @@ export interface ICreateBookingPayload {
     totalAmount: number;
 }
 
-export type BookingStatus = 'REQUESTED' | 'ACCEPTED' | 'DECLINED' | 'PAID' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+export type BookingStatus = 'REQUESTED' | 'DECLINED' | 'ACCEPTED' | 'PAID' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
 
 export interface IBooking {
     id: string;
@@ -303,7 +303,7 @@ export interface IUpdatedAvailableSlot {
     technicianId: string;
 }
 
-export type StatusFilter = "ALL" | 'REQUESTED' | 'ACCEPTED' | 'DECLINED' | 'PAID' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+export type StatusFilter = "ALL" | 'REQUESTED' | 'DECLINED' | 'ACCEPTED' | 'PAID' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
 
 export type AvailabilitySlot = {
     id: string;
@@ -523,6 +523,30 @@ export interface ICategory {
     isActive: boolean;
     createdAt: string;
     updatedAt: string;
+}
+
+export interface IPayment {
+    id: string;
+    bookingId: string;
+    userId: string;
+    transactionId: string;
+    amount: number;
+    currency: string;
+    provider: "STRIPE" | "SSLCOMMERZ";
+    status: "PENDING" | "COMPLETED" | "FAILED";
+    sessionId: string | null;
+    paymentIntentId: string | null;
+    metadata: Record<string, unknown>;
+    paidAt: string | null;
+    createdAt: string;
+    updatedAt: string;
+    booking?: IBooking;
+}
+
+export interface IPaymentIntentResponse {
+    payment: IPayment;
+    checkoutUrl: string;
+    sessionId: string;
 }
 
 export const statusBadge: Record<string, { bg: string; text: string; border: string; icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> }> = {

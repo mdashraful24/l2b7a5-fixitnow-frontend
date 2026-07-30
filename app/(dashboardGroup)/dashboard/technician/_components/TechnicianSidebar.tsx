@@ -50,7 +50,7 @@ export function TechnicianSidebar({ user }: TechnicianSidebarProps) {
                     </div>
                     <div className="min-w-0">
                         <p className="font-semibold">{user.name}</p>
-                        <p className="text-xs text-gray-700">{user.email}</p>
+                        {/* <p className="text-xs text-gray-700">{user.email}</p> */}
                         <span className="mt-1 inline-block rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
                             {user.role}
                         </span>

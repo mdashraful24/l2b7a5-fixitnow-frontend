@@ -18,13 +18,13 @@ const statusTabs: { label: string; value: StatusFilter }[] = [
 ];
 
 const statusBadge: Record<string, string> = {
-    REQUESTED: "bg-blue-50 text-blue-700 border-blue-200",
-    ACCEPTED: "bg-teal-100 text-teal-700 border-teal-200",
-    DECLINED: "bg-indigo-50 text-indigo-700 border-indigo-200",
+    REQUESTED: "bg-yellow-50 text-yellow-700 border-yellow-200",
+    ACCEPTED: "bg-emerald-50 text-emerald-700 border-emerald-200",
     PAID: "bg-indigo-50 text-indigo-700 border-indigo-200",
-    IN_PROGRESS: "bg-amber-50 text-amber-700 border-amber-200",
+    IN_PROGRESS: "bg-sky-50 text-sky-700 border-sky-200",
     COMPLETED: "bg-green-50 text-green-700 border-green-200",
-    CANCELLED: "bg-red-50 text-red-700 border-red-200",
+    DECLINED: "bg-red-50 text-red-700 border-red-200",
+    CANCELLED: "bg-gray-50 text-gray-700 border-gray-200",
 };
 
 export default async function TechnicianBookingsPage({
@@ -124,9 +124,9 @@ export default async function TechnicianBookingsPage({
                     bookings.map((booking) => (
                         <div key={booking.id} className="rounded-2xl border bg-white p-5 shadow-sm">
                             <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                                <div className="space-y-3">
+                                <div className="space-y-2">
                                     <div className="flex flex-wrap items-center gap-2">
-                                        <h3 className="text-lg font-semibold text-gray-900">{booking.service?.title}</h3>
+                                        <h3 className="text-lg font-semibold">{booking.service?.title}</h3>
                                         <span className={`rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusBadge[booking.status] || "bg-gray-100 text-gray-600 border-gray-200"}`}>
                                             {booking.status}
                                         </span>
@@ -161,13 +161,14 @@ export default async function TechnicianBookingsPage({
 
                                 <div className="space-y-3 lg:min-w-56 lg:text-right">
                                     <p className="text-2xl font-bold text-primary">${booking.totalAmount}</p>
-                                    <TechnicianBookingActions bookingId={booking.id} currentStatus={booking.status} />
-                                    <div className="flex justify-end">
-                                        <Link href={`/dashboard/technician/bookings/${booking.id}`} className="text-sm font-medium text-gray-500 hover:text-primary hover:underline">
-                                            Open details
-                                        </Link>
-                                    </div>
+                                    {/* <TechnicianBookingActions bookingId={booking.id} currentStatus={booking.status} /> */}
                                 </div>
+                            </div>
+
+                            <div className="flex justify-end">
+                                <Link href={`/dashboard/technician/bookings/${booking.id}`} className="text-sm font-medium text-white px-4 py-2 rounded-full bg-primary">
+                                    Open details
+                                </Link>
                             </div>
                         </div>
                     ))
