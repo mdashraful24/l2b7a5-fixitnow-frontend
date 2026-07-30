@@ -24,7 +24,7 @@ export async function UserList({
 
     return (
         <div className='space-y-8'>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
+            <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
                 {result.data.map((user: IAdminUsers) => (
                     <UsersCard key={user.id} user={user} />
                 ))}

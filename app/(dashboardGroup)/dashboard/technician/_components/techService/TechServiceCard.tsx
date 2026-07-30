@@ -51,7 +51,7 @@ export function TechServicePostCard({
                     </div>
                 </div>
 
-                <CardTitle className="text-xl font-light tracking-tight group-hover:text-primary transition-colors duration-300">
+                <CardTitle className="text-xl font-medium tracking-tight group-hover:text-primary transition-colors duration-300">
                     {service.title}
                 </CardTitle>
             </CardHeader>

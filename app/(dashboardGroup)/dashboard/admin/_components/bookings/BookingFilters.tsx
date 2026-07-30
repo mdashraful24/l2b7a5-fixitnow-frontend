@@ -37,11 +37,11 @@ export function BookingFilters({ stats }: BookingFiltersProps) {
         router.replace(`${pathName}?${params.toString()}`);
     };
 
-    const clearFilters = () => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.delete("status");
-        router.replace(`${pathName}?${params.toString()}`);
-    };
+    // const clearFilters = () => {
+    //     const params = new URLSearchParams(searchParams.toString());
+    //     params.delete("status");
+    //     router.replace(`${pathName}?${params.toString()}`);
+    // };
 
     const filterOptions = [
         { 
@@ -102,8 +102,8 @@ export function BookingFilters({ stats }: BookingFiltersProps) {
         }
     ];
 
-    const hasFilters = currentStatus !== "";
-    const activeFilter = filterOptions.find(f => f.value === currentStatus);
+    // const hasFilters = currentStatus !== "";
+    // const activeFilter = filterOptions.find(f => f.value === currentStatus);
 
     return (
         <div className="space-y-3">
@@ -143,7 +143,7 @@ export function BookingFilters({ stats }: BookingFiltersProps) {
                 })}
             </div>
             
-            {hasFilters && activeFilter && (
+            {/* {hasFilters && activeFilter && (
                 <div className="flex items-center gap-3 text-sm">
                     <span className="text-muted-foreground">
                         Showing: <span className="font-medium text-foreground">
@@ -162,7 +162,7 @@ export function BookingFilters({ stats }: BookingFiltersProps) {
                         Clear filter ✕
                     </button>
                 </div>
-            )}
+            )} */}
         </div>
     );
 }

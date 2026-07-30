@@ -150,7 +150,7 @@ export default async function BookingDetailsPage({ params }: BookingDetailsPageP
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex flex-col-reverse md:flex-row md:items-center md:justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight">Booking Details</h1>
                     <p className="text-sm">
@@ -179,9 +179,9 @@ export default async function BookingDetailsPage({ params }: BookingDetailsPageP
             </div>
 
             {/* Main Content */}
-            <div className="grid gap-6 md:grid-cols-3">
+            <div className="grid gap-6 grid-cols-1 lg:grid-cols-3">
                 {/* Left Column - Booking Info */}
-                <div className="md:col-span-2 space-y-6">
+                <div className="col-span-1 lg:col-span-2 space-y-6">
                     {/* Booking Information */}
                     <Card>
                         <CardHeader>

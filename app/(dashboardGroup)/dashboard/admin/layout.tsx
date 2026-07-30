@@ -21,9 +21,9 @@ const AdminDashboardLayout = async ({
     return (
         <div className="min-h-screen bg-gray-50">
             <div className="container mx-auto max-w-7xl px-4 py-8">
-                <div className="flex flex-col gap-8 lg:flex-row">
+                <div className="flex flex-col gap-10 md:gap-8 md:flex-row">
                     {/* Sidebar */}
-                    <aside className="w-full shrink-0 lg:w-64">
+                    <aside className="w-full shrink-0 md:w-48 lg:w-64">
                         <AdminSidebar user={user.data} />
                     </aside>
                     {/* Main */}

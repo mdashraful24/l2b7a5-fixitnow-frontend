@@ -506,6 +506,16 @@ export type BookingStats = {
     cancelledBookings: number;
 };
 
+export interface ICategory {
+    id: string;
+    name: string;
+    description: string;
+    icon: string;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
 export const statusBadge: Record<string, { bg: string; text: string; border: string; icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> }> = {
     REQUESTED: {
         bg: "bg-blue-50",

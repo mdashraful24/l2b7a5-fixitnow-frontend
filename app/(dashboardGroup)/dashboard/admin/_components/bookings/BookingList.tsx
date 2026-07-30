@@ -26,7 +26,7 @@ export async function BookingList({
     }
 
     return (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
+        <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
             {result.data.map((booking: IAdminBookings) => (
                 <BookingCard key={booking.id} booking={booking} />
             ))}
