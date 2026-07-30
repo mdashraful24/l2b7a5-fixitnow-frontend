@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
-import { AvailabilitySlot, ICreateTechServicePayload, TechnicianActionResult, TechnicianBookingsResponse, UpdateTechnicianAvailabilityPayload, UpdateTechnicianBookingStatusPayload, UpdateTechnicianProfilePayload } from "@/lib/type";
+import { CreateAvailabilityPayload, ICreateTechServicePayload, TechnicianActionResult, TechnicianBookingsResponse, UpdateTechnicianAvailabilityPayload, UpdateTechnicianBookingStatusPayload, UpdateTechnicianProfilePayload } from "@/lib/type";
 import { getValidAccessToken } from "@/services/refreshToken";
 
 const dayOptions = [
@@ -174,7 +174,7 @@ export const updateTechnicianProfile = async (payload: UpdateTechnicianProfilePa
     return result;
 };
 
-export const createTechnicianAvailability = async (payload: AvailabilitySlot): Promise<TechnicianActionResult> => {
+export const createTechnicianAvailability = async (payload: CreateAvailabilityPayload): Promise<TechnicianActionResult> => {
     const parsed = availabilitySchema.safeParse(payload);
 
     if (!parsed.success) {

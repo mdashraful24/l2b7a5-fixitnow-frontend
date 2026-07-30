@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { updateTechnicianProfile, type UpdateTechnicianProfilePayload } from "@/app/(dashboardGroup)/_actions/technician";
+import { updateTechnicianProfile, } from "@/app/(dashboardGroup)/_actions/technician";
+import { UpdateTechnicianProfilePayload } from "@/lib/type";
 
 type TechnicianProfileFormProps = {
     initialValues: UpdateTechnicianProfilePayload;

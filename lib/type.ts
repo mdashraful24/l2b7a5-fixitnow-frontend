@@ -286,18 +286,25 @@ export interface IBookingDetailsResponse {
     scheduledAt: string;
 }
 
-// export interface IAvailableSlot {
-//     id: string;
-//     dayOfWeek: string;
-//     startAt: string;
-//     endAt: string;
-//     isAvailable: boolean;
-// }
+export interface IAvailableSlot {
+    id: string;
+    dayOfWeek: string;
+    startAt: string;
+    endAt: string;
+    isAvailable: boolean;
+}
 
 export type StatusFilter = "ALL" | 'REQUESTED' | 'ACCEPTED' | 'DECLINED' | 'PAID' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
 
 export type AvailabilitySlot = {
     id: string;
+    dayOfWeek: string;
+    startAt: string;
+    endAt: string;
+    isAvailable: boolean;
+};
+
+export type CreateAvailabilityPayload = {
     dayOfWeek: string;
     startAt: string;
     endAt: string;

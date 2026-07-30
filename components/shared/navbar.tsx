@@ -93,7 +93,7 @@ export function Navbar({ user }: NavbarProps) {
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <div className="cursor-pointer">
-                                    <div className="size-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                    <div className="size-10 rounded-full bg-primary text-white flex items-center justify-center">
                                         {initials || <User className="size-5 text-primary" />}
                                     </div>
                                 </div>
