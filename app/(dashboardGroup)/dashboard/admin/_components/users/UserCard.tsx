@@ -1,22 +1,18 @@
 "use client";
 
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { IAdminUsers } from "@/lib/type";
-import { Mail, Calendar, MapPin, Wrench, MoreVertical } from "lucide-react";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+    Mail,
+    Calendar,
+    MapPin,
+    Wrench,
+    User,
+    CheckCircle,
+    XCircle,
+    Clock,
+    Briefcase
+} from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { updateUserStatus } from "@/app/(dashboardGroup)/_actions/admin";
-import { toast } from "sonner";
 
 type UsersCardProps = {
     user: IAdminUsers
@@ -24,30 +20,73 @@ type UsersCardProps = {
 
 export function UsersCard({ user }: UsersCardProps) {
     const router = useRouter();
-    const [isUpdating, setIsUpdating] = useState(false);
-    const [currentStatus, setCurrentStatus] = useState(user.status);
 
-    const getStatusColor = (status: string) => {
+    const getStatusConfig = (status: string) => {
         switch (status) {
             case "ACTIVE":
-                return "bg-green-500/10 text-green-500 hover:bg-green-500/20";
+                return {
+                    color: "bg-green-500",
+                    textColor: "text-white",
+                    bgColor: "bg-green-500",
+                    borderColor: "border-green-200",
+                    icon: CheckCircle,
+                    label: "Active"
+                };
             case "BANNED":
-                return "bg-red-500/10 text-red-500 hover:bg-red-500/20";
+                return {
+                    color: "bg-red-500",
+                    textColor: "text-white",
+                    bgColor: "bg-red-500",
+                    borderColor: "border-red-200",
+                    icon: XCircle,
+                    label: "Banned"
+                };
             default:
-                return "bg-gray-500/10 text-gray-500 hover:bg-gray-500/20";
+                return {
+                    color: "bg-gray-500",
+                    textColor: "text-white",
+                    bgColor: "bg-gray-600",
+                    borderColor: "border-gray-200",
+                    icon: Clock,
+                    label: "Pending"
+                };
         }
     };
 
-    const getRoleBadge = (role: string) => {
+    const getRoleConfig = (role: string) => {
         switch (role) {
             case "TECHNICIAN":
-                return <Badge variant="secondary" className="bg-blue-500/10 text-blue-500">Technician</Badge>;
+                return {
+                    icon: Wrench,
+                    label: "Technician",
+                    bgColor: "bg-blue-600",
+                    textColor: "text-white",
+                    borderColor: "border-blue-200"
+                };
             case "CUSTOMER":
-                return <Badge variant="secondary" className="bg-purple-500/10 text-purple-500">Customer</Badge>;
+                return {
+                    icon: User,
+                    label: "Customer",
+                    bgColor: "bg-purple-600",
+                    textColor: "text-white",
+                    borderColor: "border-purple-200"
+                };
             case "ADMIN":
-                return <Badge variant="secondary" className="bg-orange-500/10 text-orange-500">Admin</Badge>;
+                return {
+                    icon: User,
+                    label: "Admin",
+                    bgColor: "bg-red-600",
+                    textColor: "text-white",
+                    borderColor: "border-red-200"
+                };
             default:
-                return <Badge variant="secondary">{role}</Badge>;
+                return {
+                    icon: User,
+                    label: role,
+                    bgColor: "bg-gray-600",
+                    textColor: "text-white",
+                    borderColor: "border-gray-200"
+                };
         }
     };
 
@@ -55,129 +94,111 @@ export function UsersCard({ user }: UsersCardProps) {
         router.push(`/dashboard/admin/users/${user.id}`);
     };
 
-    const handleStatusUpdate = async (newStatus: string) => {
-        if (newStatus === currentStatus) {
-            toast.info(`User is already ${newStatus.toLowerCase()}`);
-            return;
-        }
-
-        setIsUpdating(true);
-        try {
-            const result = await updateUserStatus({
-                userId: user.id,
-                status: newStatus
-            });
-
-            if (result.success) {
-                setCurrentStatus(newStatus);
-                toast.success(`User status updated to ${newStatus.toLowerCase()}`);
-                router.refresh();
-            } else {
-                toast.error(result.message || "Failed to update status");
-            }
-        } catch (error) {
-            toast.error("An error occurred while updating status");
-        } finally {
-            setIsUpdating(false);
-        }
-    };
+    const statusConfig = getStatusConfig(user.status);
+    const StatusIcon = statusConfig.icon;
+    const roleConfig = getRoleConfig(user.role);
+    const RoleIcon = roleConfig.icon;
 
     return (
-        <Card className="hover:shadow-lg transition-shadow duration-200">
-            <CardHeader className="flex flex-row items-start justify-between space-y-0">
-                <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                        <CardTitle className="text-lg font-semibold">{user.name}</CardTitle>
-                        {getRoleBadge(user.role)}
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Mail className="h-3.5 w-3.5" />
-                        <span>{user.email}</span>
-                    </div>
-                </div>
-                <Badge className={getStatusColor(currentStatus)}>
-                    {currentStatus}
-                </Badge>
-            </CardHeader>
+        <div
+            onClick={handleViewDetails}
+            className="group relative bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden cursor-pointer flex flex-col h-full"
+        >
+            {/* Gradient Top Bar */}
+            <div className={`h-1 w-full bg-linear-to-r ${statusConfig.color} from-${statusConfig.color}/50 to-${statusConfig.color} shrink-0`} />
 
-            <CardContent className="space-y-3">
-                {user.technicianProfile && (
-                    <div className="space-y-2">
-                        <div className="flex items-start gap-2 text-sm">
-                            <Wrench className="h-4 w-4 text-muted-foreground mt-0.5" />
-                            <div>
-                                <p className="font-medium text-sm">{user.technicianProfile.bio}</p>
-                                <p className="text-muted-foreground text-xs">{user.technicianProfile.experience}</p>
+            <div className="p-5 flex flex-col flex-1">
+                {/* Header - Fixed height section */}
+                <div className="flex items-start justify-between mb-4 shrink-0">
+                    <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                            <h3 className="text-xl font-semibold truncate">
+                                {user.name}
+                            </h3>
+                            <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-sm font-medium ${roleConfig.bgColor} ${roleConfig.textColor} border ${roleConfig.borderColor} shrink-0`}>
+                                <RoleIcon className="h-3 w-3" />
+                                {roleConfig.label}
                             </div>
                         </div>
-
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <MapPin className="h-3.5 w-3.5" />
-                            <span>{user.technicianProfile.location}</span>
+                        <div className="flex items-center gap-1.5 mt-1 text-sm text-gray-700 dark:text-gray-300">
+                            <Mail className="h-3.5 w-3.5 shrink-0" />
+                            <span className="truncate">{user.email}</span>
                         </div>
-
-                        {user.technicianProfile.skills.length > 0 && (
-                            <div className="flex flex-wrap gap-1.5 pt-1">
-                                {user.technicianProfile.skills.slice(0, 3).map((skill, index) => (
-                                    <Badge key={index} variant="outline" className="text-xs">
-                                        {skill}
-                                    </Badge>
-                                ))}
-                                {user.technicianProfile.skills.length > 3 && (
-                                    <Badge variant="outline" className="text-xs">
-                                        +{user.technicianProfile.skills.length - 3} more
-                                    </Badge>
-                                )}
-                            </div>
-                        )}
                     </div>
-                )}
 
-                <div className="flex items-center gap-4 text-xs text-muted-foreground pt-2 border-t">
-                    <div className="flex items-center gap-1">
-                        <Calendar className="h-3 w-3" />
-                        <span>Joined {new Date(user.createdAt).toLocaleDateString()}</span>
+                    {/* Status Badge */}
+                    <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-sm font-medium ${statusConfig.bgColor} ${statusConfig.textColor} border ${statusConfig.borderColor} shrink-0 ml-2`}>
+                        <StatusIcon className="h-3 w-3" />
+                        {statusConfig.label}
                     </div>
                 </div>
-            </CardContent>
 
-            <CardFooter className="flex justify-between">
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleViewDetails}
-                >
-                    View Details
-                </Button>
+                {/* Content - Flexible section that grows */}
+                <div className="flex-1 flex flex-col">
+                    {user.technicianProfile ? (
+                        <>
+                            {/* Technician Profile */}
+                            <div className="bg-gray-50 dark:bg-zinc-800/50 rounded-lg p-3 flex-1">
+                                <div className="space-y-2 h-full">
+                                    <div className="flex items-start gap-2">
+                                        <Briefcase className="h-4 w-4 mt-0.5 shrink-0 text-gray-600 dark:text-gray-400" />
+                                        <div>
+                                            <p className="text-sm font-medium line-clamp-1 text-gray-900 dark:text-white">
+                                                {user.technicianProfile.bio}
+                                            </p>
+                                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                                                {user.technicianProfile.experience} experience
+                                            </p>
+                                        </div>
+                                    </div>
 
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" disabled={isUpdating}>
-                            <MoreVertical className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Manage User</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => handleStatusUpdate("ACTIVE")}>
-                            <div className="flex items-center gap-2">
-                                <div className="h-2 w-2 rounded-full bg-green-500" />
-                                Set Active
+                                    <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                                        <MapPin className="h-3.5 w-3.5 shrink-0" />
+                                        <span>{user.technicianProfile.location}</span>
+                                    </div>
+
+                                    {user.technicianProfile.skills.length > 0 && (
+                                        <div className="flex flex-wrap gap-1.5 pt-1">
+                                            {user.technicianProfile.skills.slice(0, 3).map((skill, index) => (
+                                                <span
+                                                    key={index}
+                                                    className="px-2 py-1 text-[13px] bg-gray-700 dark:bg-gray-600 rounded-full text-white"
+                                                >
+                                                    {skill}
+                                                </span>
+                                            ))}
+                                            {user.technicianProfile.skills.length > 3 && (
+                                                <span className="px-2 py-1 text-[13px] bg-gray-700 dark:bg-gray-600 rounded-full text-white">
+                                                    +{user.technicianProfile.skills.length - 3}
+                                                </span>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleStatusUpdate("BANNED")}>
-                            <div className="flex items-center gap-2">
-                                <div className="h-2 w-2 rounded-full bg-red-500" />
-                                Set Banned
+                        </>
+                    ) : (
+                        <div className="bg-gray-50 dark:bg-zinc-800/50 rounded-lg p-3 flex-1 flex items-center">
+                            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                                <User className="h-4 w-4" />
+                                <span>Regular user account</span>
                             </div>
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={handleViewDetails}>
-                            View Profile
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </CardFooter>
-        </Card>
+                        </div>
+                    )}
+
+                    {/* Footer Info */}
+                    <div className="flex items-center justify-between pt-3 mt-3 border-t border-zinc-100 dark:border-zinc-800 shrink-0">
+                        <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
+                            <Calendar className="h-3 w-3" />
+                            <span>Joined {new Date(user.createdAt).toLocaleDateString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric'
+                            })}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }

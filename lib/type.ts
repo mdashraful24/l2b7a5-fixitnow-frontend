@@ -435,6 +435,14 @@ export type IAdminUsers = {
     };
 };
 
+export type UserStats = {
+    totalUsers: number;
+    totalTechnicians: number;
+    totalCustomers: number;
+    activeUsers: number;
+    bannedUsers: number;
+};
+
 export const statusBadge: Record<string, { bg: string; text: string; border: string; icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> }> = {
     REQUESTED: {
         bg: "bg-blue-50",

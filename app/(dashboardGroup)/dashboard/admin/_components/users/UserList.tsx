@@ -29,11 +29,11 @@ export async function UserList({
                     <UsersCard key={user.id} user={user} />
                 ))}
             </div>
-            {result.meta && (
+            {/* {result.meta && (
                 <div className="text-sm text-muted-foreground text-center">
                     Showing {result.data.length} of {result.meta.total} users
                 </div>
-            )}
+            )} */}
         </div>
     )
 }
