@@ -24,7 +24,9 @@ export const createBooking = async (payload: ICreateBookingPayload) => {
     const result = await res.json();
 
     if (result.success) {
-        revalidateTag("bookings", "max");
+        revalidateTag("bookings", {
+            expire: 0
+        });
     }
 
     return result;

@@ -19,8 +19,6 @@ interface BookingFormProps {
     onTimeChange?: (time: string) => void;
 }
 
-// const BUFFER_MINUTES = 30; // X minutes notice required
-
 export function BookingForm({ service, onSlotChange, onTimeChange }: BookingFormProps) {
     const router = useRouter();
     const technician = service?.technician;
@@ -37,6 +35,7 @@ export function BookingForm({ service, onSlotChange, onTimeChange }: BookingForm
     const [notes, setNotes] = useState<string>("");
     const [timeOptions, setTimeOptions] = useState<string[]>([]);
     const [showBufferInfo, setShowBufferInfo] = useState(false);
+    const [bookingId, setBookingId] = useState<string | null>(null);
 
     // Update time options when slot changes
     useEffect(() => {
@@ -135,14 +134,23 @@ export function BookingForm({ service, onSlotChange, onTimeChange }: BookingForm
         setSubmitting(true);
         try {
             const result = await createBooking(payload);
+
             if (result.success) {
                 toast.success("Booking created successfully!");
-                router.push("/dashboard/customer/bookings");
+
+                const bookingId = result.data?.id || result.data?.bookingId || result.data?._id;
+
+                if (bookingId) {
+                    router.push(`/dashboard/customer/bookings/${bookingId}`);
+                } else {
+                    router.push("/dashboard/customer/bookings");
+                }
             } else {
                 toast.error(result.message || "Failed to create booking.");
             }
         } catch (error) {
             toast.error("An error occurred while creating the booking.");
+            console.error("Booking error:", error);
         } finally {
             setSubmitting(false);
         }
