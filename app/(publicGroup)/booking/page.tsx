@@ -37,18 +37,18 @@ export default async function BookingPage({ searchParams }: BookingPageProps) {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            <div className="container mx-auto max-w-5xl px-4 py-10">
+            <div className="container mx-auto max-w-7xl px-4 py-8">
                 <Link
                     href="/services"
-                    className="mb-6 inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition-colors"
+                    className="mb-6 inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary transition-colors"
                 >
                     <ArrowLeft className="h-4 w-4" />
                     Back to Services
                 </Link>
 
                 <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900">Book a Service</h1>
-                    <p className="mt-1 text-gray-500">Select your preferred time slot and confirm your booking.</p>
+                    <h1 className="text-3xl font-bold">Book a Service</h1>
+                    <p className="mt-1 text-gray-700">Select your preferred time slot and confirm your booking.</p>
                 </div>
 
                 {/* Wrap everything in a client component */}

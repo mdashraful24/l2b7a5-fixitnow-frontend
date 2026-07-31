@@ -15,13 +15,13 @@ export default async function ServicesPage({
     const categories = categoriesResult?.success ? categoriesResult.data : [];
 
     return (
-        <div className="container mx-auto space-y-6 px-4 py-10">
+        <div className="container mx-auto space-y-6 px-4 py-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h1 className="text-3xl font-bold text-gray-900">
                         Find the Right Service
                     </h1>
-                    <p className="mt-1 text-sm text-gray-500">
+                    <p className="mt-1 text-sm text-gray-700">
                         Browse our extensive list of professional home services.
                     </p>
                 </div>

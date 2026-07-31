@@ -79,26 +79,26 @@ export function CategoriesCard({ category }: CategoriesCardProps) {
             <CardContent className="relative flex flex-1 flex-col space-y-4">
                 {category.description && (
                     <div className="relative flex-1 pl-4 border-l-2 border-primary/70 group-hover:border-primary transition-colors">
-                        <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+                        <p className="line-clamp-3 text-sm leading-relaxed text-gray-800">
                             {category.description}
                         </p>
                     </div>
                 )}
 
                 <div className="space-y-2 mt-auto">
-                    {category.icon && (
-                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    {/* {category.icon && (
+                        <div className="flex items-center gap-2 text-xs text-gray-700">
                             <ImageIcon className="h-3.5 w-3.5" />
                             <span className="truncate">{category.icon}</span>
                         </div>
-                    )}
+                    )} */}
 
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <div className="flex items-center gap-2 text-xs text-gray-700">
                         <Link2 className="h-3.5 w-3.5" />
                         <span className="font-mono">ID: {category.id.slice(0, 8)}</span>
                     </div>
 
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <div className="flex items-center gap-2 text-xs text-gray-700">
                         <Calendar className="h-3.5 w-3.5" />
                         <span>Created: {new Date(category.createdAt).toLocaleDateString()}</span>
                     </div>

@@ -75,6 +75,7 @@ export interface ICategory {
 export interface ICreateTechServicePayload {
     title: string;
     description: string;
+    serviceImage?: string;
     price: number;
     duration: number;
     categoryId: string;
@@ -90,6 +91,7 @@ export interface ITechService {
     hourlyRate: number | null;
     duration: number;
     isAvailable: boolean;
+    serviceImage: string;
     categoryId: string;
     category: ICategory;
     createdAt?: string;
@@ -102,6 +104,7 @@ export interface IService {
     categoryId: string;
     title: string;
     description: string;
+    serviceImage: string;
     price: number;
     hourlyRate: number | null;
     duration: number;
@@ -329,7 +332,7 @@ export interface TechnicianBookingRecord {
             address?: string;
         };
     };
-    review?:IReview | null;
+    review?: IReview | null;
 }
 
 export interface TechnicianBookingsResponse {
@@ -432,7 +435,7 @@ export type UserStats = {
     bannedUsers: number;
 };
 
-export interface IAdminBookings{
+export interface IAdminBookings {
     id: string;
     customerId: string;
     technicianId: string;

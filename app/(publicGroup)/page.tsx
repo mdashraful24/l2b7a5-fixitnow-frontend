@@ -10,13 +10,13 @@ export default async function HomePage({
 }) {
 
   return (
-    <div className="container mx-auto space-y-6 px-4 py-10">
+    <div className="container mx-auto space-y-6 px-4 py-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
+        <div className="space-y-1.5">
           <h1 className="text-2xl font-semibold text-balance">
             All Featured Services
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-gray-700">
             Browse and choose the best services tailored to your needs
           </p>
         </div>

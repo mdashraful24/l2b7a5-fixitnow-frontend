@@ -315,6 +315,7 @@ const serviceSchema = z.object({
     duration: z.coerce.number().int().positive("Duration must be greater than 0"),
     categoryId: z.string().trim().min(1, "Category is required"),
     hourlyRate: z.coerce.number().positive().optional().or(z.literal("")),
+    serviceImage: z.string().trim().url("Please enter a valid image URL").optional().or(z.literal("")),
     isAvailable: z.coerce.boolean().optional(),
 });
 
@@ -322,6 +323,7 @@ export const createService = async (prevState: unknown, formData: FormData): Pro
     const raw = {
         title: formData.get("title"),
         description: formData.get("description"),
+        serviceImage: formData.get("serviceImage") || undefined,
         price: formData.get("price"),
         duration: formData.get("duration"),
         categoryId: formData.get("categoryId"),
@@ -348,6 +350,7 @@ export const createService = async (prevState: unknown, formData: FormData): Pro
     const payload: ICreateTechServicePayload = {
         title: parsed.data.title,
         description: parsed.data.description,
+        serviceImage: parsed.data.serviceImage,
         price: parsed.data.price,
         duration: parsed.data.duration,
         categoryId: parsed.data.categoryId,
@@ -406,6 +409,7 @@ export const updatedService = async (serviceId: string, prevState: unknown, form
     const raw = {
         title: formData.get("title"),
         description: formData.get("description"),
+        serviceImage: formData.get("serviceImage"),
         price: formData.get("price"),
         duration: formData.get("duration"),
         categoryId: formData.get("categoryId"),
@@ -438,6 +442,7 @@ export const updatedService = async (serviceId: string, prevState: unknown, form
         body: JSON.stringify({
             title: parsed.data.title,
             description: parsed.data.description,
+            serviceImage: parsed.data.serviceImage,
             price: parsed.data.price,
             duration: parsed.data.duration,
             categoryId: parsed.data.categoryId,
@@ -457,7 +462,7 @@ export const updatedService = async (serviceId: string, prevState: unknown, form
     return result;
 };
 
-export const deleteService = async(serviceId: string)=>{
+export const deleteService = async (serviceId: string) => {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("accessToken")?.value;
 

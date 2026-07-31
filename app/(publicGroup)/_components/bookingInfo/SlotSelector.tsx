@@ -14,11 +14,11 @@ export function SlotSelector({ availableSlots, selectedSlot, onSelectSlot }: Slo
     if (availableSlots.length === 0) {
         return (
             <div className="rounded-xl border bg-white p-6 shadow-sm">
-                <h2 className="mb-1 text-base font-semibold text-gray-900">
+                <h2 className="mb-1 text-base font-semibold">
                     Step 1: Choose an Availability Slot
                 </h2>
-                <p className="mb-4 text-sm text-gray-500">Select the technician&apos;s available time window.</p>
-                <div className="rounded-lg border border-dashed p-6 text-center text-sm text-gray-400">
+                <p className="mb-4 text-sm text-gray-700">Select the technician&apos;s available time window.</p>
+                <div className="rounded-lg border border-dashed p-6 text-center text-sm">
                     No available slots for this technician right now.
                 </div>
             </div>
@@ -27,10 +27,10 @@ export function SlotSelector({ availableSlots, selectedSlot, onSelectSlot }: Slo
 
     return (
         <div className="rounded-xl border bg-white p-6 shadow-sm">
-            <h2 className="mb-1 text-base font-semibold text-gray-900">
+            <h2 className="mb-1 text-base font-semibold">
                 Step 1: Choose an Availability Slot
             </h2>
-            <p className="mb-4 text-sm text-gray-500">Select the technician&apos;s available time window.</p>
+            <p className="mb-4 text-sm text-gray-700">Select the technician&apos;s available time window.</p>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {availableSlots.map((slot) => (
                     <button
