@@ -10,6 +10,7 @@ import { Clock, DollarSign, Zap } from "lucide-react";
 import { ICategory, ITechService } from "@/lib/type";
 import { TechServiceFormDialog } from "./TechServiceFormDialog";
 import { DeleteServiceButton } from "./DeleteServiceButton";
+import Image from "next/image";
 
 type TechServiceCardProps = {
     service: ITechService;
@@ -26,11 +27,23 @@ export function TechServicePostCard({
                 <div className="flex items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                            <div className="h-8 w-8 rounded-lg bg-linear-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                                <Zap className="h-4 w-4 text-primary" />
-                            </div>
+                            {service.serviceImage ? (
+                                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border">
+                                    <Image
+                                        src={service.serviceImage}
+                                        alt={service.title}
+                                        fill
+                                        unoptimized
+                                        className="object-cover"
+                                    />
+                                </div>
+                            ) : (
+                                <div className="h-8 w-8 rounded-lg bg-linear-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                                    <Zap className="h-4 w-4 text-primary" />
+                                </div>
+                            )}
 
-                            <Badge className="bg-primary/10 text-primary hover:bg-primary/20 border-0 text-xs font-semibold uppercase tracking-wider">
+                            <Badge className="bg-primary/10 text-primary hover:bg-primary/20 border-0 text-sm font-semibold uppercase tracking-wider">
                                 {service.category.name}
                             </Badge>
                         </div>

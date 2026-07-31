@@ -85,6 +85,21 @@ export function TechServiceFormDialog({ mode, service, categories }: ServiceForm
                             <p className="text-sm text-destructive">{state.fieldErrors.description}</p>
                         )}
                     </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="serviceImage">Service Image URL</Label>
+                        <Input
+                            id="serviceImage"
+                            name="serviceImage"
+                            type="url"
+                            placeholder="https://example.com/image.jpg"
+                            defaultValue={service?.serviceImage || ""}
+                        />
+                        {state?.fieldErrors?.serviceImage && (
+                            <p className="text-sm text-destructive">
+                                {state.fieldErrors.serviceImage}
+                            </p>
+                        )}
+                    </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <Label htmlFor="price">Price ($)</Label>
