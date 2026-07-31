@@ -8,7 +8,7 @@ const UserActivityLog = ({ user }: { user: IAdminUsers }) => {
     if (!user) {
         return (
             <Card>
-                <CardContent className="py-8 text-center text-muted-foreground">
+                <CardContent className="py-8 text-center text-gray-800">
                     No activity data available
                 </CardContent>
             </Card>
@@ -44,7 +44,7 @@ const UserActivityLog = ({ user }: { user: IAdminUsers }) => {
                         <Activity className="h-5 w-5" />
                         Activity Log
                     </CardTitle>
-                    <CardDescription>
+                    <CardDescription className="text-gray-700">
                         Recent user activity
                     </CardDescription>
                 </CardHeader>
@@ -52,12 +52,12 @@ const UserActivityLog = ({ user }: { user: IAdminUsers }) => {
                     <div className="space-y-4">
                         {activities.map((activity, index) => (
                             <div key={index} className="flex items-start gap-3 pb-3 border-b last:border-0">
-                                <div className="p-1 bg-primary/5 rounded-full">
-                                    <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+                                <div className="p-1 bg-gray-200 rounded-full">
+                                    <Clock className="h-3.5 w-3.5" />
                                 </div>
-                                <div className="flex-1">
+                                <div className="flex-1 space-y-1.5">
                                     <p className="text-sm font-medium">{activity.action}</p>
-                                    <p className="text-xs text-muted-foreground">
+                                    <p className="text-xs text-gray-700">
                                         {activity.timestamp ? new Date(activity.timestamp).toLocaleString() : "N/A"}
                                     </p>
                                 </div>

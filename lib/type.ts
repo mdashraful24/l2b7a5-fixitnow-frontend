@@ -427,6 +427,7 @@ export type UserStats = {
     totalUsers: number;
     totalTechnicians: number;
     totalCustomers: number;
+    totalAdmins?: number;
     activeUsers: number;
     bannedUsers: number;
 };
@@ -492,6 +493,7 @@ export type BookingStats = {
     inProgressBookings: number;
     completedBookings: number;
     cancelledBookings: number;
+    thisMonth?: number;
 };
 
 export interface ICategory {
@@ -542,4 +544,30 @@ export interface IReview {
         name: string;
         email: string;
     };
+}
+
+export interface DashboardStats {
+    bookings: BookingStats;
+    users: UserStats;
+    totalRevenue: number;
+    averageRating: number;
+    totalCategories: number;
+    growthRate: number;
+}
+
+export interface StatCardProps {
+    title: string;
+    value: string | number;
+    icon: React.ElementType;
+    description?: string;
+    trend?: number;
+    color: string;
+    bgColor: string;
+}
+
+export interface MiniStatCardProps {
+    title: string;
+    value: number;
+    color: string;
+    icon: React.ElementType;
 }
