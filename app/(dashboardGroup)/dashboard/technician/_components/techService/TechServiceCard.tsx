@@ -36,17 +36,36 @@ export function TechServicePostCard({
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-y-1 group-hover:translate-y-0">
-                        <div className="bg-background/80 backdrop-blur-sm rounded-lg p-1 shadow-sm">
-                            <TechServiceFormDialog
-                                mode="edit"
-                                service={service}
-                                categories={categories}
-                            />
+                    {/* Always visible on mobile/tablet, hover on large screens */}
+                    <div className="flex items-center gap-1.5">
+                        {/* Always visible on small/medium screens, hidden on large */}
+                        <div className="flex items-center gap-1.5 lg:hidden">
+                            <div className="bg-background/80 backdrop-blur-sm rounded-lg p-1 shadow-sm">
+                                <TechServiceFormDialog
+                                    mode="edit"
+                                    service={service}
+                                    categories={categories}
+                                />
+                            </div>
+
+                            <div className="bg-background/80 backdrop-blur-sm rounded-lg p-1 shadow-sm">
+                                <DeleteServiceButton serviceId={service.id} />
+                            </div>
                         </div>
 
-                        <div className="bg-background/80 backdrop-blur-sm rounded-lg p-1 shadow-sm">
-                            <DeleteServiceButton serviceId={service.id} />
+                        {/* Hidden on small/medium, visible on hover on large screens */}
+                        <div className="hidden lg:flex lg:items-center lg:gap-1.5 lg:opacity-0 lg:group-hover:opacity-100 lg:transition-all lg:duration-300 lg:-translate-y-1 lg:group-hover:translate-y-0">
+                            <div className="bg-background/80 backdrop-blur-sm rounded-lg p-1 shadow-sm">
+                                <TechServiceFormDialog
+                                    mode="edit"
+                                    service={service}
+                                    categories={categories}
+                                />
+                            </div>
+
+                            <div className="bg-background/80 backdrop-blur-sm rounded-lg p-1 shadow-sm">
+                                <DeleteServiceButton serviceId={service.id} />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -106,22 +125,22 @@ export function TechServicePostCard({
                         <span className="relative flex h-3 w-3">
                             <span
                                 className={`absolute inline-flex h-full w-full rounded-full ${service.isAvailable
-                                    ? "bg-green-400 opacity-75 animate-ping"
-                                    : "bg-red-400"
+                                        ? "bg-green-400 opacity-75 animate-ping"
+                                        : "bg-red-400"
                                     }`}
                             />
                             <span
                                 className={`relative inline-flex h-3 w-3 rounded-full ${service.isAvailable
-                                    ? "bg-green-500"
-                                    : "bg-red-500"
+                                        ? "bg-green-500"
+                                        : "bg-red-500"
                                     }`}
                             />
                         </span>
                     </div>
                     <span
                         className={`text-sm font-medium ${service.isAvailable
-                            ? "text-green-600"
-                            : "text-red-600"
+                                ? "text-green-600"
+                                : "text-red-600"
                             }`}
                     >
                         {service.isAvailable

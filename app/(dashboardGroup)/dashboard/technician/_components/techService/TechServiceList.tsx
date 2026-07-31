@@ -24,7 +24,7 @@ export async function TechServiceList() {
     }
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
             {services.map((service: ITechService) => (
                 <TechServicePostCard
                     key={service.id}

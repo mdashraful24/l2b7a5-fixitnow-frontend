@@ -49,7 +49,7 @@ export function DeleteServiceButton({ serviceId }: { serviceId: string }) {
                         Delete this service?
                     </AlertDialogTitle>
 
-                    <AlertDialogDescription>
+                    <AlertDialogDescription className="text-gray-700">
                         This action cannot be undone. This will permanently
                         remove this service from your account.
                     </AlertDialogDescription>

@@ -103,7 +103,7 @@ export function ReviewFormDialog({ mode, booking, review, onSuccess }: ReviewFor
                     <DialogTitle>
                         {mode === "edit" ? "Edit Your Review" : "Leave a Review"}
                     </DialogTitle>
-                    <DialogDescription>
+                    <DialogDescription className="text-gray-700">
                         {mode === "edit"
                             ? "Update your rating and feedback for this service."
                             : `How was your experience with ${booking.technician?.user?.name || "the technician"}?`}
@@ -132,16 +132,16 @@ export function ReviewFormDialog({ mode, booking, review, onSuccess }: ReviewFor
                                         disabled={pending}
                                     >
                                         <Star
-                                            className={`h-8 w-8 ${isFilled
+                                            className={`h-6 w-6 ${isFilled
                                                     ? "fill-yellow-400 text-yellow-400"
-                                                    : "fill-gray-200 text-gray-200"
+                                                    : "fill-gray-300 text-gray-300"
                                                 } transition-colors`}
                                         />
                                     </button>
                                 );
                             })}
                         </div>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-gray-700">
                             {rating > 0 ? `${rating} out of 5 stars` : "Select a rating"}
                         </p>
                         {state?.fieldErrors?.rating && (
@@ -151,7 +151,7 @@ export function ReviewFormDialog({ mode, booking, review, onSuccess }: ReviewFor
 
                     {/* Comment */}
                     <div className="space-y-2">
-                        <Label htmlFor="comment">Comment <span className="text-gray-400 text-xs">(optional)</span></Label>
+                        <Label htmlFor="comment">Comment <span className="text-gray-600 text-xs">(optional)</span></Label>
                         <Textarea
                             id="comment"
                             name="comment"
@@ -165,17 +165,17 @@ export function ReviewFormDialog({ mode, booking, review, onSuccess }: ReviewFor
                         {state?.fieldErrors?.comment && (
                             <p className="text-sm text-red-500">{state.fieldErrors.comment}</p>
                         )}
-                        <p className="text-xs text-gray-400">
+                        <p className="text-xs text-gray-700">
                             {comment.length}/500 characters
                         </p>
                     </div>
 
                     {/* Technician Info */}
                     <div className="rounded-lg bg-gray-50 p-3 text-sm">
-                        <p className="text-gray-600">
+                        <p className="text-gray-700">
                             <span className="font-medium">Technician:</span> {booking.technician?.user?.name}
                         </p>
-                        <p className="text-gray-600">
+                        <p className="text-gray-700">
                             <span className="font-medium">Service:</span> {booking.service?.title}
                         </p>
                     </div>
