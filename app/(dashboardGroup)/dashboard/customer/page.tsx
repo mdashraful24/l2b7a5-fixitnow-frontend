@@ -1,5 +1,5 @@
 import { getAllBookings } from "../../_actions/getBookings";
-import { IBooking, BookingStatus } from "@/lib/type";
+import { IBooking } from "@/lib/type";
 import {
     CalendarDays,
     CheckCircle,
@@ -12,30 +12,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { BookingCard } from "./_components/BookingCard";
-import { StatusFilter, statusTabs } from "@/lib/bookingConstants";
-
-// type StatusFilter = BookingStatus | "ALL";
-
-// const statusTabs: { label: string; value: StatusFilter; icon: React.ReactNode }[] = [
-//     { label: "All", value: "ALL", icon: <Package className="h-4 w-4" /> },
-//     { label: "Requested", value: "REQUESTED", icon: <Clock className="h-4 w-4" /> },
-//     { label: "Accepted", value: "ACCEPTED", icon: <CheckCircle className="h-4 w-4" /> },
-//     { label: "Declined", value: "DECLINED", icon: <XCircle className="h-4 w-4" /> },
-//     { label: "Paid", value: "PAID", icon: <FileText className="h-4 w-4" /> },
-//     { label: "In Progress", value: "IN_PROGRESS", icon: <Clock className="h-4 w-4" /> },
-//     { label: "Completed", value: "COMPLETED", icon: <CheckCircle className="h-4 w-4" /> },
-//     { label: "Cancelled", value: "CANCELLED", icon: <XCircle className="h-4 w-4" /> },
-// ];
-
-const statusColors: Record<BookingStatus, string> = {
-    REQUESTED: "bg-blue-50 text-blue-700 border-blue-200",
-    ACCEPTED: "bg-teal-100 text-teal-700 border-teal-200",
-    DECLINED: "bg-indigo-50 text-indigo-700 border-indigo-200",
-    PAID: "bg-indigo-50 text-indigo-700 border-indigo-200",
-    IN_PROGRESS: "bg-amber-50 text-amber-700 border-amber-200",
-    COMPLETED: "bg-green-50 text-green-700 border-green-200",
-    CANCELLED: "bg-red-50 text-red-700 border-red-200",
-};
+import { statusColors, StatusFilter, statusTabs } from "@/lib/bookingConstants";
 
 export default async function CustomerDashboardPage({
     searchParams,

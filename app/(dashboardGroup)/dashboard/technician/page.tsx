@@ -4,7 +4,6 @@ import {
     CalendarDays,
     CheckCircle2,
     Clock3,
-    DollarSign,
     Star,
     UserRound,
     CreditCard,
@@ -18,7 +17,7 @@ import {
 import { getMe } from "@/services/getMe";
 import { getTechnicianById } from "@/app/(publicGroup)/_actions/getTechnician";
 import { getTechnicianBookings } from "@/app/(dashboardGroup)/_actions/technician";
-import { statusBadge } from "@/lib/type";
+import { statusBadge } from "@/lib/bookingConstants";
 
 export default async function TechnicianDashboardPage() {
     const user = await getMe();

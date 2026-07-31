@@ -1,58 +1,17 @@
 import { getSingleBooking } from "../../../../_actions/getBookings";
 import { notFound } from "next/navigation";
 import { BookingStatus } from "@/lib/type";
-import {
-    ArrowLeft, CalendarDays, Clock, MapPin, User,
-    FileText, CheckCircle, XCircle, AlertCircle, Wrench
-} from "lucide-react";
+import { ArrowLeft, CalendarDays, Clock, MapPin, User, FileText, Wrench, ThumbsDown, CreditCard, Loader2, ThumbsUp, Ban } from "lucide-react";
 import Link from "next/link";
 import { CancelBookingButton } from "../../_components/CancelBookingButton";
 import { EditBookingModal } from "../../_components/EditBookingModal";
 import { PaymentButton } from "../../_components/payment/PaymentButton";
+import { bookingStatusBadge } from "@/lib/bookingConstants";
 
-const nonCancellableStatuses: BookingStatus[] = [
-    "IN_PROGRESS",
-    "COMPLETED",
-    "CANCELLED",
+const cancellableStatuses: BookingStatus[] = [
+    "REQUESTED",
+    "ACCEPTED",
 ];
-
-const statusConfig: Record<BookingStatus, { label: string; color: string; icon: React.ReactNode }> = {
-    REQUESTED: {
-        label: "Requested",
-        color: "bg-yellow-50 text-yellow-700 border-yellow-200",
-        icon: <Clock className="h-4 w-4" />,
-    },
-    ACCEPTED: {
-        label: "Accepted - Pending Payment",
-        color: "bg-blue-50 text-blue-700 border-blue-200",
-        icon: <CheckCircle className="h-4 w-4" />,
-    },
-    DECLINED: {
-        label: "Declined",
-        color: "bg-red-50 text-red-700 border-red-200",
-        icon: <XCircle className="h-4 w-4" />,
-    },
-    PAID: {
-        label: "Paid",
-        color: "bg-purple-50 text-purple-700 border-purple-200",
-        icon: <FileText className="h-4 w-4" />,
-    },
-    IN_PROGRESS: {
-        label: "In Progress",
-        color: "bg-green-50 text-green-700 border-green-200",
-        icon: <AlertCircle className="h-4 w-4" />,
-    },
-    COMPLETED: {
-        label: "Completed",
-        color: "bg-gray-50 text-gray-700 border-gray-200",
-        icon: <CheckCircle className="h-4 w-4" />,
-    },
-    CANCELLED: {
-        label: "Cancelled",
-        color: "bg-red-100 text-red-800 border-red-300",
-        icon: <XCircle className="h-4 w-4" />,
-    },
-};
 
 export default async function BookingDetailPage({
     params,
@@ -67,9 +26,13 @@ export default async function BookingDetailPage({
     }
 
     const booking = response.data;
-    const status = statusConfig[booking.status as BookingStatus];
-    const canCancel = !nonCancellableStatuses.includes(booking.status);
-    const canPay = booking.status === "ACCEPTED"; // ✅ Add this line
+    const status = bookingStatusBadge[booking.status as BookingStatus];
+
+    const canCancel = cancellableStatuses.includes(booking.status as BookingStatus);
+    const canPay = booking.status === "ACCEPTED";
+    const canEdit = booking.status === "REQUESTED" || booking.status === "ACCEPTED";
+
+    const StatusIcon = status.icon;
 
     return (
         <div className="space-y-6">
@@ -86,9 +49,9 @@ export default async function BookingDetailPage({
                     <h1 className="text-2xl font-bold">Booking Details</h1>
                 </div>
                 <span
-                    className={`flex items-center gap-1.5 rounded-full border px-4 py-1.5 text-sm font-medium ${status.color}`}
+                    className={`flex items-center gap-1.5 rounded-full border px-4 py-1.5 text-sm font-medium ${status.bg} ${status.text} ${status.border}`}
                 >
-                    {status.icon}
+                    <StatusIcon className="h-4 w-4" />
                     {status.label}
                 </span>
             </div>
@@ -207,7 +170,7 @@ export default async function BookingDetailPage({
                 </div>
             </div>
 
-            {/* Payment Button - Show only when booking is ACCEPTED */}
+            {/* Allow to make payment */}
             {canPay && (
                 <div className="rounded-lg bg-blue-50 p-4 border border-blue-200">
                     <p className="text-sm text-blue-700 mb-3">
@@ -221,12 +184,14 @@ export default async function BookingDetailPage({
                 </div>
             )}
 
-            {/* Edit Booking Button */}
-            <div className="flex justify-end">
-                <EditBookingModal booking={booking} />
-            </div>
+            {/* Allow to Edit Booking */}
+            {canEdit && (
+                <div className="flex justify-end">
+                    <EditBookingModal booking={booking} />
+                </div>
+            )}
 
-            {/* Cancel Booking - Show only when cancellable */}
+            {/* Allow to Cancel Booking */}
             {canCancel && (
                 <div className="rounded-xl border border-red-100 bg-red-50 p-5">
                     <h3 className="text-sm font-semibold text-red-800">Cancel Booking</h3>
@@ -240,11 +205,31 @@ export default async function BookingDetailPage({
                 </div>
             )}
 
+            {/* Cancelled Status Message */}
+            {booking.status === "CANCELLED" && (
+                <div className="rounded-lg bg-red-50 p-4 border border-red-200">
+                    <p className="text-sm text-red-700 flex items-center gap-2">
+                        <Ban className="h-4 w-4" />
+                        This booking has been cancelled. No further actions can be taken.
+                    </p>
+                </div>
+            )}
+
+            {/* Declined Status Message */}
+            {booking.status === "DECLINED" && (
+                <div className="rounded-lg bg-gray-50 p-4 border border-gray-200">
+                    <p className="text-sm text-gray-700 flex items-center gap-2">
+                        <ThumbsDown className="h-4 w-4" />
+                        This booking was declined by the technician.
+                    </p>
+                </div>
+            )}
+
             {/* Paid Status Message */}
             {booking.status === "PAID" && (
-                <div className="rounded-lg bg-purple-50 p-4 border border-purple-200">
-                    <p className="text-sm text-purple-700 flex items-center gap-2">
-                        <CheckCircle className="h-4 w-4" />
+                <div className="rounded-lg bg-indigo-50 p-4 border border-indigo-200">
+                    <p className="text-sm text-indigo-700 flex items-center gap-2">
+                        <CreditCard className="h-4 w-4" />
                         Payment completed. The technician will start working on your booking soon.
                     </p>
                 </div>
@@ -252,9 +237,9 @@ export default async function BookingDetailPage({
 
             {/* In Progress Status Message */}
             {booking.status === "IN_PROGRESS" && (
-                <div className="rounded-lg bg-green-50 p-4 border border-green-200">
-                    <p className="text-sm text-green-700 flex items-center gap-2">
-                        <AlertCircle className="h-4 w-4" />
+                <div className="rounded-lg bg-amber-50 p-4 border border-amber-200">
+                    <p className="text-sm text-amber-700 flex items-center gap-2">
+                        <Loader2 className="h-4 w-4" />
                         The technician is currently working on your booking.
                     </p>
                 </div>
@@ -262,9 +247,9 @@ export default async function BookingDetailPage({
 
             {/* Completed Status Message */}
             {booking.status === "COMPLETED" && (
-                <div className="rounded-lg bg-gray-50 p-4 border border-gray-200">
-                    <p className="text-sm text-gray-700 flex items-center gap-2">
-                        <CheckCircle className="h-4 w-4" />
+                <div className="rounded-lg bg-green-50 p-4 border border-green-200">
+                    <p className="text-sm text-green-700 flex items-center gap-2">
+                        <ThumbsUp className="h-4 w-4" />
                         This booking has been completed. Thank you for using our service!
                     </p>
                 </div>

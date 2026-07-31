@@ -1,31 +1,11 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { CalendarDays, Clock3, Filter, MapPin, User2 } from "lucide-react";
+import { CalendarDays, Clock3, MapPin, User2 } from "lucide-react";
 import { getMe } from "@/services/getMe";
 import { getTechnicianBookings } from "@/app/(dashboardGroup)/_actions/technician";
 import { TechnicianBookingActions } from "../_components/TechnicianBookingActions";
 import { StatusFilter } from "@/lib/type";
-
-const statusTabs: { label: string; value: StatusFilter }[] = [
-    { label: "All", value: "ALL" },
-    { label: "Requested", value: "REQUESTED" },
-    { label: "Accepted", value: "ACCEPTED" },
-    { label: "Declined", value: "DECLINED" },
-    { label: "Paid", value: "PAID" },
-    { label: "In Progress", value: "IN_PROGRESS" },
-    { label: "Completed", value: "COMPLETED" },
-    { label: "Cancelled", value: "CANCELLED" },
-];
-
-const statusBadge: Record<string, string> = {
-    REQUESTED: "bg-yellow-50 text-yellow-700 border-yellow-200",
-    ACCEPTED: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    PAID: "bg-indigo-50 text-indigo-700 border-indigo-200",
-    IN_PROGRESS: "bg-sky-50 text-sky-700 border-sky-200",
-    COMPLETED: "bg-green-50 text-green-700 border-green-200",
-    DECLINED: "bg-red-50 text-red-700 border-red-200",
-    CANCELLED: "bg-gray-50 text-gray-700 border-gray-200",
-};
+import { statusBadges, statusTabs } from "@/lib/bookingConstants";
 
 export default async function TechnicianBookingsPage({
     searchParams,
@@ -103,12 +83,13 @@ export default async function TechnicianBookingsPage({
                         <Link
                             key={tab.value}
                             href={tab.value === "ALL" ? "/dashboard/technician/bookings" : `/dashboard/technician/bookings?status=${tab.value}`}
-                            className={`rounded-lg border px-4 py-2 text-sm font-medium transition ${
+                            className={`flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium transition-all border ${
                                 isActive
                                     ? "border-primary bg-primary text-white"
                                     : "border-gray-200 bg-white text-gray-600 hover:border-primary/40 hover:text-primary"
                             }`}
                         >
+                            <tab.icon className="h-4 w-4" />
                             {tab.label}
                         </Link>
                     );
@@ -127,7 +108,7 @@ export default async function TechnicianBookingsPage({
                                 <div className="space-y-2">
                                     <div className="flex flex-wrap items-center gap-2">
                                         <h3 className="text-lg font-semibold">{booking.service?.title}</h3>
-                                        <span className={`rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusBadge[booking.status] || "bg-gray-100 text-gray-600 border-gray-200"}`}>
+                                        <span className={`rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusBadges[booking.status] || "bg-gray-100 text-gray-600 border-gray-200"}`}>
                                             {booking.status}
                                         </span>
                                     </div>

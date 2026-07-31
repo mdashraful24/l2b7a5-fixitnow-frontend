@@ -16,14 +16,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { IBooking, IUpdatedAvailableSlot } from "@/lib/type";
+import { IUpdatedAvailableSlot } from "@/lib/type";
 import { getAvailableSlotsForTechnician, getSlotDetails, updateBooking } from "@/app/(dashboardGroup)/_actions/customer";
 import { Loader2, Clock, CheckCircle, AlertCircle, CalendarX } from "lucide-react";
 import { formatDate, formatTime } from "@/utils/bookingUtils";
-
-interface EditBookingModalProps {
-    booking: IBooking;
-}
+import { EditBookingModalProps } from "@/lib/bookingConstants";
 
 export function EditBookingModal({ booking }: EditBookingModalProps) {
     const [open, setOpen] = useState(false);

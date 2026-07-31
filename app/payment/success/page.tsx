@@ -69,11 +69,11 @@ async function PaymentSuccessContent({
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
                     {finalBookingId && (
                         <Link href={`/dashboard/customer/bookings/${finalBookingId}`}>
-                            <Button size="lg">View Booking Details</Button>
+                            <Button size="lg" className="cursor-pointer">View Booking Details</Button>
                         </Link>
                     )}
                     <Link href="/dashboard/customer/bookings">
-                        <Button variant="outline" size="lg">View All Bookings</Button>
+                        <Button variant="outline" size="lg" className="cursor-pointer">View All Bookings</Button>
                     </Link>
                 </div>
             </div>

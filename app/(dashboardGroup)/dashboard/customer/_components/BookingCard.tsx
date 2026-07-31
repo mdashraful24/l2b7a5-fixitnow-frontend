@@ -1,28 +1,7 @@
-import { IBooking, BookingStatus } from "@/lib/type";
+import { BookingCardProps, STATUS_LABELS, nonCancellableStatuses } from "@/lib/bookingConstants";
 import { Clock, MapPin, User, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { CancelBookingButton } from "./CancelBookingButton";
-
-interface BookingCardProps {
-    booking: IBooking;
-    statusColors: Record<BookingStatus, string>;
-}
-
-const STATUS_LABELS: Record<BookingStatus, string> = {
-    REQUESTED: "Requested",
-    ACCEPTED: "Accepted",
-    DECLINED: "Declined",
-    PAID: "Paid",
-    IN_PROGRESS: "In Progress",
-    COMPLETED: "Completed",
-    CANCELLED: "Cancelled",
-};
-
-const nonCancellableStatuses: BookingStatus[] = [
-    "IN_PROGRESS",
-    "COMPLETED",
-    "CANCELLED",
-];
 
 export function BookingCard({ booking, statusColors }: BookingCardProps) {
     const canCancel = !nonCancellableStatuses.includes(booking.status);

@@ -3,16 +3,7 @@ import { getMe } from "@/services/getMe";
 import { getTechnicianBookings } from "@/app/(dashboardGroup)/_actions/technician";
 import { TechnicianBookingActions } from "../../_components/TechnicianBookingActions";
 import { CalendarDays, Clock3, MapPin, User2, FileText, Phone, Mail } from "lucide-react";
-
-const statusBadge: Record<string, string> = {
-    REQUESTED: "bg-yellow-50 text-yellow-700 border-yellow-200",
-    ACCEPTED: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    PAID: "bg-indigo-50 text-indigo-700 border-indigo-200",
-    IN_PROGRESS: "bg-sky-50 text-sky-700 border-sky-200",
-    COMPLETED: "bg-green-50 text-green-700 border-green-200",
-    DECLINED: "bg-red-50 text-red-700 border-red-200",
-    CANCELLED: "bg-gray-50 text-gray-700 border-gray-200",
-};
+import { statusBadges } from "@/lib/bookingConstants";
 
 export default async function TechnicianBookingDetailsPage({
     params,
@@ -45,7 +36,7 @@ export default async function TechnicianBookingDetailsPage({
                     <h1 className="mt-1 text-2xl font-bold text-gray-900">{booking.service?.title}</h1>
                     <p className="mt-1 text-sm text-gray-500">Full job information and technician actions.</p>
                 </div>
-                <span className={`inline-flex rounded-full border px-3 py-1.5 text-sm font-medium ${statusBadge[booking.status] || "bg-gray-100 text-gray-600 border-gray-200"}`}>
+                <span className={`inline-flex rounded-full border px-3 py-1.5 text-sm font-medium ${statusBadges[booking.status] || "bg-gray-100 text-gray-600 border-gray-200"}`}>
                     {booking.status}
                 </span>
             </div>

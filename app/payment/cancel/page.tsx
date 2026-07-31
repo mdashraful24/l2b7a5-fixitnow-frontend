@@ -36,11 +36,11 @@ async function PaymentCancelContent({
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
                     {bookingId && (
                         <Link href={`/dashboard/customer/bookings/${bookingId}`}>
-                            <Button size="lg">Try Again</Button>
+                            <Button size="lg" className="cursor-pointer">Try Again</Button>
                         </Link>
                     )}
                     <Link href="/dashboard/customer/bookings">
-                        <Button variant="outline" size="lg">Back to Bookings</Button>
+                        <Button variant="outline" size="lg" className="cursor-pointer">Back to Bookings</Button>
                     </Link>
                 </div>
             </div>
