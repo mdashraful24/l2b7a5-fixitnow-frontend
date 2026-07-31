@@ -1,6 +1,6 @@
 "use server";
 
-import { ICreateBookingPayload } from "@/lib/type";
+import { ICreateBookingPayload, IReview } from "@/lib/type";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -190,4 +190,113 @@ export const getPaymentDetails = async (paymentId: string) => {
     );
 
     return res.json();
+};
+
+export const createReview = async (prevState: IReview, formData: FormData) => {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+
+    if (!accessToken) {
+        return { success: false, message: "Not authenticated" };
+    }
+
+    const bookingId = formData.get("bookingId") as string;
+    const rating = parseInt(formData.get("rating") as string);
+    const comment = formData.get("comment") as string;
+
+    // Validation
+    if (!bookingId) {
+        return {
+            success: false,
+            message: "Booking ID is required",
+            fieldErrors: { bookingId: "Booking ID is required" }
+        };
+    }
+
+    if (!rating || rating < 1 || rating > 5) {
+        return {
+            success: false,
+            message: "Rating must be between 1 and 5",
+            fieldErrors: { rating: "Rating is required" }
+        };
+    }
+
+    try {
+        const res = await fetch(
+            `${process.env.BACKEND_API_URL}/api/reviews`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    cookie: `accessToken=${accessToken}`,
+                },
+                body: JSON.stringify({
+                    bookingId,
+                    rating,
+                    comment: comment?.trim() || undefined,
+                }),
+            }
+        );
+
+        const result = await res.json();
+
+        if (result.success) {
+            revalidateTag("bookings", { expire: 0 });
+            revalidateTag(`booking-${bookingId}`, { expire: 0 });
+        }
+
+        return result;
+    } catch (error) {
+        console.error("Error creating review:", error);
+        return { success: false, message: "Failed to create review" };
+    }
+};
+
+export const updateReview = async (reviewId: string, prevState: IReview, formData: FormData) => {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+
+    if (!accessToken) {
+        return { success: false, message: "Not authenticated" };
+    }
+
+    const rating = parseInt(formData.get("rating") as string);
+    const comment = formData.get("comment") as string;
+
+    // Validation
+    if (!rating || rating < 1 || rating > 5) {
+        return {
+            success: false,
+            message: "Rating must be between 1 and 5",
+            fieldErrors: { rating: "Rating is required" }
+        };
+    }
+
+    try {
+        const res = await fetch(
+            `${process.env.BACKEND_API_URL}/api/reviews/${reviewId}`,
+            {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    cookie: `accessToken=${accessToken}`,
+                },
+                body: JSON.stringify({
+                    rating,
+                    comment: comment?.trim() || undefined,
+                }),
+            }
+        );
+
+        const result = await res.json();
+
+        if (result.success) {
+            revalidateTag("bookings", { expire: 0 });
+        }
+
+        return result;
+    } catch (error) {
+        console.error("Error updating review:", error);
+        return { success: false, message: "Failed to update review" };
+    }
 };

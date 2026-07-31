@@ -260,6 +260,7 @@ export interface IBooking {
         name: string;
         email: string;
     };
+    review?: IReview | null;
 }
 
 export interface IBookingsResponse {
@@ -547,4 +548,15 @@ export interface IPaymentIntentResponse {
     payment: IPayment;
     checkoutUrl: string;
     sessionId: string;
+}
+
+export interface IReview {
+    id: string;
+    bookingId: string;
+    customerId: string;
+    technicianId: string;
+    rating: number;
+    comment: string | null;
+    createdAt: string;
+    updatedAt: string;
 }

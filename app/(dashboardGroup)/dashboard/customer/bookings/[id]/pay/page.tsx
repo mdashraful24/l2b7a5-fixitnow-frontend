@@ -1,12 +1,13 @@
 import { notFound } from "next/navigation";
 import { BookingStatus } from "@/lib/type";
-import { ArrowLeft, CalendarDays, Clock, MapPin, User, FileText, Wrench, ThumbsDown, CreditCard, Loader2, ThumbsUp, Ban } from "lucide-react";
+import { ArrowLeft, CalendarDays, Clock, MapPin, User, FileText, Wrench, ThumbsDown, CreditCard, Loader2, ThumbsUp, Ban, Star } from "lucide-react";
 import Link from "next/link";
 import { bookingStatusBadge } from "@/lib/bookingConstants";
 import { getSingleBooking } from "@/app/(dashboardGroup)/_actions/getBookings";
 import { PaymentButton } from "../../../_components/payment/PaymentButton";
 import { EditBookingModal } from "../../../_components/EditBookingModal";
 import { CancelBookingButton } from "../../../_components/CancelBookingButton";
+import { ReviewFormDialog } from "../../../_components/review/ReviewFormDialog";
 
 const cancellableStatuses: BookingStatus[] = [
     "REQUESTED",
@@ -26,11 +27,14 @@ export default async function BookingDetailPage({
     }
 
     const booking = response.data;
+
     const status = bookingStatusBadge[booking.status as BookingStatus];
 
     const canCancel = cancellableStatuses.includes(booking.status as BookingStatus);
     const canPay = booking.status === "ACCEPTED";
     const canEdit = booking.status === "REQUESTED" || booking.status === "ACCEPTED";
+    const canReview = booking.status === "COMPLETED";
+    const hasReview = booking.review !== null && booking.review !== undefined;
 
     const StatusIcon = status.icon;
 
@@ -202,6 +206,60 @@ export default async function BookingDetailPage({
                     <div className="mt-4">
                         <CancelBookingButton bookingId={booking.id} />
                     </div>
+                </div>
+            )}
+
+            {/* Review Section */}
+            {canReview && (
+                <div className="rounded-xl border bg-white p-6 shadow-sm">
+                    <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-gray-600">
+                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" /> Review
+                    </h2>
+
+                    {hasReview ? (
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <Star
+                                        key={star}
+                                        className={`h-5 w-5 ${star <= (booking.review?.rating || 0)
+                                                ? "fill-yellow-400 text-yellow-400"
+                                                : "fill-gray-200 text-gray-200"
+                                            }`}
+                                    />
+                                ))}
+                                <span className="ml-2 text-sm font-medium text-gray-700">
+                                    {booking.review?.rating} out of 5
+                                </span>
+                            </div>
+                            {booking.review?.comment && (
+                                <p className="text-sm italic">
+                                    &quot;{booking.review.comment}&quot;
+                                </p>
+                            )}
+                            <div className="flex items-center gap-3">
+                                <p className="text-sm">
+                                    Reviewed on {new Date(booking.review?.createdAt || "").toLocaleDateString()}
+                                </p>
+                                <ReviewFormDialog
+                                    mode="edit"
+                                    booking={booking}
+                                    review={booking.review}
+                                />
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="space-y-4">
+                            <p className="text-sm">
+                                This booking is complete. Share your experience with the technician.
+                            </p>
+                            <ReviewFormDialog
+                                mode="create"
+                                booking={booking}
+                                review={null}
+                            />
+                        </div>
+                    )}
                 </div>
             )}
 

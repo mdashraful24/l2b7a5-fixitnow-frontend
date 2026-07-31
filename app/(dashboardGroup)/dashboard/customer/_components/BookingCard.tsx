@@ -1,10 +1,13 @@
 import { BookingCardProps, STATUS_LABELS, nonCancellableStatuses } from "@/lib/bookingConstants";
-import { Clock, MapPin, User, ArrowRight } from "lucide-react";
+import { Clock, MapPin, User, ArrowRight, Star } from "lucide-react";
 import Link from "next/link";
 import { CancelBookingButton } from "./CancelBookingButton";
+import { ReviewFormDialog } from "./review/ReviewFormDialog";
 
 export function BookingCard({ booking, statusColors }: BookingCardProps) {
     const canCancel = !nonCancellableStatuses.includes(booking.status);
+    const canReview = booking.status === "COMPLETED";
+    const hasReview = booking.review !== null && booking.review !== undefined;
 
     return (
         <div className="rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
@@ -18,6 +21,12 @@ export function BookingCard({ booking, statusColors }: BookingCardProps) {
                         >
                             {STATUS_LABELS[booking.status]}
                         </span>
+                        {hasReview && (
+                            <span className="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-700">
+                                <Star className="h-3 w-3 mr-1 fill-yellow-500" />
+                                Reviewed
+                            </span>
+                        )}
                     </div>
 
                     <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-700">
@@ -42,8 +51,15 @@ export function BookingCard({ booking, statusColors }: BookingCardProps) {
                 {/* Right: price + actions */}
                 <div className="flex flex-col items-end gap-2">
                     <p className="text-lg font-bold text-primary">${booking.totalAmount}</p>
-                    <div className="flex gap-4">
+                    <div className="flex flex-wrap items-center gap-2 justify-end">
                         {canCancel && <CancelBookingButton bookingId={booking.id} />}
+                        {canReview && (
+                            <ReviewFormDialog
+                                mode={hasReview ? "edit" : "create"}
+                                booking={booking}
+                                review={booking.review}
+                            />
+                        )}
                         <Link
                             href={`/dashboard/customer/bookings/${booking.id}/pay`}
                             className="flex items-center gap-1 rounded-lg border border-gray-200 px-3 py-1.5 text-sm font-semibold transition bg-blue-100 hover:border-primary/40 hover:text-primary"
