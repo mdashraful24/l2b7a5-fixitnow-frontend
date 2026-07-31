@@ -1,6 +1,3 @@
-import { Ban, CheckCircle2, Clock, CreditCard, Loader2, LucideProps, ThumbsDown, ThumbsUp } from "lucide-react"
-import { ForwardRefExoticComponent, RefAttributes } from "react"
-
 export type RegisterState = {
     success: true,
     statusCode: number,
@@ -99,27 +96,6 @@ export interface ITechService {
     updatedAt?: string;
 }
 
-// export interface IService {
-//     id: string;
-//     title: string;
-//     description: string;
-//     price: number;
-//     hourlyRate: number | null;
-//     duration: number;
-//     isAvailable: boolean;
-//     category: ICategory;
-//     technician: {
-//         id: string;
-//         location: string;
-//         rating: number;
-//         totalReviews: number;
-//         user: {
-//             name: string;
-//         };
-//     };
-// }
-
-// lib/type.ts - Update IService
 export interface IService {
     id: string;
     technicianId: string;
@@ -328,6 +304,7 @@ export interface TechnicianBookingRecord {
     address: string;
     totalAmount: number;
     notes?: string;
+    technicianId: string;
     createdAt: string;
     updatedAt: string;
     service: {
@@ -352,6 +329,7 @@ export interface TechnicianBookingRecord {
             address?: string;
         };
     };
+    review?:IReview | null;
 }
 
 export interface TechnicianBookingsResponse {
@@ -559,4 +537,9 @@ export interface IReview {
     comment: string | null;
     createdAt: string;
     updatedAt: string;
+    customer?: {
+        id: string;
+        name: string;
+        email: string;
+    };
 }
