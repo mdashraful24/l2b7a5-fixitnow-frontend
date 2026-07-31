@@ -17,10 +17,10 @@ const dayOptions = [
 ] as const;
 
 const technicianBookingStatusOptions = [
-    "CONFIRMED",
-    "CANCELLED",
+    "ACCEPTED",
     "IN_PROGRESS",
     "COMPLETED",
+    "CANCELLED",
 ] as const;
 
 const optionalText = z

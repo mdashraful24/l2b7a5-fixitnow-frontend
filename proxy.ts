@@ -38,7 +38,7 @@ export async function proxy(request: NextRequest) {
         // console.log(result);
 
         if (result.success) {
-            console.log("new access token received");
+            // console.log("new access token received");
             const newAccessToken = result.data.accessToken;
 
             cookieStore.set("accessToken", newAccessToken, {
@@ -83,7 +83,9 @@ export async function proxy(request: NextRequest) {
     if (!accessToken && !isPublicRoute && !isAuthRoute) {
         const loginUrl = new URL('/auth/login', request.url);
 
-        loginUrl.searchParams.set("redirectTo", pathName);
+        const fullRedirectUrl = request.nextUrl.pathname + request.nextUrl.search;
+
+        loginUrl.searchParams.set("redirectTo", fullRedirectUrl);
 
         return NextResponse.redirect(loginUrl);
     }

@@ -1,12 +1,40 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Home, Search } from 'lucide-react'
+import { Home, ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 export default function NotFound() {
     const router = useRouter();
+    const [canGoBack, setCanGoBack] = useState(false);
+
+    useEffect(() => {
+        setCanGoBack(window.history.length > 1);
+    }, []);
+
+    const handleGoBack = () => {
+        // Check if we came from a login/register page
+        const referrer = document.referrer;
+        if (referrer) {
+            try {
+                const url = new URL(referrer);
+                // If coming from auth pages, redirect to home instead
+                if (url.pathname.includes('/auth/login') ||
+                    url.pathname.includes('/auth/register') ||
+                    url.pathname.includes('/auth/forgot-password')) {
+                    router.push('/');
+                    return;
+                }
+            } catch (e) {
+                // Invalid URL, ignore
+            }
+        }
+        
+        router.back();
+    };
 
     return (
         <div className="min-h-screen w-full bg-linear-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
@@ -47,35 +75,17 @@ export default function NotFound() {
                             </Button>
                         </Link>
 
-                        <Button
-                            variant="outline"
-                            size="lg"
-                            onClick={() => router.back()}
-                            className="border-2 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 font-semibold gap-2 cursor-pointer"
-                        >
-                            <Search className="w-5 h-5" />
-                            Go Back
-                        </Button>
-                    </div>
-
-                    {/* Additional help text */}
-                    <div className="pt-8 border-t border-slate-200 dark:border-slate-700 w-full">
-                        <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Need help? Check out our{' '}
-                            <Link
-                                href="/"
-                                className="text-blue-600 dark:text-blue-400 hover:underline font-semibold"
+                        {canGoBack && (
+                            <Button
+                                variant="outline"
+                                size="lg"
+                                onClick={handleGoBack}
+                                className="border-2 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 font-semibold gap-2 cursor-pointer"
                             >
-                                documentation
-                            </Link>{' '}
-                            or{' '}
-                            <Link
-                                href="/"
-                                className="text-blue-600 dark:text-blue-400 hover:underline font-semibold"
-                            >
-                                contact us
-                            </Link>
-                        </p>
+                                <ArrowLeft className="w-5 h-5" />
+                                Go Back
+                            </Button>
+                        )}
                     </div>
                 </div>
             </div>

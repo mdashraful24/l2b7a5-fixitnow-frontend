@@ -347,6 +347,12 @@ export interface TechnicianBookingsResponse {
     } | null;
 }
 
+export interface TechnicianBookingActionsProps {
+    bookingId: string;
+    currentStatus: string;
+    compact?: boolean;
+};
+
 export interface TechnicianActionResult<T = unknown> {
     success: boolean;
     message: string;

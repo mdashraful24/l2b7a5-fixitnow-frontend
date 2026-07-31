@@ -176,3 +176,74 @@ export const statusBadges: Record<string, string> = {
     DECLINED: "bg-red-50 text-red-700 border-red-200",
     CANCELLED: "bg-gray-50 text-gray-700 border-gray-200",
 };
+
+export const statusActions: Record<string, { label: string; status: string; icon: React.ElementType; variant?: string }[]> = {
+    REQUESTED: [
+        {
+            label: "Accept",
+            status: "ACCEPTED",
+            icon: CheckCircle2,
+            variant: "bg-emerald-600 hover:bg-emerald-700 text-white",
+        },
+        // {
+        //     label: "Decline",
+        //     status: "DECLINED",
+        //     icon: XCircle,
+        //     variant: "bg-red-600 hover:bg-red-700 text-white",
+        // },
+        {
+            label: "Cancel",
+            status: "CANCELLED",
+            icon: Ban,
+            variant: "bg-red-600 hover:bg-red-700 text-white",
+        },
+    ],
+    // ACCEPTED: [
+    //     {
+    //         label: "Start Work",
+    //         status: "IN_PROGRESS",
+    //         icon: CheckCircle2,
+    //         variant: "bg-teal-600 hover:bg-teal-700 text-white",
+    //     },
+    // ],
+    PAID: [
+        {
+            label: "Start Work",
+            status: "IN_PROGRESS",
+            icon: CreditCard,
+            variant: "bg-indigo-600 hover:bg-indigo-700 text-white",
+        },
+    ],
+    IN_PROGRESS: [
+        {
+            label: "Mark as Completed",
+            status: "COMPLETED",
+            icon: Loader2,
+            variant: "bg-sky-600 hover:bg-sky-700 text-white",
+        },
+    ],
+    COMPLETED: [
+        {
+            label: "Completed",
+            status: "COMPLETED",
+            icon: CheckCircle,
+            variant: "bg-green-400 cursor-not-allowed text-white",
+        },
+    ],
+    // DECLINED: [
+    //     {
+    //         label: "Declined",
+    //         status: "DECLINED",
+    //         icon: XCircle,
+    //         variant: "bg-gray-400 cursor-not-allowed text-white",
+    //     },
+    // ],
+    CANCELLED: [
+        {
+            label: "Cancelled",
+            status: "CANCELLED",
+            icon: Ban,
+            variant: "bg-red-400 cursor-not-allowed text-white",
+        },
+    ],
+};

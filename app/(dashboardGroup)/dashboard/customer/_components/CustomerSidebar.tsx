@@ -11,7 +11,7 @@ import { CustomerSidebarProps } from "@/lib/type";
 const navLinks = [
     { href: "/dashboard/customer", label: "Overview", icon: LayoutDashboard, exact: true },
     { href: "/dashboard/customer/bookings", label: "My Bookings", icon: CalendarDays, exact: false },
-    { href: "/profile", label: "My Profile", icon: User, exact: true },
+    // { href: "/profile", label: "My Profile", icon: User, exact: true },
     { href: "/", label: "Home", icon: Home, exact: true },
 ];
 
@@ -33,22 +33,22 @@ export function CustomerSidebar({ user }: CustomerSidebarProps) {
         .toUpperCase();
 
     return (
-        <div className="sticky top-8 space-y-4">
+        <div className="sticky top-[6.6rem] space-y-4">
             {/* User card */}
-            <div className="rounded-xl border bg-white p-4 shadow-sm">
+            {/* <div className="rounded-xl border bg-white p-4 shadow-sm">
                 <div className="flex items-center gap-3">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
                         {initials}
                     </div>
                     <div className="min-w-0">
                         <p className="font-semibold">{user.name}</p>
-                        {/* <p className="text-xs text-gray-700 break-all">{user.email}</p> */}
+                        <p className="text-xs text-gray-700 break-all">{user.email}</p>
                         <span className="mt-1 inline-block rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
                             {user.role}
                         </span>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             {/* Navigation */}
             <nav className="rounded-xl border bg-white shadow-sm overflow-hidden">

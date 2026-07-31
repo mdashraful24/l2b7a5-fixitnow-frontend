@@ -207,8 +207,8 @@ export default async function TechnicianBookingDetailsPage({
 
                     {/* Actions */}
                     <div className="rounded-2xl border bg-white p-6 shadow-sm">
-                        <h2 className="text-lg font-semibold text-gray-900">Actions</h2>
-                        <p className="mt-1 text-sm text-gray-500">Progress the booking through your workflow when appropriate.</p>
+                        <h2 className="text-lg font-semibold">Actions</h2>
+                        <p className="mt-1 text-sm text-gray-700">Progress the booking through your workflow when appropriate.</p>
                         <div className="mt-4">
                             <TechnicianBookingActions bookingId={booking.id} currentStatus={booking.status} />
                         </div>
