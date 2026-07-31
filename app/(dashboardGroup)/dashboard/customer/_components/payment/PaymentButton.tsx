@@ -41,7 +41,7 @@ export function PaymentButton({ bookingId, amount, status }: PaymentButtonProps)
         <Button
             onClick={handlePayment}
             disabled={loading}
-            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white"
+            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white cursor-pointer"
             size="lg"
         >
             {loading ? (

@@ -45,7 +45,7 @@ export function BookingCard({ booking, statusColors }: BookingCardProps) {
                     <div className="flex gap-4">
                         {canCancel && <CancelBookingButton bookingId={booking.id} />}
                         <Link
-                            href={`/dashboard/customer/bookings/${booking.id}`}
+                            href={`/dashboard/customer/bookings/${booking.id}/pay`}
                             className="flex items-center gap-1 rounded-lg border border-gray-200 px-3 py-1.5 text-sm font-semibold transition bg-blue-100 hover:border-primary/40 hover:text-primary"
                         >
                             Details

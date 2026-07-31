@@ -139,18 +139,15 @@ export const confirmPayment = async (sessionId: string) => {
         }
     );
 
-    const result = await res.json();
+    return res.json();
+};
 
-    if (result.success) {
-        revalidateTag("bookings", {
-            expire: 0
-        });
-        revalidateTag(`booking-${result.data?.bookingId}`, {
-            expire: 0
-        });
-    }
+// Separate function for revalidation
+export const revalidateBookingCache = async (bookingId: string) => {
+    "use server";
 
-    return result;
+    revalidateTag("bookings", { expire: 0 });
+    revalidateTag(`booking-${bookingId}`, { expire: 0 });
 };
 
 export const getPaymentHistory = async () => {
