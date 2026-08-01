@@ -30,7 +30,7 @@ export default async function PaymentDetailsPage({
         return (
             <div className="space-y-4">
                 <Link
-                    href={`/dashboard/customer/bookings/${id}`}
+                    href={`/dashboard/customer/bookings/${id}/pay`}
                     className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary"
                 >
                     <ArrowLeft className="h-4 w-4" />
@@ -55,7 +55,7 @@ export default async function PaymentDetailsPage({
             <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
                     <Link
-                        href={`/dashboard/customer/bookings/${id}`}
+                        href={`/dashboard/customer/bookings/${id}/pay`}
                         className="mb-2 inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary"
                     >
                         <ArrowLeft className="h-4 w-4" />

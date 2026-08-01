@@ -23,7 +23,7 @@ export default async function InvoicePage({
         return (
             <div className="space-y-4">
                 <Link
-                    href={`/dashboard/customer/bookings/${id}`}
+                    href={`/dashboard/customer/bookings/${id}/payment-details`}
                     className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary"
                 >
                     <ArrowLeft className="h-4 w-4" />
@@ -50,7 +50,7 @@ export default async function InvoicePage({
             <div className="flex items-center justify-between">
                 <div>
                     <Link
-                        href={`/dashboard/customer/bookings/${id}`}
+                        href={`/dashboard/customer/bookings/${id}/payment-details`}
                         className="mb-2 inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary"
                     >
                         <ArrowLeft className="h-4 w-4" />

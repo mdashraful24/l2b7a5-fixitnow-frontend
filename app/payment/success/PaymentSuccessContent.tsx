@@ -16,7 +16,7 @@ export function PaymentSuccessClient() {
     const bookingIdParam = searchParams.get("bookingId");
 
     const [loading, setLoading] = useState(true);
-    const [bookingId, setBookingId] = useState<string | null>(bookingIdParam);
+    const [bookingId, setBookingId] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [paymentConfirmed, setPaymentConfirmed] = useState(false);
 
@@ -38,7 +38,7 @@ export function PaymentSuccessClient() {
                         setPaymentConfirmed(true);
                         await revalidateBookingCache(newBookingId);
                         // Auto redirect after success
-                        router.push(
+                        router.replace(
                             `/dashboard/customer/bookings/${newBookingId}/payment-details`
                         );
                     } else {
@@ -51,7 +51,7 @@ export function PaymentSuccessClient() {
                             setBookingId(bookingIdParam);
                             await revalidateBookingCache(bookingIdParam);
                             // Already confirmed → redirect
-                            router.push(
+                            router.replace(
                                 `/dashboard/customer/bookings/${bookingIdParam}/payment-details`
                             );
                         }

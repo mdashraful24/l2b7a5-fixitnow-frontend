@@ -141,7 +141,7 @@ export function BookingForm({ service, onSlotChange, onTimeChange }: BookingForm
                 const bookingId = result.data?.id || result.data?.bookingId || result.data?._id;
 
                 if (bookingId) {
-                    router.push(`/dashboard/customer/bookings/${bookingId}`);
+                    router.push(`/dashboard/customer/bookings/${bookingId}/pay`);
                 } else {
                     router.push("/dashboard/customer/bookings");
                 }

@@ -37,7 +37,7 @@ export default async function BookingPage({ searchParams }: BookingPageProps) {
 
     return (
         <div className="min-h-screen bg-background">
-            <div className="container mx-auto max-w-7xl px-4 py-8">
+            <div className="container mx-auto space-y-6 px-4 py-8">
                 <Link
                     href="/services"
                     className="mb-6 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"

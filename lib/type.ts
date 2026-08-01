@@ -291,6 +291,8 @@ export type AvailabilitySlot = {
     startAt: string;
     endAt: string;
     isAvailable: boolean;
+    createdAt: string;
+    updatedAt: string;
 };
 
 export type CreateAvailabilityPayload = {

@@ -264,7 +264,7 @@ export default async function BookingDetailsPage({ params }: BookingDetailsPageP
                                     <p className="text-sm font-medium text-muted-foreground">Price</p>
                                     <div className="flex items-center gap-1 mt-1">
                                         <DollarSign className="h-4 w-4 text-muted-foreground" />
-                                        <span className="text-lg font-bold text-foreground">${booking.totalAmount}</span>
+                                        <span className="text-lg font-bold text-foreground dark:text-blue-500">${booking.totalAmount}</span>
                                     </div>
                                 </div>
                                 <div>
