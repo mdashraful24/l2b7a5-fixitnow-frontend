@@ -53,7 +53,7 @@ const TestimonialsSection = () => {
                             </div>
                             <p className="text-foreground/80 mb-4">&quot;{testimonial.content}&quot;</p>
                             <div className="flex items-center gap-3">
-                                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-primary-foreground font-semibold">
+                                <div className="h-10 w-10 rounded-full bg-linear-to-br from-primary to-primary/80 flex items-center justify-center text-primary-foreground font-semibold">
                                     {testimonial.name.charAt(0)}
                                 </div>
                                 <div>

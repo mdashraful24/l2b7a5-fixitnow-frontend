@@ -11,9 +11,9 @@ export default function PaymentSuccessPage() {
 
 function PaymentSuccessLoading() {
     return (
-        <div className="flex min-h-[70vh] flex-col items-center justify-center">
+        <div className="flex min-h-[80vh] flex-col items-center justify-center">
             <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-            <p className="mt-4 text-gray-600">Verifying your payment...</p>
+            <p className="mt-4">Verifying your payment...</p>
         </div>
     );
 }
