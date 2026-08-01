@@ -1,3 +1,4 @@
+import Footer from '@/components/shared/footer';
 import { Navbar } from '@/components/shared/navbar';
 import { getMe } from '@/services/getMe'
 import React from 'react'
@@ -13,6 +14,7 @@ const PublicLayout = async ({
         <div>
             <Navbar user={user} />
             {children}
+            <Footer />
         </div>
     )
 }

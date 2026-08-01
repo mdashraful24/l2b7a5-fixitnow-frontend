@@ -8,7 +8,8 @@ import {
     Clock,
     DollarSign,
     CalendarCheck,
-    User
+    User,
+    House
 } from "lucide-react"
 import Image from "next/image";
 import Link from "next/link"
@@ -26,14 +27,14 @@ export function ServiceCard({ service }: ServiceCardProps) {
     const isHomePage = pathname === "/";
 
     const getRatingColor = (rating: number) => {
-        if (rating >= 4.5) return "text-green-600";
-        if (rating >= 4) return "text-blue-600";
-        if (rating >= 3) return "text-yellow-600";
-        return "text-orange-600";
+        if (rating >= 4.5) return "text-green-600 dark:text-green-400";
+        if (rating >= 4) return "text-blue-600 dark:text-blue-400";
+        if (rating >= 3) return "text-yellow-600 dark:text-yellow-400";
+        return "text-orange-600 dark:text-orange-400";
     };
 
     return (
-        <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200/80 bg-white shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 hover:border-primary/30">
+        <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/80 bg-white dark:bg-card shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 hover:border-primary/30 dark:hover:border-primary/30">
             {/* Gradient overlay on hover */}
             <div className="absolute inset-0 bg-linear-to-tr from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
@@ -48,9 +49,16 @@ export function ServiceCard({ service }: ServiceCardProps) {
                                 alt={service.title}
                                 width={500}
                                 height={500}
-                                className="object-cover"
+                                className="h-full w-full object-cover"
                             />
-                        ) : null}
+                        ) : (
+                            <div className="flex h-26 w-26 items-center justify-center rounded-3xl bg-linear-to-br from-primary/20 via-primary/10 to-transparent text-primary shadow-inner transition-transform duration-300 group-hover:scale-110">
+                                <div className="relative">
+                                    <House className="h-14 w-14" />
+                                    <Wrench className="absolute -bottom-1 -right-3 h-7 w-7 rounded-full bg-background p-1" />
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
 
@@ -71,12 +79,12 @@ export function ServiceCard({ service }: ServiceCardProps) {
                 </div>
 
                 {/* Price badge - floating */}
-                <div className="absolute bottom-3 left-3 rounded-full bg-black/80 backdrop-blur-sm px-4 py-1.5 text-white shadow-lg">
+                <div className="absolute bottom-3 left-3 rounded-full bg-black/80 dark:bg-black/90 backdrop-blur-sm px-4 py-1.5 text-white shadow-lg">
                     <div className="flex items-center gap-1">
                         <DollarSign className="h-3.5 w-3.5 text-emerald-400" />
                         <span className="text-sm font-bold">{service.price}</span>
                         {service.hourlyRate && (
-                            <span className="text-xs text-gray-400">/hr</span>
+                            <span className="text-xs text-gray-400 dark:text-gray-500">/hr</span>
                         )}
                     </div>
                 </div>
@@ -86,7 +94,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
                 {/* Category and title */}
                 <div className="space-y-2.5">
                     <div className="flex items-center justify-between">
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary transition-colors group-hover:bg-primary/20">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 dark:bg-accent px-3 py-1 text-xs font-semibold text-primary dark:text-foreground transition-colors group-hover:bg-primary/20">
                             <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
                             {service.category.name}
                         </span>
@@ -95,43 +103,43 @@ export function ServiceCard({ service }: ServiceCardProps) {
                             <span className={`text-sm font-semibold ${getRatingColor(service.technician.rating)}`}>
                                 {service.technician.rating}
                             </span>
-                            <span className="text-xs text-gray-400">
+                            <span className="text-xs text-gray-400 dark:text-gray-500">
                                 ({service.technician.totalReviews})
                             </span>
                         </div>
                     </div>
 
-                    <h3 className="line-clamp-1 text-lg font-bold text-gray-900 transition-colors group-hover:text-primary">
+                    <h3 className="line-clamp-1 text-lg font-bold text-gray-900 dark:text-foreground transition-colors group-hover:text-primary">
                         {service.title}
                     </h3>
 
-                    <p className="text-sm text-gray-600 leading-relaxed">
+                    <p className="text-sm text-gray-600 dark:text-muted-foreground leading-relaxed">
                         {service.description}
                     </p>
                 </div>
 
                 {/* Divider */}
-                <div className="my-3 h-px bg-linear-to-r from-transparent via-gray-200 to-transparent" />
+                <div className="my-3 h-px bg-linear-to-r from-transparent via-gray-200 dark:via-gray-700 to-transparent" />
 
                 {/* Technician info */}
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 dark:bg-primary/20 text-primary">
                             <User className="h-4 w-4" />
                         </div>
                         <div className="flex flex-col">
-                            <span className="text-sm font-semibold text-gray-800">
+                            <span className="text-sm font-semibold text-gray-800 dark:text-foreground">
                                 {service.technician.user.name}
                             </span>
-                            <div className="flex items-center gap-1 text-xs text-gray-500">
+                            <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-muted-foreground">
                                 <MapPin className="h-3 w-3" />
                                 <span>{service.technician.location}</span>
                             </div>
                         </div>
                     </div>
-                    <div className="flex items-center gap-1 text-sm text-gray-500">
+                    <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-muted-foreground">
                         <Clock className="h-3.5 w-3.5" />
-                        <span className="font-medium text-gray-700">{service.duration} min</span>
+                        <span className="font-medium text-gray-700 dark:text-foreground/80">{service.duration} min</span>
                     </div>
                 </div>
 
@@ -140,7 +148,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
                     <div className="mt-4 grid grid-cols-2 gap-2.5">
                         <Link
                             href={`/technicians/${service.technician.id}`}
-                            className="group/btn flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 bg-white px-3 py-2 text-sm font-semibold text-gray-700 transition-all hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
+                            className="group/btn flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-card px-3 py-2 text-sm font-semibold text-gray-700 dark:text-foreground transition-all hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
                         >
                             <span>Technician Profile</span>
                             {/* <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" /> */}
@@ -148,8 +156,8 @@ export function ServiceCard({ service }: ServiceCardProps) {
                         <Link
                             href={service.isAvailable ? bookingHref : "#"}
                             className={`flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold transition-all ${service.isAvailable
-                                    ? "bg-linear-to-r from-primary to-primary/80 text-white shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98]"
-                                    : "cursor-not-allowed bg-gray-100 text-gray-400"
+                                ? "bg-linear-to-r from-primary to-primary/80 text-white shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98]"
+                                : "cursor-not-allowed bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600"
                                 }`}
                         >
                             <CalendarCheck className="h-4 w-4" />

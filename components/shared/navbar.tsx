@@ -77,7 +77,7 @@ export function Navbar({ user }: NavbarProps) {
         <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
             <div className="container mx-auto flex items-center justify-between px-4 py-4">
                 {/* Logo */}
-                <Link href="/" className="text-2xl font-bold text-primary">
+                <Link href="/" className="text-2xl font-bold text-primary dark:text-blue-400">
                     FixItNow
                 </Link>
 
@@ -112,7 +112,7 @@ export function Navbar({ user }: NavbarProps) {
 
                             <DropdownMenuContent
                                 align="end"
-                                className="w-72 overflow-hidden rounded-2xl border bg-background p-0 shadow-xl"
+                                className="w-fit overflow-hidden rounded-2xl border bg-background p-0 shadow-xl"
                             >
                                 <DropdownMenuLabel>
                                     {/* User Header */}
@@ -123,16 +123,16 @@ export function Navbar({ user }: NavbarProps) {
                                             </div>
 
                                             <div className="flex-1">
-                                                <h4 className="text-sm font-semibold text-accent-foreground">
+                                                <h4 className="whitespace-nowrap text-base font-semibold text-accent-foreground">
                                                     {user?.data?.name || 'User Name'}
                                                 </h4>
 
-                                                <p className="text-xs text-gray-700">
+                                                <p className="whitespace-nowrap text-sm text-accent-foreground/70">
                                                     {user?.data?.email || 'user@email.com'}
                                                 </p>
 
                                                 <div className="mt-2 flex items-center gap-2">
-                                                    <span className="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-medium text-gray-700">
+                                                    <span className="rounded-full bg-secondary px-2 py-0.5 text-[12px] font-semibold text-accent-foreground/70">
                                                         {user?.data?.role || 'User'}
                                                     </span>
                                                 </div>

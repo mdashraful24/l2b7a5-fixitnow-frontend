@@ -13,12 +13,12 @@ interface SlotSelectorProps {
 export function SlotSelector({ availableSlots, selectedSlot, onSelectSlot }: SlotSelectorProps) {
     if (availableSlots.length === 0) {
         return (
-            <div className="rounded-xl border bg-white p-6 shadow-sm">
-                <h2 className="mb-1 text-base font-semibold">
+            <div className="rounded-xl border border-gray-200 dark:border-border bg-white dark:bg-card p-6 shadow-sm">
+                <h2 className="mb-1 text-base font-semibold text-foreground">
                     Step 1: Choose an Availability Slot
                 </h2>
-                <p className="mb-4 text-sm text-gray-700">Select the technician&apos;s available time window.</p>
-                <div className="rounded-lg border border-dashed p-6 text-center text-sm">
+                <p className="mb-4 text-sm text-muted-foreground">Select the technician&apos;s available time window.</p>
+                <div className="rounded-lg border border-dashed border-gray-300 dark:border-gray-600 p-6 text-center text-sm text-muted-foreground">
                     No available slots for this technician right now.
                 </div>
             </div>
@@ -26,11 +26,11 @@ export function SlotSelector({ availableSlots, selectedSlot, onSelectSlot }: Slo
     }
 
     return (
-        <div className="rounded-xl border bg-white p-6 shadow-sm">
-            <h2 className="mb-1 text-base font-semibold">
+        <div className="rounded-xl border border-gray-200 dark:border-border bg-white dark:bg-card p-6 shadow-sm">
+            <h2 className="mb-1 text-base font-semibold text-foreground">
                 Step 1: Choose an Availability Slot
             </h2>
-            <p className="mb-4 text-sm text-gray-700">Select the technician&apos;s available time window.</p>
+            <p className="mb-4 text-sm text-muted-foreground">Select the technician&apos;s available time window.</p>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {availableSlots.map((slot) => (
                     <button
@@ -38,14 +38,14 @@ export function SlotSelector({ availableSlots, selectedSlot, onSelectSlot }: Slo
                         type="button"
                         onClick={() => onSelectSlot(slot)}
                         className={`group flex flex-col rounded-xl border-2 p-4 text-left transition-all ${selectedSlot?.id === slot.id
-                                ? "border-primary bg-primary/5"
-                                : "border-gray-200 hover:border-primary/50 hover:bg-gray-50"
+                            ? "border-primary bg-primary/5"
+                            : "border-gray-200 dark:border-gray-700 hover:border-primary/50 hover:bg-gray-50 dark:hover:bg-muted/50"
                             }`}
                     >
-                        <span className="font-semibold text-gray-900">
+                        <span className="font-semibold text-foreground">
                             {formatDate(slot.startAt)}
                         </span>
-                        <span className="mt-1 text-sm text-gray-500">
+                        <span className="mt-1 text-sm text-muted-foreground">
                             {formatTime(slot.startAt)} – {formatTime(slot.endAt)}
                         </span>
                         {selectedSlot?.id === slot.id && (

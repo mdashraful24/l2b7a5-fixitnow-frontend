@@ -18,10 +18,10 @@ export default async function ServicesPage({
         <div className="container mx-auto space-y-6 px-4 py-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900">
+                    <h1 className="text-3xl font-bold text-foreground">
                         Find the Right Service
                     </h1>
-                    <p className="mt-1 text-sm text-gray-700">
+                    <p className="mt-1 text-sm text-muted-foreground">
                         Browse our extensive list of professional home services.
                     </p>
                 </div>
@@ -34,7 +34,7 @@ export default async function ServicesPage({
             <div className="flex flex-col lg:flex-row lg:gap-8">
                 {/* Sidebar Filters */}
                 <aside className="w-full shrink-0 lg:w-64">
-                    <div className="rounded-xl border bg-card/50 p-6 shadow-sm">
+                    <div className="rounded-xl border border-border bg-card/50 p-6 shadow-sm backdrop-blur-sm transition-colors">
                         <ServiceFilters categories={categories} />
                     </div>
                 </aside>

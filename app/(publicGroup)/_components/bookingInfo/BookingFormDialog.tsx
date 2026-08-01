@@ -159,7 +159,7 @@ export function BookingForm({ service, onSlotChange, onTimeChange }: BookingForm
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
             {showBufferInfo && (
-                <div className="rounded-lg border border-blue-200 bg-blue-50 p-3 text-sm text-blue-700">
+                <div className="rounded-lg border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/30 p-3 text-sm text-blue-700 dark:text-blue-300">
                     <div className="flex items-start gap-2">
                         <Info className="mt-0.5 h-4 w-4 shrink-0" />
                         <div>
@@ -201,7 +201,7 @@ export function BookingForm({ service, onSlotChange, onTimeChange }: BookingForm
             <button
                 type="submit"
                 disabled={submitting || !selectedSlot || !selectedTime || !address}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-4 text-base font-semibold text-white transition-all hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-4 text-base font-semibold text-primary-foreground transition-all hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
             >
                 {submitting ? (
                     <><Loader2 className="h-5 w-5 animate-spin" /> Confirming Booking...</>

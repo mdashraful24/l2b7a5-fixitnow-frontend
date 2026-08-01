@@ -25,7 +25,7 @@ export default async function TechnicianByIdPage({
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {/* Left Column - Profile Info */}
                 <div className="md:col-span-1 space-y-6">
-                    <div className="bg-white rounded-xl shadow-sm border p-6 text-center">
+                    <div className="bg-white dark:bg-card rounded-xl shadow-sm border border-gray-200 dark:border-border p-6 text-center">
                         <div className="relative mx-auto h-24 w-24 bg-primary/10 rounded-full flex items-center justify-center mb-4">
                             <User className="h-12 w-12 text-primary" />
 
@@ -36,36 +36,36 @@ export default async function TechnicianByIdPage({
                                 {user.status === "ACTIVE" ? "Active" : "Inactive"}
                             </Badge>
                         </div>
-                        <h1 className="text-2xl font-bold text-gray-900">{user.name}</h1>
-                        <div className="flex items-center justify-center gap-2 text-gray-500 mt-2">
+                        <h1 className="text-2xl font-bold text-foreground">{user.name}</h1>
+                        <div className="flex items-center justify-center gap-2 text-muted-foreground mt-2">
                             <MapPin className="h-4 w-4" />
                             <span>{technician.location}</span>
                         </div>
                         <div className="flex items-center justify-center gap-2 mt-2">
                             <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                            <span className="font-semibold">{technician.rating}</span>
-                            <span className="text-sm text-gray-500">({reviewStats.totalReviews} reviews)</span>
+                            <span className="font-semibold text-foreground">{technician.rating}</span>
+                            <span className="text-sm text-muted-foreground">({reviewStats.totalReviews} reviews)</span>
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-xl shadow-sm border p-6">
-                        <h3 className="font-semibold text-lg mb-4">Contact Information</h3>
-                        <div className="space-y-3 text-sm text-gray-600">
+                    <div className="bg-white dark:bg-card rounded-xl shadow-sm border border-gray-200 dark:border-border p-6">
+                        <h3 className="font-semibold text-lg text-foreground mb-4">Contact Information</h3>
+                        <div className="space-y-3 text-sm text-muted-foreground">
                             {user.email && (
                                 <div className="flex items-center gap-3">
-                                    <Mail className="h-4 w-4 text-gray-400" />
+                                    <Mail className="h-4 w-4 text-muted-foreground" />
                                     <span>{user.email}</span>
                                 </div>
                             )}
                             {user.phone && (
                                 <div className="flex items-center gap-3">
-                                    <Phone className="h-4 w-4 text-gray-400" />
+                                    <Phone className="h-4 w-4 text-muted-foreground" />
                                     <span>{user.phone}</span>
                                 </div>
                             )}
                             {user.role && (
                                 <div className="flex items-center gap-3">
-                                    <Briefcase className="h-4 w-4 text-gray-400" />
+                                    <Briefcase className="h-4 w-4 text-muted-foreground" />
                                     <span>{user.role}</span>
                                 </div>
                             )}
@@ -76,22 +76,22 @@ export default async function TechnicianByIdPage({
                 {/* Right Column - Details */}
                 <div className="md:col-span-2 space-y-6">
                     {/* About */}
-                    <div className="bg-white rounded-xl shadow-sm border p-6">
-                        <h2 className="text-xl font-bold mb-4">About Me</h2>
-                        <p className="text-gray-600">{technician.bio || technician.description || "No description provided."}</p>
+                    <div className="bg-white dark:bg-card rounded-xl shadow-sm border border-gray-200 dark:border-border p-6">
+                        <h2 className="text-xl font-bold text-foreground mb-4">About Me</h2>
+                        <p className="text-muted-foreground">{technician.bio || technician.description || "No description provided."}</p>
 
                         <div className="mt-6 flex items-center gap-2">
-                            <Briefcase className="h-5 w-5 text-gray-400" />
-                            <span className="font-medium text-gray-700">Experience:</span>
-                            <span className="text-gray-600">{technician.experience || "Not specified"}</span>
+                            <Briefcase className="h-5 w-5 text-muted-foreground" />
+                            <span className="font-medium text-foreground">Experience:</span>
+                            <span className="text-muted-foreground">{technician.experience || "Not specified"}</span>
                         </div>
 
                         {technician.skills && technician.skills.length > 0 && (
                             <div className="mt-4">
-                                <span className="font-medium text-gray-700 block mb-2">Skills:</span>
+                                <span className="font-medium text-foreground block mb-2">Skills:</span>
                                 <div className="flex flex-wrap gap-2">
                                     {technician.skills.map((skill: string, index: number) => (
-                                        <span key={index} className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
+                                        <span key={index} className="bg-primary/5 dark:bg-primary/20 text-primary dark:text-blue-500 px-3 py-1 rounded-full text-sm font-medium">
                                             {skill}
                                         </span>
                                     ))}
@@ -102,18 +102,18 @@ export default async function TechnicianByIdPage({
 
                     {/* Services */}
                     {services && services.length > 0 && (
-                        <div className="bg-white rounded-xl shadow-sm border p-6">
-                            <h2 className="text-xl font-bold mb-4">Offered Services</h2>
+                        <div className="bg-white dark:bg-card rounded-xl shadow-sm border border-gray-200 dark:border-border p-6">
+                            <h2 className="text-xl font-bold text-foreground mb-4">Offered Services</h2>
                             <div className="space-y-4">
                                 {services.map((service: IBookingDetailsResponse) => (
-                                    <div key={service.id} className="border rounded-lg p-4 flex justify-between items-center hover:bg-gray-50 transition-colors">
+                                    <div key={service.id} className="border border-gray-200 dark:border-border rounded-lg p-4 flex justify-between items-center hover:bg-gray-50 dark:hover:bg-muted/50 transition-colors">
                                         <div>
-                                            <h4 className="font-semibold text-gray-900">{service.title}</h4>
-                                            <p className="text-sm text-gray-500 line-clamp-1">{service.description}</p>
+                                            <h4 className="font-semibold text-foreground">{service.title}</h4>
+                                            <p className="text-sm text-muted-foreground line-clamp-1">{service.description}</p>
                                         </div>
                                         <div className="text-right">
-                                            <div className="font-bold text-primary">${service.price}</div>
-                                            <div className="text-xs text-gray-500">{service.duration} min</div>
+                                            <div className="font-bold text-primary dark:text-blue-500">${service.price}</div>
+                                            <div className="text-xs text-muted-foreground">{service.duration} min</div>
                                         </div>
                                     </div>
                                 ))}
@@ -123,16 +123,16 @@ export default async function TechnicianByIdPage({
 
                     {/* Availability */}
                     {availability && availability.length > 0 && (
-                        <div className="bg-white rounded-xl shadow-sm border p-6">
-                            <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                        <div className="bg-white dark:bg-card rounded-xl shadow-sm border border-gray-200 dark:border-border p-6">
+                            <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                                 <Calendar className="h-5 w-5" />
                                 Availability
                             </h2>
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                                 {availability.map((slot: IAvailableSlot) => (
-                                    <div key={slot.id} className="bg-gray-50 border rounded-lg p-3 text-center">
-                                        <div className="font-medium text-md">{slot.dayOfWeek}</div>
-                                        <div className="text-sm text-gray-700 mt-1">
+                                    <div key={slot.id} className="bg-gray-50 dark:bg-muted/50 border border-gray-200 dark:border-border rounded-lg p-3 text-center">
+                                        <div className="font-medium text-md text-foreground">{slot.dayOfWeek}</div>
+                                        <div className="text-sm text-muted-foreground mt-1">
                                             {new Date(slot.startAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -
                                             {new Date(slot.endAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                         </div>

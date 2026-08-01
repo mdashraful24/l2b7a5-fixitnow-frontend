@@ -16,7 +16,7 @@ export default async function HomePage({
 }) {
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <HeroSection />
 
@@ -24,20 +24,20 @@ export default async function HomePage({
       <HowItWorkSection />
 
       {/* Featured Services Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="bg-background transition-colors">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
             <div className="space-y-1.5">
-              <h2 className="text-3xl font-bold text-gray-900">
+              <h2 className="text-3xl font-bold text-foreground">
                 Featured Services
               </h2>
-              <p className="text-gray-600">
+              <p className="text-muted-foreground">
                 Browse and choose the best services tailored to your needs
               </p>
             </div>
             <Link
               href="/services"
-              className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors mt-4 md:mt-0"
+              className="inline-flex items-center gap-2 text-primary font-semibold hover:text-primary/80 transition-colors mt-4 md:mt-0"
             >
               View All Services
               <ArrowRight className="h-4 w-4" />
