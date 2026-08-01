@@ -2,6 +2,8 @@ import { Suspense } from "react";
 import { XCircle } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { redirect } from "next/navigation";
+import { getSingleBooking } from "@/app/(dashboardGroup)/_actions/getBookings";
 
 export default function PaymentCancelPage({
     searchParams,
@@ -23,8 +25,18 @@ async function PaymentCancelContent({
     const params = await searchParams;
     const bookingId = params.bookingId;
 
+    if (!bookingId) {
+        redirect("/dashboard/customer/bookings");
+    }
+
+    const bookingResult = await getSingleBooking(bookingId);
+
+    if (!bookingResult.success || !bookingResult.data) {
+        redirect("/dashboard/customer/bookings");
+    }
+
     return (
-        <div className="flex min-h-[80vh] flex-col items-center justify-center px-4">
+        <div className="flex min-h-[90vh] flex-col items-center justify-center px-4">
             <div className="max-w-md text-center">
                 <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-red-100 dark:bg-red-950/30">
                     <XCircle className="h-12 w-12 text-red-600 dark:text-red-400" />

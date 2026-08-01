@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { getSingleBooking } from "@/app/(dashboardGroup)/_actions/getBookings";
 import { confirmPayment, revalidateBookingCache } from "@/app/(dashboardGroup)/_actions/customer";
 
 export function PaymentSuccessClient() {
@@ -19,6 +20,16 @@ export function PaymentSuccessClient() {
     const [bookingId, setBookingId] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [paymentConfirmed, setPaymentConfirmed] = useState(false);
+
+    const validateBookingAccess = async (candidateBookingId: string) => {
+        const bookingResult = await getSingleBooking(candidateBookingId);
+
+        if (!bookingResult.success || !bookingResult.data) {
+            return null;
+        }
+
+        return candidateBookingId;
+    };
 
     useEffect(() => {
         if (!sessionId) {
@@ -34,13 +45,19 @@ export function PaymentSuccessClient() {
                     const newBookingId = result.data?.bookingId;
 
                     if (newBookingId) {
-                        setBookingId(newBookingId);
-                        setPaymentConfirmed(true);
-                        await revalidateBookingCache(newBookingId);
-                        // Auto redirect after success
-                        router.replace(
-                            `/dashboard/customer/bookings/${newBookingId}/payment-details`
-                        );
+                        const ownedBookingId = await validateBookingAccess(newBookingId);
+
+                        if (ownedBookingId) {
+                            setBookingId(ownedBookingId);
+                            setPaymentConfirmed(true);
+                            await revalidateBookingCache(ownedBookingId);
+                            // Auto redirect after success
+                            router.replace(
+                                `/dashboard/customer/bookings/${ownedBookingId}/payment-details`
+                            );
+                        } else {
+                            setError("We could not verify this booking. Please open the payment link from your own booking page.");
+                        }
                     } else {
                         setError("Payment confirmed but no booking ID returned.");
                     }
@@ -48,12 +65,18 @@ export function PaymentSuccessClient() {
                     if (result.message?.includes("already been confirmed")) {
                         setPaymentConfirmed(true);
                         if (bookingIdParam) {
-                            setBookingId(bookingIdParam);
-                            await revalidateBookingCache(bookingIdParam);
-                            // Already confirmed → redirect
-                            router.replace(
-                                `/dashboard/customer/bookings/${bookingIdParam}/payment-details`
-                            );
+                            const ownedBookingId = await validateBookingAccess(bookingIdParam);
+
+                            if (ownedBookingId) {
+                                setBookingId(ownedBookingId);
+                                await revalidateBookingCache(ownedBookingId);
+                                // Already confirmed → redirect
+                                router.replace(
+                                    `/dashboard/customer/bookings/${ownedBookingId}/payment-details`
+                                );
+                            } else {
+                                setError("We could not verify this booking. Please open the payment link from your own booking page.");
+                            }
                         }
                     } else {
                         setError(
@@ -88,7 +111,7 @@ export function PaymentSuccessClient() {
                     <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-red-100 dark:bg-red-950/30">
                         <XCircle className="h-12 w-12 text-red-600 dark:text-red-400" />
                     </div>
-                    <h1 className="text-3xl font-bold text-red-600 dark:text-red-400">Payment Confirmation Error</h1>
+                    <h1 className="text-3xl font-bold">Payment Confirmation Error</h1>
                     <p className="mt-3 text-muted-foreground">{error}</p>
                     <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
                         {bookingIdParam && (
