@@ -12,13 +12,13 @@ const AdminBookingsPage = async ({
     return (
         <div className="space-y-8">
             {/* Header */}
-            <div className="rounded-xl border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
                 <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
                     <div className="space-y-2">
-                        <h1 className="text-3xl font-bold tracking-tight">
+                        <h1 className="text-3xl font-bold tracking-tight text-foreground">
                             Booking Management
                         </h1>
-                        <p className="text-sm text-gray-700 max-w-xl">
+                        <p className="text-sm text-muted-foreground max-w-xl">
                             View all bookings across your platform.
                         </p>
                     </div>
@@ -27,17 +27,17 @@ const AdminBookingsPage = async ({
             </div>
 
             {/* Filters */}
-            <div className="rounded-xl border bg-card p-4 shadow-sm">
+            <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
                 <BookingFilters />
             </div>
 
             {/* Bookings List */}
-            <div className="rounded-xl border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
                 <div className="mb-6">
-                    <h2 className="text-xl font-semibold">
+                    <h2 className="text-xl font-semibold text-foreground">
                         All Bookings
                     </h2>
-                    <p className="text-sm text-gray-700">
+                    <p className="text-sm text-muted-foreground">
                         View all bookings.
                     </p>
                 </div>

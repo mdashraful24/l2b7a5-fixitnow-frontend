@@ -28,19 +28,19 @@ const UserDetailPage = async ({ params }: UserDetailPageProps) => {
     const user = result.data;
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-background">
             <div className="mx-auto">
                 <Link
                     href="/dashboard/admin/users"
-                    className="mb-4 inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary transition-colors"
+                    className="mb-4 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                     <ArrowLeft className="h-4 w-4" />
                     Back to Users
                 </Link>
 
                 <div className="mb-8">
-                    <h1 className="text-3xl font-bold">User Details</h1>
-                    <p className="mt-1 text-gray-700">View and manage user details and activity.</p>
+                    <h1 className="text-3xl font-bold text-foreground">User Details</h1>
+                    <p className="mt-1 text-muted-foreground">View and manage user details and activity.</p>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

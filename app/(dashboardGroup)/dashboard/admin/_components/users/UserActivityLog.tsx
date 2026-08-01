@@ -8,7 +8,7 @@ const UserActivityLog = ({ user }: { user: IAdminUsers }) => {
     if (!user) {
         return (
             <Card>
-                <CardContent className="py-8 text-center text-gray-800">
+                <CardContent className="py-8 text-center text-muted-foreground">
                     No activity data available
                 </CardContent>
             </Card>
@@ -24,7 +24,7 @@ const UserActivityLog = ({ user }: { user: IAdminUsers }) => {
         return (
             <Card>
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
+                    <CardTitle className="flex items-center gap-2 text-foreground">
                         <Activity className="h-5 w-5" />
                         Activity Log
                     </CardTitle>
@@ -40,24 +40,24 @@ const UserActivityLog = ({ user }: { user: IAdminUsers }) => {
         <div className="shadow-lg hover:shadow-xl rounded-xl">
             <Card>
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
+                    <CardTitle className="flex items-center gap-2 text-foreground">
                         <Activity className="h-5 w-5" />
                         Activity Log
                     </CardTitle>
-                    <CardDescription className="text-gray-700">
+                    <CardDescription className="text-muted-foreground">
                         Recent user activity
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="space-y-4">
                         {activities.map((activity, index) => (
-                            <div key={index} className="flex items-start gap-3 pb-3 border-b last:border-0">
-                                <div className="p-1 bg-gray-200 rounded-full">
-                                    <Clock className="h-3.5 w-3.5" />
+                            <div key={index} className="flex items-start gap-3 pb-3 border-b border-border last:border-0">
+                                <div className="p-1 bg-muted rounded-full">
+                                    <Clock className="h-3.5 w-3.5 text-muted-foreground" />
                                 </div>
                                 <div className="flex-1 space-y-1.5">
-                                    <p className="text-sm font-medium">{activity.action}</p>
-                                    <p className="text-xs text-gray-700">
+                                    <p className="text-sm font-medium text-foreground">{activity.action}</p>
+                                    <p className="text-xs text-muted-foreground">
                                         {activity.timestamp ? new Date(activity.timestamp).toLocaleString() : "N/A"}
                                     </p>
                                 </div>

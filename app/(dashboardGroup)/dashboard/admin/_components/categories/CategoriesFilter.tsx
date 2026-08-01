@@ -74,7 +74,7 @@ export function CategoriesFilter() {
                         value={searchTerm}
                         onChange={(e) => handleSearchChange(e.target.value)}
                         placeholder="Search categories by name..."
-                        className="w-full rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+                        className="w-full rounded-lg border border-input bg-background pl-9 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors"
                     />
                     {searchTerm && (
                         <button
@@ -89,15 +89,15 @@ export function CategoriesFilter() {
                 {/* Status Filter */}
                 <div className="flex items-center gap-2">
                     {/* <span className="text-sm text-muted-foreground whitespace-nowrap">Status:</span> */}
-                    <div className="flex rounded-lg border border-zinc-200 dark:border-zinc-700 overflow-hidden">
+                    <div className="flex rounded-lg border border-input overflow-hidden">
                         {statusOptions.map((option) => (
                             <button
                                 key={option.value}
                                 onClick={() => handleStatusFilter(option.value)}
-                                className={`px-3 py-2 text-sm font-medium transition-colors cursor-pointer ${option.value !== statusOptions[0].value ? 'border-l border-zinc-200 dark:border-zinc-700' : ''
+                                className={`px-3 py-2 text-sm font-medium transition-colors cursor-pointer ${option.value !== statusOptions[0].value ? 'border-l border-input' : ''
                                     } ${currentStatus === option.value
-                                        ? "bg-primary text-white"
-                                        : "bg-white hover:bg-blue-200"
+                                        ? "bg-primary text-primary-foreground"
+                                        : "bg-background hover:bg-muted/50 text-foreground"
                                     }`}
                             >
                                 {option.label}

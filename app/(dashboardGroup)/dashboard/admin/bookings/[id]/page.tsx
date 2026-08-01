@@ -27,11 +27,10 @@ import { Separator } from "@/components/ui/separator";
 import { getBookingDetails } from "@/app/(dashboardGroup)/_actions/admin";
 
 type BookingDetailsPageProps = {
-    params: Promise<{ id: string }>; // 👈 Make params a Promise
+    params: Promise<{ id: string }>;
 };
 
 export default async function BookingDetailsPage({ params }: BookingDetailsPageProps) {
-    // 👈 Await params before accessing id
     const { id } = await params;
     const result = await getBookingDetails(id);
 
@@ -152,13 +151,13 @@ export default async function BookingDetailsPage({ params }: BookingDetailsPageP
             {/* Header */}
             <div className="flex flex-col-reverse md:flex-row md:items-center md:justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold tracking-tight">Booking Details</h1>
-                    <p className="text-sm">
+                    <h1 className="text-2xl font-bold tracking-tight text-foreground">Booking Details</h1>
+                    <p className="text-sm text-muted-foreground">
                         Booking ID: <span className="font-mono text-xs">{booking.id}</span>
                     </p>
                 </div>
                 <Link href="/dashboard/admin/bookings">
-                    <Button variant="outline" size="sm" className="gap-2">
+                    <Button variant="outline" size="sm" className="gap-2 cursor-pointer">
                         <ArrowLeft className="h-4 w-4" />
                         Back to Bookings
                     </Button>
@@ -172,7 +171,7 @@ export default async function BookingDetailsPage({ params }: BookingDetailsPageP
                     <p className={`font-semibold ${statusConfig.textColor}`}>
                         Status: {statusConfig.label}
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-muted-foreground">
                         This booking was {statusConfig.label.toLowerCase()} on {formatDateTime(booking.updatedAt)}
                     </p>
                 </div>
@@ -185,7 +184,7 @@ export default async function BookingDetailsPage({ params }: BookingDetailsPageP
                     {/* Booking Information */}
                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
+                            <CardTitle className="flex items-center gap-2 text-foreground">
                                 <Calendar className="h-5 w-5" />
                                 Booking Information
                             </CardTitle>
@@ -193,15 +192,15 @@ export default async function BookingDetailsPage({ params }: BookingDetailsPageP
                         <CardContent className="space-y-4">
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <div className="space-y-1">
-                                    <p className="text-sm font-medium text-gray-600">Service</p>
-                                    <p className="text-base font-semibold">{booking.service.title}</p>
-                                    <p className="text-sm text-gray-600">
+                                    <p className="text-sm font-medium text-muted-foreground">Service</p>
+                                    <p className="text-base font-semibold text-foreground">{booking.service.title}</p>
+                                    <p className="text-sm text-muted-foreground">
                                         {booking.service.description}
                                     </p>
                                 </div>
                                 <div className="space-y-1">
-                                    <p className="text-sm font-medium text-gray-600">Category</p>
-                                    <Badge variant="outline" className="px-2.5 py-3 text-sm bg-blue-600 text-white">
+                                    <p className="text-sm font-medium text-muted-foreground">Category</p>
+                                    <Badge variant="outline" className="px-2.5 py-3 text-sm bg-primary text-primary-foreground border-primary">
                                         {booking.service.category?.name || "General"}
                                     </Badge>
                                 </div>
@@ -211,17 +210,17 @@ export default async function BookingDetailsPage({ params }: BookingDetailsPageP
 
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <div>
-                                    <p className="text-sm font-medium text-gray-600">Scheduled Date</p>
+                                    <p className="text-sm font-medium text-muted-foreground">Scheduled Date</p>
                                     <div className="flex items-center gap-2 mt-1">
-                                        <CalendarDays className="h-4 w-4" />
-                                        <span>{formatDate(booking.scheduledAt)}</span>
+                                        <CalendarDays className="h-4 w-4 text-muted-foreground" />
+                                        <span className="text-foreground">{formatDate(booking.scheduledAt)}</span>
                                     </div>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-gray-600">Scheduled Time</p>
+                                    <p className="text-sm font-medium text-muted-foreground">Scheduled Time</p>
                                     <div className="flex items-center gap-2 mt-1">
-                                        <Clock className="h-4 w-4" />
-                                        <span>{formatTime(booking.scheduledAt)}</span>
+                                        <Clock className="h-4 w-4 text-muted-foreground" />
+                                        <span className="text-foreground">{formatTime(booking.scheduledAt)}</span>
                                     </div>
                                 </div>
                             </div>
@@ -229,10 +228,10 @@ export default async function BookingDetailsPage({ params }: BookingDetailsPageP
                             <Separator />
 
                             <div>
-                                <p className="text-sm font-medium text-gray-600">Address</p>
+                                <p className="text-sm font-medium text-muted-foreground">Address</p>
                                 <div className="flex items-start gap-2 mt-1">
-                                    <MapPin className="h-4 w-4 mt-0.5" />
-                                    <span>{booking.address}</span>
+                                    <MapPin className="h-4 w-4 text-muted-foreground mt-0.5" />
+                                    <span className="text-foreground">{booking.address}</span>
                                 </div>
                             </div>
 
@@ -240,10 +239,10 @@ export default async function BookingDetailsPage({ params }: BookingDetailsPageP
                                 <>
                                     <Separator />
                                     <div>
-                                        <p className="text-sm font-medium text-gray-600">Notes</p>
+                                        <p className="text-sm font-medium text-muted-foreground">Notes</p>
                                         <div className="flex items-start gap-2 mt-1">
-                                            <FileText className="h-4 w-4 mt-0.5" />
-                                            <p className="text-sm">{booking.notes}</p>
+                                            <FileText className="h-4 w-4 text-muted-foreground mt-0.5" />
+                                            <p className="text-sm text-foreground">{booking.notes}</p>
                                         </div>
                                     </div>
                                 </>
@@ -254,7 +253,7 @@ export default async function BookingDetailsPage({ params }: BookingDetailsPageP
                     {/* Service Details */}
                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
+                            <CardTitle className="flex items-center gap-2 text-foreground">
                                 <Briefcase className="h-5 w-5" />
                                 Service Details
                             </CardTitle>
@@ -262,19 +261,19 @@ export default async function BookingDetailsPage({ params }: BookingDetailsPageP
                         <CardContent>
                             <div className="grid gap-4 sm:grid-cols-3 -mt-3">
                                 <div>
-                                    <p className="text-sm font-medium text-gray-600">Price</p>
+                                    <p className="text-sm font-medium text-muted-foreground">Price</p>
                                     <div className="flex items-center gap-1 mt-1">
-                                        <DollarSign className="h-4 w-4" />
-                                        <span className="text-lg font-bold">${booking.totalAmount}</span>
+                                        <DollarSign className="h-4 w-4 text-muted-foreground" />
+                                        <span className="text-lg font-bold text-foreground">${booking.totalAmount}</span>
                                     </div>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-gray-600">Duration</p>
-                                    <p className="text-lg font-bold mt-1">{booking.service.duration} mins</p>
+                                    <p className="text-sm font-medium text-muted-foreground">Duration</p>
+                                    <p className="text-lg font-bold text-foreground mt-1">{booking.service.duration} mins</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-gray-600">Hourly Rate</p>
-                                    <p className="text-lg font-bold mt-1">${booking.service.hourlyRate}/hr</p>
+                                    <p className="text-sm font-medium text-muted-foreground">Hourly Rate</p>
+                                    <p className="text-lg font-bold text-foreground mt-1">${booking.service.hourlyRate}/hr</p>
                                 </div>
                             </div>
 
@@ -293,29 +292,29 @@ export default async function BookingDetailsPage({ params }: BookingDetailsPageP
                     {/* Customer Information */}
                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
+                            <CardTitle className="flex items-center gap-2 text-foreground">
                                 <UserCircle className="h-5 w-5" />
                                 Customer
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-3">
                             <div>
-                                <p className="text-sm font-medium text-gray-600">Name</p>
+                                <p className="text-sm font-medium text-muted-foreground">Name</p>
                                 <div className="flex items-center gap-2 mt-1">
-                                    <User className="h-4 w-4" />
-                                    <span className="font-semibold">{booking.customer.name}</span>
+                                    <User className="h-4 w-4 text-muted-foreground" />
+                                    <span className="font-semibold text-foreground">{booking.customer.name}</span>
                                 </div>
                             </div>
                             <div>
-                                <p className="text-sm font-medium text-gray-600">Email</p>
+                                <p className="text-sm font-medium text-muted-foreground">Email</p>
                                 <div className="flex items-center gap-2 mt-1">
-                                    <Mail className="h-4 w-4" />
-                                    <span className="text-sm">{booking.customer.email}</span>
+                                    <Mail className="h-4 w-4 text-muted-foreground" />
+                                    <span className="text-sm text-foreground">{booking.customer.email}</span>
                                 </div>
                             </div>
                             <div>
-                                <p className="text-sm font-medium text-gray-600">Customer ID</p>
-                                <p className="text-xs font-mono mt-1">{booking.customer.id}</p>
+                                <p className="text-sm font-medium text-muted-foreground">Customer ID</p>
+                                <p className="text-xs font-mono text-muted-foreground mt-1">{booking.customer.id}</p>
                             </div>
                         </CardContent>
                     </Card>
@@ -323,43 +322,43 @@ export default async function BookingDetailsPage({ params }: BookingDetailsPageP
                     {/* Technician Information */}
                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                <Wrench className="h-5 w-5 text-muted-foreground" />
+                            <CardTitle className="flex items-center gap-2 text-foreground">
+                                <Wrench className="h-5 w-5" />
                                 Technician
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-3">
                             <div>
-                                <p className="text-sm font-medium text-gray-600">Name</p>
+                                <p className="text-sm font-medium text-muted-foreground">Name</p>
                                 <div className="flex items-center gap-2 mt-1">
-                                    <User className="h-4 w-4" />
-                                    <span className="font-semibold">{booking.technician.user.name}</span>
+                                    <User className="h-4 w-4 text-muted-foreground" />
+                                    <span className="font-semibold text-foreground">{booking.technician.user.name}</span>
                                 </div>
                             </div>
                             <div>
-                                <p className="text-sm font-medium text-gray-600">Email</p>
+                                <p className="text-sm font-medium text-muted-foreground">Email</p>
                                 <div className="flex items-center gap-2 mt-1">
-                                    <Mail className="h-4 w-4" />
-                                    <span className="text-sm">{booking.technician.user.email}</span>
+                                    <Mail className="h-4 w-4 text-muted-foreground" />
+                                    <span className="text-sm text-foreground">{booking.technician.user.email}</span>
                                 </div>
                             </div>
                             {booking.technician.rating > 0 && (
                                 <div>
-                                    <p className="text-sm font-medium text-gray-600">Rating</p>
+                                    <p className="text-sm font-medium text-muted-foreground">Rating</p>
                                     <div className="flex items-center gap-1 mt-1">
                                         <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                                        <span className="font-semibold">{booking.technician.rating.toFixed(1)}</span>
-                                        <span className="text-sm">
+                                        <span className="font-semibold text-foreground">{booking.technician.rating.toFixed(1)}</span>
+                                        <span className="text-sm text-muted-foreground">
                                             ({booking.technician.totalReviews} reviews)
                                         </span>
                                     </div>
                                 </div>
                             )}
                             <div>
-                                <p className="text-sm font-medium text-gray-600">Location</p>
+                                <p className="text-sm font-medium text-muted-foreground">Location</p>
                                 <div className="flex items-center gap-2 mt-1">
-                                    <MapPin className="h-4 w-4" />
-                                    <span className="text-sm">{booking.technician.location}</span>
+                                    <MapPin className="h-4 w-4 text-muted-foreground" />
+                                    <span className="text-sm text-foreground">{booking.technician.location}</span>
                                 </div>
                             </div>
                             {/* {booking.technician.skills.length > 0 && (
@@ -390,7 +389,7 @@ export default async function BookingDetailsPage({ params }: BookingDetailsPageP
                                 </div>
                             )} */}
                             <div>
-                                <p className="text-sm font-medium text-gray-600">Technician Status</p>
+                                <p className="text-sm font-medium text-muted-foreground">Technician Status</p>
                                 <Badge
                                     className="mt-1"
                                     variant={booking.technician.user.status === "ACTIVE" ? "default" : "destructive"}

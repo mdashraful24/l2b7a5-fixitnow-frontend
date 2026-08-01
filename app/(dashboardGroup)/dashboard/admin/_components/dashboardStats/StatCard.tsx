@@ -7,9 +7,9 @@ export function StatCard({ title, value, icon: Icon, description, trend, color, 
     const TrendIcon = isTrendPositive ? TrendingUp : TrendingDown;
 
     return (
-        <Card className="shadow-sm hover:shadow-md transition-shadow">
+        <Card className="shadow-sm hover:shadow-md transition-shadow border-border">
             <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="text-sm font-medium text-gray-700">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
                     {title}
                 </CardTitle>
                 <div className={`rounded-lg p-2 ${bgColor}`}>
@@ -18,7 +18,7 @@ export function StatCard({ title, value, icon: Icon, description, trend, color, 
             </CardHeader>
             <CardContent className="-mt-4">
                 <div className="flex items-baseline gap-2">
-                    <div className="text-2xl font-bold">{value}</div>
+                    <div className="text-2xl font-bold text-foreground">{value}</div>
                     {trend !== undefined && trend !== 0 && (
                         <div className={`flex items-center text-xs ${isTrendPositive ? 'text-green-500' : 'text-red-500'}`}>
                             <TrendIcon className="h-3 w-3 mr-0.5" />
@@ -27,7 +27,7 @@ export function StatCard({ title, value, icon: Icon, description, trend, color, 
                     )}
                 </div>
                 {description && (
-                    <p className="text-xs text-gray-500 mt-1">{description}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{description}</p>
                 )}
             </CardContent>
         </Card>

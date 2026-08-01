@@ -118,7 +118,7 @@ export function BookingFilters({ stats }: BookingFiltersProps) {
                             onClick={() => handleFilterClick(option.value)}
                             className={`
                                 flex items-center gap-1.5 px-3.5 py-1.5 text-sm font-medium rounded-full 
-                                transition-all duration-200 whitespace-nowrap
+                                transition-all duration-200 whitespace-nowrap cursor-pointer
                                 ${isActive 
                                     ? `${option.color} text-white shadow-md shadow-${option.color}/25 scale-105` 
                                     : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'

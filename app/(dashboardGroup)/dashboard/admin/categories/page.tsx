@@ -14,7 +14,7 @@ const AdminCategoriesPage = async ({
             {/* Header */}
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                    <h1 className="text-2xl font-semibold tracking-tight">
+                    <h1 className="text-2xl font-semibold tracking-tight text-foreground">
                         Categories Management
                     </h1>
                     <p className="text-sm text-muted-foreground">
@@ -25,12 +25,12 @@ const AdminCategoriesPage = async ({
             </div>
 
             {/* Filters and Searching */}
-            <div className="rounded-xl border bg-card p-4 shadow-sm">
+            <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
                 <CategoriesFilter />
             </div>
 
             {/* Categories Grid */}
-            <div className="rounded-xl border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
                 <Suspense fallback={<CategoriesSkeleton />}>
                     <CategoriesList searchParams={searchParams} />
                 </Suspense>

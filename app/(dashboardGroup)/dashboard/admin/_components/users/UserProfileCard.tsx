@@ -35,12 +35,12 @@ const UserProfileCard = ({ user }: { user: IAdminUsers }) => {
     };
 
     return (
-        <Card className="overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+        <Card className="overflow-hidden border-border shadow-lg hover:shadow-xl transition-all duration-300">
             <CardHeader>
                 <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 space-y-2">
                         <div className="flex items-center gap-2 flex-wrap">
-                            <h2 className="text-xl font-bold truncate">
+                            <h2 className="text-xl font-bold text-foreground truncate">
                                 {user.name || "Unnamed User"}
                             </h2>
                             <Badge
@@ -50,7 +50,7 @@ const UserProfileCard = ({ user }: { user: IAdminUsers }) => {
                                 {user.role}
                             </Badge>
                         </div>
-                        <p className="text-sm font-medium text-gray-600 flex items-center gap-1.5">
+                        <p className="text-sm font-medium text-foreground flex items-center gap-1.5">
                             <Mail className="h-3.5 w-3.5" />
                             {user.email || "No email"}
                         </p>
@@ -64,13 +64,13 @@ const UserProfileCard = ({ user }: { user: IAdminUsers }) => {
                     {user.phone && (
                         <div className="flex items-center gap-2 text-sm bg-muted/30 rounded-lg px-3 py-2">
                             <Phone className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-                            <span className="truncate">{user.phone}</span>
+                            <span className="truncate text-foreground">{user.phone}</span>
                         </div>
                     )}
 
                     <div className="flex items-center gap-2 text-sm bg-muted/30 rounded-lg px-3 py-2">
                         <Calendar className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-                        <span>{user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "N/A"}</span>
+                        <span className="text-foreground">{user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "N/A"}</span>
                     </div>
                 </div>
 
@@ -79,11 +79,11 @@ const UserProfileCard = ({ user }: { user: IAdminUsers }) => {
                     <div className="bg-primary/5 rounded-xl p-4 space-y-3 border border-primary/10">
                         <div className="flex items-center gap-2">
                             <Wrench className="h-4 w-4 text-primary" />
-                            <h4 className="font-semibold text-sm">Technician</h4>
+                            <h4 className="font-semibold text-sm text-foreground">Technician</h4>
                         </div>
 
                         {user.technicianProfile.bio && (
-                            <p className="text-sm text-gray-600 leading-relaxed">
+                            <p className="text-sm text-muted-foreground leading-relaxed">
                                 {user.technicianProfile.bio}
                             </p>
                         )}
@@ -108,7 +108,7 @@ const UserProfileCard = ({ user }: { user: IAdminUsers }) => {
                                 {user.technicianProfile.skills.slice(0, 5).map((skill, i) => (
                                     <div
                                         key={i}
-                                        className="text-[13px] font-medium bg-blue-600 text-white px-3 py-1 border rounded-full"
+                                        className="text-[13px] font-medium bg-primary text-primary-foreground px-3 py-1 border rounded-full"
                                     >
                                         {skill}
                                     </div>
@@ -124,9 +124,9 @@ const UserProfileCard = ({ user }: { user: IAdminUsers }) => {
                 )}
 
                 {/* Footer Meta */}
-                <div className="flex items-center justify-between text-xs pt-2 border-t">
-                    <span>User ID: {user.id.slice(0, 8)}</span>
-                    <span className="flex items-center gap-1">
+                <div className="flex items-center justify-between text-xs pt-2 border-t border-border">
+                    <span className="text-muted-foreground">User ID: {user.id.slice(0, 8)}</span>
+                    <span className="flex items-center gap-1 text-muted-foreground">
                         <Clock className="h-3 w-3" />
                         Updated: {user.updatedAt ? new Date(user.updatedAt).toLocaleDateString() : "N/A"}
                     </span>

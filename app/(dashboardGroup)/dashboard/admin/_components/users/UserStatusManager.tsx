@@ -45,11 +45,11 @@ const UserStatusManager = ({ user }: { user: IAdminUsers }) => {
     const getStatusColor = (status: string) => {
         switch (status) {
             case "ACTIVE":
-                return "bg-green-500 text-white font-semibold border border-green-300";
+                return "bg-green-500 text-white font-semibold border border-green-300 dark:border-green-700";
             case "BANNED":
-                return "bg-red-500 text-white font-semibold border border-red-300";
+                return "bg-red-500 text-white font-semibold border border-red-300 dark:border-red-700";
             default:
-                return "bg-gray-500 text-white font-semibold border border-gray-300";
+                return "bg-gray-500 text-white font-semibold border border-gray-300 dark:border-gray-600";
         }
     };
 
@@ -57,31 +57,31 @@ const UserStatusManager = ({ user }: { user: IAdminUsers }) => {
         <div className="shadow-lg rounded-xl">
             <Card>
                 <CardHeader>
-                    <CardTitle>Status Management</CardTitle>
-                    <CardDescription>
+                    <CardTitle className="text-foreground">Status Management</CardTitle>
+                    <CardDescription className="text-muted-foreground">
                         Update user account status
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4 -mt-2">
                     <div className="flex flex-col gap-4">
                         <div className="flex items-center gap-4">
-                            <span className="text-sm font-medium">Current Status:</span>
+                            <span className="text-sm font-medium text-foreground">Current Status:</span>
                             <Badge className={getStatusColor(currentStatus)}>
                                 {currentStatus}
                             </Badge>
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4">
                             <Button
-                                variant="default"
-                                className="flex-1 bg-green-500 hover:bg-green-600 text-white hover:shadow-lg cursor-pointer"
+                                // variant="default"
+                                className="flex-1 bg-green-500 hover:bg-green-600 text-white hover:shadow-lg cursor-pointer dark:bg-green-600 dark:hover:bg-green-700"
                                 onClick={() => handleStatusUpdate("ACTIVE")}
                                 disabled={isUpdating || currentStatus === "ACTIVE"}
                             >
                                 {isUpdating && currentStatus !== "ACTIVE" ? "Updating..." : "Active"}
                             </Button>
                             <Button
-                                variant="destructive"
-                                className="flex-1 hover:shadow-lg cursor-pointer"
+                                // variant="destructive"
+                                className="flex-1 bg-red-500 hover:bg-red-600 text-white hover:shadow-lg cursor-pointer dark:bg-red-600 dark:hover:bg-red-700"
                                 onClick={() => handleStatusUpdate("BANNED")}
                                 disabled={isUpdating || currentStatus === "BANNED"}
                             >

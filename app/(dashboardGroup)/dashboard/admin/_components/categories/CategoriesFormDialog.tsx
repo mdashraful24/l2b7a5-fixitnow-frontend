@@ -61,13 +61,13 @@ export function CategoriesFormDialog({ mode, category }: CategoriesFormDialogPro
             </DialogTrigger>
             <DialogContent className="max-w-lg">
                 <DialogHeader>
-                    <DialogTitle>
+                    <DialogTitle className="text-foreground">
                         {mode === "edit" ? "Edit Category" : "Create Category"}
                     </DialogTitle>
                 </DialogHeader>
                 <form action={formAction} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="name">Category Name</Label>
+                        <Label htmlFor="name" className="text-foreground">Category Name</Label>
                         <Input
                             id="name"
                             name="name"
@@ -81,7 +81,7 @@ export function CategoriesFormDialog({ mode, category }: CategoriesFormDialogPro
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="description">Description</Label>
+                        <Label htmlFor="description" className="text-foreground">Description</Label>
                         <Textarea
                             id="description"
                             name="description"
@@ -95,7 +95,7 @@ export function CategoriesFormDialog({ mode, category }: CategoriesFormDialogPro
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="icon">Icon URL</Label>
+                        <Label htmlFor="icon" className="text-foreground">Icon URL</Label>
                         <Input
                             id="icon"
                             name="icon"
@@ -108,7 +108,7 @@ export function CategoriesFormDialog({ mode, category }: CategoriesFormDialogPro
                     </div>
 
                     <div className="flex items-center justify-between">
-                        <Label htmlFor="isActive">Active Status</Label>
+                        <Label htmlFor="isActive" className="text-foreground">Active Status</Label>
                         <input type="hidden" name="isActive" value={isActive ? "true" : "false"} />
                         <Switch
                             id="isActive"

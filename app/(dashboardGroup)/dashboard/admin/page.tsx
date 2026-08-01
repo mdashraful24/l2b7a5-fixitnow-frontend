@@ -28,13 +28,13 @@ export default async function AdminDashboardPage() {
         <div className="space-y-8">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div className="space-y-2">
-                    <h1 className="text-3xl font-bold tracking-tight">Dashboard Overview</h1>
-                    <p className="text-sm text-gray-700">
+                    <h1 className="text-3xl font-bold tracking-tight text-foreground">Dashboard Overview</h1>
+                    <p className="text-sm text-muted-foreground">
                         Welcome back! Here&apos;s what&apos;s happening with your platform today.
                     </p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <Badge variant="outline" className="px-3 py-4 text-sm bg-white">
+                    <Badge variant="outline" className="px-3 py-4 text-sm bg-background border-border">
                         <Calendar className="h-3.5 w-3.5 mr-1.5" />
                         {new Date().toLocaleDateString('en-US', {
                             weekday: 'long',
@@ -127,9 +127,9 @@ export default async function AdminDashboardPage() {
             <div className="grid gap-6 lg:grid-cols-3">
                 {/* Recent Bookings */}
                 <div className="lg:col-span-2">
-                    <Card className="shadow-sm">
+                    <Card className="shadow-sm border-border">
                         <CardHeader className="flex flex-row items-center justify-between">
-                            <CardTitle className="text-lg font-semibold">Recent Bookings</CardTitle>
+                            <CardTitle className="text-lg font-semibold text-foreground">Recent Bookings</CardTitle>
                             <Link href="/dashboard/admin/bookings">
                                 <Button variant="ghost" size="sm" className="text-sm">
                                     View All
@@ -140,7 +140,7 @@ export default async function AdminDashboardPage() {
                         <CardContent>
                             <div className="space-y-4">
                                 {recentBookings.length === 0 ? (
-                                    <p className="text-center text-gray-700 py-8">No bookings yet</p>
+                                    <p className="text-center text-muted-foreground py-8">No bookings yet</p>
                                 ) : (
                                     recentBookings.map((booking: any) => (
                                         <Link
@@ -148,10 +148,10 @@ export default async function AdminDashboardPage() {
                                             href={`/dashboard/admin/bookings/${booking.id}`}
                                             className="block"
                                         >
-                                            <div className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border border-transparent hover:border-gray-200">
+                                            <div className="flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 dark:hover:bg-muted/30 transition-colors border border-transparent hover:border-border">
                                                 <div className="flex-1 space-y-2 min-w-0">
                                                     <div className="flex items-center gap-2">
-                                                        <p className="font-medium text-base truncate">
+                                                        <p className="font-medium text-base text-foreground truncate">
                                                             {booking.service?.title || 'Unknown Service'}
                                                         </p>
                                                         <Badge
@@ -160,15 +160,15 @@ export default async function AdminDashboardPage() {
                                                             {booking.status}
                                                         </Badge>
                                                     </div>
-                                                    <div className="flex items-center gap-2 mt-1 text-sm text-gray-700">
+                                                    <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
                                                         <span>{booking.customer?.name || 'Unknown'}</span>
                                                         <span>•</span>
                                                         <span>{new Date(booking.scheduledAt).toLocaleDateString()}</span>
                                                         <span>•</span>
-                                                        <span className="font-semibold">${booking.totalAmount}</span>
+                                                        <span className="font-semibold text-foreground">${booking.totalAmount}</span>
                                                     </div>
                                                 </div>
-                                                <ArrowUpRight className="h-4 w-4" />
+                                                <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
                                             </div>
                                         </Link>
                                     ))
@@ -181,26 +181,26 @@ export default async function AdminDashboardPage() {
                 {/* Quick Stats & Recent Users */}
                 <div className="space-y-6">
                     {/* User Stats */}
-                    <Card className="shadow-sm">
+                    <Card className="shadow-sm border-border">
                         <CardHeader>
-                            <CardTitle className="text-lg font-semibold">User Overview</CardTitle>
+                            <CardTitle className="text-lg font-semibold text-foreground">User Overview</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-3">
                             <div className="flex items-center justify-between">
-                                <span className="text-sm text-gray-700">Total Users</span>
-                                <span className="font-bold">{users.totalUsers}</span>
+                                <span className="text-sm text-muted-foreground">Total Users</span>
+                                <span className="font-bold text-foreground">{users.totalUsers}</span>
                             </div>
                             <div className="flex items-center justify-between">
-                                <span className="text-sm text-gray-700">Customers</span>
-                                <span className="font-bold">{users.totalCustomers}</span>
+                                <span className="text-sm text-muted-foreground">Customers</span>
+                                <span className="font-bold text-foreground">{users.totalCustomers}</span>
                             </div>
                             <div className="flex items-center justify-between">
-                                <span className="text-sm text-gray-700">Technicians</span>
-                                <span className="font-bold">{users.totalTechnicians}</span>
+                                <span className="text-sm text-muted-foreground">Technicians</span>
+                                <span className="font-bold text-foreground">{users.totalTechnicians}</span>
                             </div>
-                            <div className="flex items-center justify-between pt-2 border-t">
-                                <span className="text-sm text-gray-700">Active / Banned</span>
-                                <span className="font-bold">
+                            <div className="flex items-center justify-between pt-2 border-t border-border">
+                                <span className="text-sm text-muted-foreground">Active / Banned</span>
+                                <span className="font-bold text-foreground">
                                     {users.activeUsers} / {users.bannedUsers}
                                 </span>
                             </div>
@@ -208,9 +208,9 @@ export default async function AdminDashboardPage() {
                     </Card>
 
                     {/* Recent Users */}
-                    <Card className="shadow-sm">
+                    <Card className="shadow-sm border-border">
                         <CardHeader className="flex flex-row items-center justify-between">
-                            <CardTitle className="text-lg font-semibold">Recent Users</CardTitle>
+                            <CardTitle className="text-lg font-semibold text-foreground">Recent Users</CardTitle>
                             <Link href="/dashboard/admin/users">
                                 <Button variant="ghost" size="sm" className="text-sm">
                                     View All
@@ -221,7 +221,7 @@ export default async function AdminDashboardPage() {
                         <CardContent>
                             <div className="space-y-3">
                                 {recentUsers.length === 0 ? (
-                                    <p className="text-center text-gray-800 py-4 text-sm">No users yet</p>
+                                    <p className="text-center text-muted-foreground py-4 text-sm">No users yet</p>
                                 ) : (
                                     recentUsers.map((user: any) => (
                                         <Link
@@ -229,13 +229,13 @@ export default async function AdminDashboardPage() {
                                             href={`/dashboard/admin/users/${user.id}`}
                                             className="block"
                                         >
-                                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                                            <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 dark:hover:bg-muted/30 transition-colors">
                                                 <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm">
                                                     {user.name?.charAt(0) || 'U'}
                                                 </div>
-                                                <div className="flex-1 min-w-0">
-                                                    <p className="text-sm font-medium truncate">{user.name}</p>
-                                                    <p className="text-xs text-gray-800 truncate">{user.email}</p>
+                                                <div className="flex-1 min-w-0 space-y-1">
+                                                    <p className="text-sm font-medium text-foreground truncate">{user.name}</p>
+                                                    <p className="text-xs text-muted-foreground dark:text-gray-300 truncate">{user.email}</p>
                                                 </div>
                                                 <Badge
                                                     variant={user.status === 'ACTIVE' ? 'default' : 'destructive'}
