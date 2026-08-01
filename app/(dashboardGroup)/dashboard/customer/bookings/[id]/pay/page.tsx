@@ -174,19 +174,31 @@ export default async function BookingDetailPage({
                 </div>
             </div>
 
-            {/* Allow to make payment */}
-            {canPay && (
-                <div className="rounded-lg bg-blue-50 dark:bg-blue-950/30 p-4 border border-blue-200 dark:border-blue-800">
-                    <p className="text-sm text-blue-700 dark:text-blue-300 mb-3">
-                        This booking has been accepted by the technician. Please complete the payment to confirm your booking.
-                    </p>
-                    <PaymentButton
-                        bookingId={booking.id}
-                        amount={booking.totalAmount}
-                        status={booking.status}
-                    />
-                </div>
-            )}
+            {/* Payment Actions */}
+            <div className="space-y-3">
+                {canPay && (
+                    <div className="rounded-lg bg-blue-50 p-4 border border-blue-200">
+                        <p className="text-sm text-blue-700 mb-3">
+                            This booking has been accepted by the technician. Please complete the payment to confirm your booking.
+                        </p>
+
+                        <PaymentButton
+                            bookingId={booking.id}
+                            amount={booking.totalAmount}
+                            status={booking.status}
+                        />
+                    </div>
+                )}
+                {booking.payment && (
+                    <Link
+                        href={`/dashboard/customer/bookings/${booking.id}/payment-details`}
+                        className="inline-flex items-center gap-2 rounded-lg border bg-white dark:bg-card text-black dark:text-white px-4 py-2 text-sm font-medium hover:bg-gray-50"
+                    >
+                        <CreditCard className="h-4 w-4" />
+                        View Payment Details
+                    </Link>
+                )}
+            </div>
 
             {/* Allow to Edit Booking */}
             {canEdit && (
@@ -223,8 +235,8 @@ export default async function BookingDetailPage({
                                     <Star
                                         key={star}
                                         className={`h-5 w-5 ${star <= (booking.review?.rating || 0)
-                                                ? "fill-yellow-400 text-yellow-400"
-                                                : "fill-muted text-muted-foreground"
+                                            ? "fill-yellow-400 text-yellow-400"
+                                            : "fill-muted text-muted-foreground"
                                             }`}
                                     />
                                 ))}

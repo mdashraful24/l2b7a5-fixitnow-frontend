@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useRef } from "react";
 import { ICategory } from "@/lib/type";
+import { Button } from "@/components/ui/button";
 
 interface ServiceFiltersProps {
     categories: ICategory[];
@@ -28,7 +29,7 @@ export function ServiceFilters({ categories }: ServiceFiltersProps) {
             } else {
                 params.delete(key);
             }
-            
+
             // Reset page on filter change
             params.delete("page");
 
@@ -38,6 +39,16 @@ export function ServiceFilters({ categories }: ServiceFiltersProps) {
 
     return (
         <div className="space-y-6">
+            <div>
+                <h3 className="mb-4 text-lg font-semibold">Location</h3>
+                <Input
+                    placeholder="Enter city or area..."
+                    defaultValue={searchParams.get("location") || ""}
+                    onChange={(e) => updateFilter("location", e.target.value)}
+                    className="w-full"
+                />
+            </div>
+
             <div>
                 <h3 className="mb-4 text-lg font-semibold">Categories</h3>
                 <div className="space-y-3">
@@ -96,35 +107,48 @@ export function ServiceFilters({ categories }: ServiceFiltersProps) {
             </div>
 
             <div>
-                <h3 className="mb-4 text-lg font-semibold">Minimum Rating</h3>
+                <h3 className="mb-4 text-lg font-semibold">
+                    Minimum Rating
+                </h3>
                 <div className="space-y-3">
                     {[5, 4, 3, 2, 1].map((rating) => (
-                        <div key={rating} className="flex items-center space-x-2">
+                        <div
+                            key={rating}
+                            className="flex items-center space-x-2"
+                        >
                             <input
                                 type="radio"
                                 id={`rating-${rating}`}
                                 name="rating"
                                 value={rating.toString()}
-                                defaultChecked={searchParams.get("rating") === rating.toString()}
-                                onChange={(e) => updateFilter("rating", e.target.value)}
+                                checked={
+                                    searchParams.get("rating") === rating.toString()
+                                }
+                                onChange={(e) =>
+                                    updateFilter("rating", e.target.value)
+                                }
                                 className="h-4 w-4 border-gray-300 text-primary focus:ring-primary"
                             />
-                            <label htmlFor={`rating-${rating}`} className="flex items-center text-sm font-medium leading-none">
-                                {rating} Star{rating > 1 ? "s" : ""}
+                            <label
+                                htmlFor={`rating-${rating}`}
+                                className="flex cursor-pointer items-center text-sm font-medium"
+                            >
+                                <span className="text-yellow-500">
+                                    {"★".repeat(rating)}
+                                </span>
                             </label>
                         </div>
                     ))}
                 </div>
-            </div>
-            
-            <div>
-                <h3 className="mb-4 text-lg font-semibold">Location</h3>
-                <Input
-                    placeholder="Enter city or area..."
-                    defaultValue={searchParams.get("location") || ""}
-                    onChange={(e) => updateFilter("location", e.target.value)}
-                    className="w-full"
-                />
+
+                <Button
+                    type="button"
+                    variant="outline"
+                    className="mt-4 w-full cursor-pointer"
+                    onClick={() => updateFilter("rating", "")}
+                >
+                    Clear Rating
+                </Button>
             </div>
         </div>
     );

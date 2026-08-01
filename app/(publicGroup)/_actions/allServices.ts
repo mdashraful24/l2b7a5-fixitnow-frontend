@@ -10,7 +10,7 @@ export const getAllServices = async ({
     if (query && query.searchTerm) {
         params.set("searchTerm", query.searchTerm as string);
     }
-    
+
     // Add additional filters
     if (query?.category) params.set("category", query.category as string);
     if (query?.location) params.set("location", query.location as string);
@@ -22,14 +22,16 @@ export const getAllServices = async ({
 
     const res = await fetch(`${process.env.BACKEND_API_URL}/api/services?${params}`, {
         next: {
-            revalidate: 60 * 60 * 6,
-            tags: ["services"],
+            revalidate: 60 * 60,
+            tags: [
+                "services",
+                `services-${params.toString()}`
+            ],
         },
     });
 
     return res.json();
 };
-
 
 export const getServiceById = async (id: string) => {
     const res = await fetch(

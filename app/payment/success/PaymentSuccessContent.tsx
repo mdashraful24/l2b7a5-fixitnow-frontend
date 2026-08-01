@@ -2,14 +2,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { confirmPayment, revalidateBookingCache } from "@/app/(dashboardGroup)/_actions/customer";
 
 export function PaymentSuccessClient() {
+    const router = useRouter();
     const searchParams = useSearchParams();
+
     const sessionId = searchParams.get("session_id");
     const bookingIdParam = searchParams.get("bookingId");
 
@@ -28,7 +30,6 @@ export function PaymentSuccessClient() {
         const confirm = async () => {
             try {
                 const result = await confirmPayment(sessionId);
-
                 if (result.success) {
                     const newBookingId = result.data?.bookingId;
 
@@ -36,6 +37,10 @@ export function PaymentSuccessClient() {
                         setBookingId(newBookingId);
                         setPaymentConfirmed(true);
                         await revalidateBookingCache(newBookingId);
+                        // Auto redirect after success
+                        router.push(
+                            `/dashboard/customer/bookings/${newBookingId}/payment-details`
+                        );
                     } else {
                         setError("Payment confirmed but no booking ID returned.");
                     }
@@ -45,9 +50,15 @@ export function PaymentSuccessClient() {
                         if (bookingIdParam) {
                             setBookingId(bookingIdParam);
                             await revalidateBookingCache(bookingIdParam);
+                            // Already confirmed → redirect
+                            router.push(
+                                `/dashboard/customer/bookings/${bookingIdParam}/payment-details`
+                            );
                         }
                     } else {
-                        setError(result.message || "Payment confirmation failed.");
+                        setError(
+                            result.message || "Payment confirmation failed."
+                        );
                     }
                 }
             } catch (err) {
@@ -59,7 +70,7 @@ export function PaymentSuccessClient() {
         };
 
         confirm();
-    }, [sessionId, bookingIdParam]);
+    }, [sessionId, bookingIdParam, router]);
 
     if (loading) {
         return (
@@ -81,7 +92,7 @@ export function PaymentSuccessClient() {
                     <p className="mt-3 text-muted-foreground">{error}</p>
                     <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
                         {bookingIdParam && (
-                            <Link href={`/dashboard/customer/bookings/${bookingIdParam}/pay`}>
+                            <Link href={`/dashboard/customer/bookings/${bookingIdParam}/payment-details`}>
                                 <Button size="lg" className="cursor-pointer">Check Booking Status</Button>
                             </Link>
                         )}
@@ -114,7 +125,7 @@ export function PaymentSuccessClient() {
                 )}
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
                     {bookingId && (
-                        <Link href={`/dashboard/customer/bookings/${bookingId}/pay`}>
+                        <Link href={`/dashboard/customer/bookings/${bookingId}/payment-details`}>
                             <Button size="lg" className="cursor-pointer">View Booking Details</Button>
                         </Link>
                     )}

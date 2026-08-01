@@ -74,7 +74,7 @@ export function Navbar({ user }: NavbarProps) {
     };
 
     return (
-        <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
+        <nav className={`sticky top-0 z-50 border-b border-border ${isDashboardRoute ? 'bg-background' : 'bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80'}`}>
             <div className="container mx-auto flex items-center justify-between px-4 py-4">
                 {/* Logo */}
                 <Link href="/" className="text-2xl font-bold text-primary dark:text-blue-400">
@@ -97,7 +97,7 @@ export function Navbar({ user }: NavbarProps) {
                 )}
 
                 {/* User Dropdown & Theme Toggle */}
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                     <ThemeToggle />
 
                     {user.success ? (

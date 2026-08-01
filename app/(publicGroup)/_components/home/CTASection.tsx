@@ -1,9 +1,9 @@
-import { ArrowRight, Phone } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 
 const CTASection = () => {
     return (
-        <section className="relative overflow-hidden bg-linear-to-r from-primary to-primary/80">
+        <section className="mb-20 relative overflow-hidden bg-linear-to-r from-primary to-primary/80">
             <div className="absolute inset-0 opacity-10">
                 <div className="absolute inset-0" style={{
                     backgroundImage: `radial-gradient(circle at 30% 50%, rgba(255,255,255,0.1) 0%, transparent 50%)`,

@@ -20,23 +20,28 @@ export function ThemeToggle() {
         <Button
             variant="outline"
             size="icon"
+            className="cursor-pointer"
             onClick={() => {
-                if (theme === "system") {
-                    setTheme("light");
-                } else if (theme === "light") {
+                if (theme === "light") {
                     setTheme("dark");
-                } else {
+                } else if (theme === "dark") {
                     setTheme("system");
+                } else {
+                    setTheme("light");
                 }
             }}
         >
-            {theme === "dark" ? (
+            {theme === "light" ? (
                 <Sun className="h-4 w-4" />
-            ) : theme === "light" ? (
+            ) : theme === "dark" ? (
                 <Moon className="h-4 w-4" />
             ) : (
                 <Monitor className="h-4 w-4" />
             )}
+
+            <span className="sr-only">
+                Toggle theme
+            </span>
         </Button>
     );
 }

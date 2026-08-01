@@ -26,13 +26,13 @@ const steps = [
 
 const HowItWorkSection = () => {
     return (
-        <section className="py-16 bg-background transition-colors duration-300">
+        <section className="py-20 bg-background transition-colors duration-300">
             <div className="container mx-auto px-4">
                 <div className="text-center max-w-3xl mx-auto mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
                         How It Works
                     </h2>
-                    <p className="text-lg text-muted-foreground">
+                    <p className="text-lg text-foreground">
                         Get your home services done in three simple steps
                     </p>
                 </div>

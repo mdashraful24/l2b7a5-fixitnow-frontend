@@ -13,8 +13,8 @@ export async function ServiceList({
 
     if (!result.success || !result.data?.length) {
         return (
-            <p className="py-12 text-center text-muted-foreground">
-                No news found.
+            <p className="py-12 text-center text-foreground">
+                No services found.
             </p>
         )
     }
