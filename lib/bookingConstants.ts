@@ -108,7 +108,7 @@ export interface EditBookingModalProps {
 export const statusColors: Record<BookingStatus, string> = {
     REQUESTED: "bg-blue-50 text-blue-700 border-blue-200",
     ACCEPTED: "bg-teal-100 text-teal-700 border-teal-200",
-    DECLINED: "bg-indigo-50 text-indigo-700 border-indigo-200",
+    DECLINED: "bg-gray-50 text-gray-700 border-gray-200",
     PAID: "bg-indigo-50 text-indigo-700 border-indigo-200",
     IN_PROGRESS: "bg-amber-50 text-amber-700 border-amber-200",
     COMPLETED: "bg-green-50 text-green-700 border-green-200",
@@ -168,13 +168,13 @@ export const bookingStatusBadge: Record<BookingStatus, { bg: string; text: strin
 };
 
 export const statusBadges: Record<string, string> = {
-    REQUESTED: "bg-yellow-50 text-yellow-700 border-yellow-200",
-    ACCEPTED: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    REQUESTED: "bg-blue-50 text-blue-700 border-blue-200",
+    ACCEPTED: "bg-teal-50 text-teal-700 border-teal-200",
     PAID: "bg-indigo-50 text-indigo-700 border-indigo-200",
-    IN_PROGRESS: "bg-sky-50 text-sky-700 border-sky-200",
+    IN_PROGRESS: "bg-amber-50 text-amber-700 border-amber-200",
     COMPLETED: "bg-green-50 text-green-700 border-green-200",
-    DECLINED: "bg-red-50 text-red-700 border-red-200",
-    CANCELLED: "bg-gray-50 text-gray-700 border-gray-200",
+    DECLINED: "bg-gray-50 text-gray-700 border-gray-200",
+    CANCELLED: "bg-red-50 text-red-700 border-red-200",
 };
 
 export const statusActions: Record<string, { label: string; status: string; icon: React.ElementType; variant?: string }[]> = {
@@ -183,7 +183,7 @@ export const statusActions: Record<string, { label: string; status: string; icon
             label: "Accept",
             status: "ACCEPTED",
             icon: CheckCircle2,
-            variant: "bg-emerald-600 hover:bg-emerald-700 text-white",
+            variant: "bg-teal-600 hover:bg-teal-700 text-white",
         },
         // {
         //     label: "Decline",
@@ -219,7 +219,7 @@ export const statusActions: Record<string, { label: string; status: string; icon
             label: "Mark as Completed",
             status: "COMPLETED",
             icon: Loader2,
-            variant: "bg-sky-600 hover:bg-sky-700 text-white",
+            variant: "bg-amber-600 hover:bg-amber-700 text-white",
         },
     ],
     COMPLETED: [

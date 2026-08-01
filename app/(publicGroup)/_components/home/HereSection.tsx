@@ -1,5 +1,4 @@
-import { Award, Briefcase, Home, Search, Shield, Sparkles, ThumbsUp, Users, Wrench } from "lucide-react";
-import Link from "next/link";
+import { Award, Briefcase, Home, Sparkles, ThumbsUp, Toolbox, Users, Wrench } from "lucide-react";
 
 // Statistics data
 const stats = [
@@ -14,7 +13,7 @@ const categories = [
     { name: "Plumbing", icon: Wrench, href: "/services?category=plumbing", color: "from-blue-500 to-blue-600" },
     { name: "Electrical", icon: Home, href: "/services?category=electrical", color: "from-yellow-500 to-yellow-600" },
     { name: "Cleaning", icon: Sparkles, href: "/services?category=cleaning", color: "from-emerald-500 to-emerald-600" },
-    { name: "Security", icon: Shield, href: "/services?category=security", color: "from-red-500 to-red-600" },
+    { name: "Other Services", icon: Toolbox, href: "/services?category=security", color: "from-red-500 to-red-600" },
 ];
 
 const HeroSection = () => {
@@ -52,35 +51,6 @@ const HeroSection = () => {
                                 Connect with verified professionals for all your home needs.
                                 From repairs to renovations, we&apos;ve got you covered.
                             </p>
-                        </div>
-
-                        {/* Search Bar */}
-                        <div className="relative max-w-2xl">
-                            <div className="flex flex-col sm:flex-row gap-3">
-                                <div className="relative flex-1">
-                                    <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
-                                    <input
-                                        type="text"
-                                        placeholder="What service do you need? (e.g., Plumbing)"
-                                        className="w-full rounded-xl border-0 bg-white/95 px-12 py-4 text-gray-900 shadow-lg placeholder:text-gray-400 focus:ring-2 focus:ring-blue-400 focus:outline-none backdrop-blur-sm"
-                                    />
-                                </div>
-                                <button className="rounded-xl bg-linear-to-r from-blue-500 to-blue-600 px-8 py-4 font-semibold text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl hover:from-blue-600 hover:to-blue-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
-                                    Search
-                                </button>
-                            </div>
-                            <div className="mt-3 flex flex-wrap gap-2">
-                                <span className="text-sm text-blue-200">Popular:</span>
-                                {categories.map((cat) => (
-                                    <Link
-                                        key={cat.name}
-                                        href={cat.href}
-                                        className="text-sm text-blue-200/80 hover:text-white transition-colors"
-                                    >
-                                        {cat.name}
-                                    </Link>
-                                ))}
-                            </div>
                         </div>
 
                         {/* Stats */}
@@ -129,7 +99,7 @@ const HeroSection = () => {
             {/* Bottom Wave Divider */}
             <div className="relative">
                 <svg
-                    className="absolute bottom-0 w-full"
+                    className="absolute bottom-[-0.5px] w-full"
                     viewBox="0 0 1440 120"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
