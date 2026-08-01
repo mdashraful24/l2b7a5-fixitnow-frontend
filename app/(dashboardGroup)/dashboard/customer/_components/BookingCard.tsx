@@ -10,26 +10,26 @@ export function BookingCard({ booking, statusColors }: BookingCardProps) {
     const hasReview = booking.review !== null && booking.review !== undefined;
 
     return (
-        <div className="rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 {/* Left info */}
                 <div className="flex-1 space-y-2">
                     <div className="flex flex-wrap items-center gap-2">
-                        <h3 className="font-semibold">{booking.service?.title}</h3>
+                        <h3 className="font-semibold text-foreground">{booking.service?.title}</h3>
                         <span
                             className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusColors[booking.status]}`}
                         >
                             {STATUS_LABELS[booking.status]}
                         </span>
                         {hasReview && (
-                            <span className="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-700">
+                            <span className="inline-flex items-center rounded-full bg-yellow-100 dark:bg-yellow-900/30 px-2.5 py-0.5 text-xs font-medium text-yellow-700 dark:text-yellow-300">
                                 <Star className="h-3 w-3 mr-1 fill-yellow-500" />
                                 Reviewed
                             </span>
                         )}
                     </div>
 
-                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-700">
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
                         <span className="flex items-center gap-1">
                             <User className="h-3.5 w-3.5" />
                             {booking.technician?.user?.name}
@@ -50,19 +50,19 @@ export function BookingCard({ booking, statusColors }: BookingCardProps) {
 
                 {/* Right: price + actions */}
                 <div className="flex flex-col items-end gap-2">
-                    <p className="text-lg font-bold text-primary">${booking.totalAmount}</p>
-                    <div className="flex flex-wrap items-center gap-2 justify-end">
-                        {canCancel && <CancelBookingButton bookingId={booking.id} />}
-                        {canReview && (
+                    <p className="text-lg font-bold text-primary dark:text-blue-500">${booking.totalAmount}</p>
+                    <div className="flex flex-wrap items-center gap-4 justify-end">
+                        {/* {canCancel && <CancelBookingButton bookingId={booking.id} />} */}
+                        {canReview && !hasReview && (
                             <ReviewFormDialog
-                                mode={hasReview ? "edit" : "create"}
+                                mode="create"
                                 booking={booking}
                                 review={booking.review}
                             />
                         )}
                         <Link
                             href={`/dashboard/customer/bookings/${booking.id}/pay`}
-                            className="flex items-center gap-1 rounded-lg border border-gray-200 px-3 py-1.5 text-sm font-semibold transition bg-blue-100 hover:border-primary/40 hover:text-primary"
+                            className="flex items-center gap-1 rounded-lg border border-border bg-muted/30 px-3 py-1.5 text-sm font-semibold transition hover:border-primary/40 hover:text-primary"
                         >
                             Details
                             <ArrowRight className="h-3.5 w-3.5" />

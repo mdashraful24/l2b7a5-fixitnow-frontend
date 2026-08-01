@@ -28,7 +28,7 @@ export function CancelBookingButton({ bookingId }: { bookingId: string }) {
     if (showConfirm) {
         return (
             <div className="flex items-center gap-2">
-                <span className="text-sm">Sure?</span>
+                <span className="text-sm text-foreground">Sure?</span>
                 <button
                     onClick={handleCancel}
                     disabled={loading}
@@ -38,7 +38,7 @@ export function CancelBookingButton({ bookingId }: { bookingId: string }) {
                 </button>
                 <button
                     onClick={() => setShowConfirm(false)}
-                    className="rounded-lg border border-gray-600 px-2 py-1.5 text-xs hover:bg-gray-50"
+                    className="rounded-lg border border-border bg-background px-2 py-1.5 text-xs text-foreground hover:bg-muted/50 transition"
                 >
                     No
                 </button>
@@ -49,7 +49,7 @@ export function CancelBookingButton({ bookingId }: { bookingId: string }) {
     return (
         <button
             onClick={() => setShowConfirm(true)}
-            className="flex items-center gap-1 rounded-lg border border-red-400 px-3 py-1 text-sm font-semibold text-red-500 transition hover:bg-red-50 cursor-pointer"
+            className="flex items-center gap-1 rounded-lg border border-red-400 dark:border-red-600 px-3 py-1 text-sm font-semibold text-red-500 dark:text-red-400 transition hover:bg-red-50 dark:hover:bg-red-950/30 cursor-pointer"
         >
             <X className="h-4 w-4" />
             Cancel

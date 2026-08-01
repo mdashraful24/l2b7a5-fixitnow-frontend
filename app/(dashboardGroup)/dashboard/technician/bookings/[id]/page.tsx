@@ -46,13 +46,13 @@ export default async function TechnicianBookingDetailsPage({
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="flex flex-col gap-4 rounded-2xl border bg-white p-6 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-6 shadow-sm lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                    <p className="text-sm font-medium text-primary">Booking details</p>
-                    <h1 className="mt-1 text-2xl font-bold text-gray-900">{booking.service?.title}</h1>
-                    <p className="mt-1 text-sm text-gray-500">Full job information and technician actions.</p>
+                    <p className="text-sm font-medium text-primary dark:text-blue-500">Booking details</p>
+                    <h1 className="mt-1 text-2xl font-bold text-foreground">{booking.service?.title}</h1>
+                    <p className="mt-1 text-sm text-muted-foreground">Full job information and technician actions.</p>
                 </div>
-                <span className={`inline-flex rounded-full border px-3 py-1.5 text-sm font-medium ${statusBadges[booking.status] || "bg-gray-100 text-gray-600 border-gray-200"}`}>
+                <span className={`inline-flex rounded-full border px-3 py-1.5 text-sm font-medium ${statusBadges[booking.status] || "bg-muted text-muted-foreground border-border"}`}>
                     {booking.status}
                 </span>
             </div>
@@ -61,8 +61,8 @@ export default async function TechnicianBookingDetailsPage({
                 {/* Left Column */}
                 <div className="space-y-6">
                     {/* Service and schedule */}
-                    <div className="rounded-2xl border bg-white p-6 shadow-sm">
-                        <h2 className="text-lg font-semibold text-gray-900">Service and schedule</h2>
+                    <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+                        <h2 className="text-lg font-semibold text-foreground">Service and schedule</h2>
                         <div className="mt-4 grid gap-4 md:grid-cols-2">
                             <Info label="Service" value={booking.service?.title} />
                             <Info label="Price" value={`$${booking.totalAmount}`} />
@@ -82,24 +82,24 @@ export default async function TechnicianBookingDetailsPage({
                     </div>
 
                     {/* Location and notes */}
-                    <div className="rounded-2xl border bg-white p-6 shadow-sm">
-                        <h2 className="text-lg font-semibold text-gray-900">Location and notes</h2>
-                        <div className="mt-4 space-y-4 text-sm text-gray-600">
+                    <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+                        <h2 className="text-lg font-semibold text-foreground">Location and notes</h2>
+                        <div className="mt-4 space-y-4 text-sm text-muted-foreground">
                             <div className="flex items-start gap-3">
                                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                                <span>{booking.address}</span>
+                                <span className="text-foreground">{booking.address}</span>
                             </div>
                             <div className="flex items-start gap-3">
                                 <FileText className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                                <span>{booking.notes || "No notes provided by the customer."}</span>
+                                <span className="text-foreground">{booking.notes || "No notes provided by the customer."}</span>
                             </div>
                         </div>
                     </div>
 
                     {/* Review Section - Show booking-specific review */}
                     {isCompleted && hasReview && (
-                        <div className="rounded-2xl border bg-white p-6 shadow-sm">
-                            <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+                            <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                                 <ThumbsUp className="h-5 w-5 text-green-500" />
                                 Customer Review for this Booking
                             </h2>
@@ -110,25 +110,25 @@ export default async function TechnicianBookingDetailsPage({
                                             key={star}
                                             className={`h-5 w-5 ${star <= (booking.review?.rating || 0)
                                                     ? "fill-yellow-400 text-yellow-400"
-                                                    : "fill-gray-200 text-gray-200"
+                                                    : "fill-muted text-muted-foreground"
                                                 }`}
                                         />
                                     ))}
-                                    <span className="ml-2 text-sm font-medium text-gray-700">
+                                    <span className="ml-2 text-sm font-medium text-foreground">
                                         {booking.review?.rating} out of 5
                                     </span>
                                 </div>
                                 {booking.review?.comment && (
-                                    <div className="rounded-lg bg-gray-50 p-4">
+                                    <div className="rounded-lg bg-muted/30 dark:bg-muted/20 p-4">
                                         <div className="flex items-start gap-2">
-                                            <MessageCircle className="h-4 w-4 text-gray-400 mt-0.5" />
-                                            <p className="text-sm text-gray-700 italic">
+                                            <MessageCircle className="h-4 w-4 text-muted-foreground mt-0.5" />
+                                            <p className="text-sm text-foreground italic">
                                                 {booking.review.comment}
                                             </p>
                                         </div>
                                     </div>
                                 )}
-                                <div className="flex items-center gap-2 text-xs text-gray-400">
+                                <div className="flex items-center gap-2 text-xs text-muted-foreground">
                                     <span>
                                         Reviewed on {new Date(booking.review?.createdAt || "").toLocaleDateString("en-US", {
                                             year: "numeric",
@@ -143,8 +143,8 @@ export default async function TechnicianBookingDetailsPage({
                                             </span>
                                         )}
                                 </div>
-                                <div className="rounded-lg bg-green-50 p-3 border border-green-200">
-                                    <p className="text-sm text-green-700 flex items-center gap-2">
+                                <div className="rounded-lg bg-green-50 dark:bg-green-950/30 p-3 border border-green-200 dark:border-green-800">
+                                    <p className="text-sm text-green-700 dark:text-green-300 flex items-center gap-2">
                                         <ThumbsUp className="h-4 w-4" />
                                         Customer was satisfied with your service!
                                     </p>
@@ -155,17 +155,17 @@ export default async function TechnicianBookingDetailsPage({
 
                     {/* If booking is completed but no review yet */}
                     {isCompleted && !hasReview && (
-                        <div className="rounded-2xl border bg-white p-6 shadow-sm">
-                            <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                                <ThumbsUp className="h-5 w-5 text-gray-400" />
+                        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+                            <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                                <ThumbsUp className="h-5 w-5 text-muted-foreground" />
                                 Customer Review
                             </h2>
                             <div className="mt-4">
-                                <div className="rounded-lg bg-gray-50 p-4 text-center">
-                                    <p className="text-sm text-gray-500">
+                                <div className="rounded-lg bg-muted/30 dark:bg-muted/20 p-4 text-center">
+                                    <p className="text-sm text-muted-foreground">
                                         No review yet from the customer.
                                     </p>
-                                    <p className="text-xs text-gray-400 mt-1">
+                                    <p className="text-xs text-muted-foreground mt-1">
                                         Reviews are automatically posted when customers complete their feedback.
                                     </p>
                                 </div>
@@ -177,26 +177,26 @@ export default async function TechnicianBookingDetailsPage({
                 {/* Right Column */}
                 <div className="space-y-6">
                     {/* Customer information */}
-                    <div className="rounded-2xl border bg-white p-6 shadow-sm">
-                        <h2 className="text-lg font-semibold text-gray-900">Customer information</h2>
-                        <div className="mt-4 space-y-3 text-sm text-gray-600">
+                    <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+                        <h2 className="text-lg font-semibold text-foreground">Customer information</h2>
+                        <div className="mt-4 space-y-3 text-sm text-muted-foreground">
                             <div className="flex items-center gap-3">
                                 <User2 className="h-4 w-4 text-primary" />
-                                <span>{booking.customer?.name}</span>
+                                <span className="text-foreground">{booking.customer?.name}</span>
                             </div>
                             <div className="flex items-center gap-3">
                                 <Mail className="h-4 w-4 text-primary" />
-                                <span>{booking.customer?.email}</span>
+                                <span className="text-foreground">{booking.customer?.email}</span>
                             </div>
                             {booking.customer?.phone && (
                                 <div className="flex items-center gap-3">
                                     <Phone className="h-4 w-4 text-primary" />
-                                    <span>{booking.customer.phone}</span>
+                                    <span className="text-foreground">{booking.customer.phone}</span>
                                 </div>
                             )}
                             <div className="flex items-center gap-3">
                                 <CalendarDays className="h-4 w-4 text-primary" />
-                                <span>Requested on {new Date(booking.createdAt).toLocaleDateString("en-US", {
+                                <span className="text-foreground">Requested on {new Date(booking.createdAt).toLocaleDateString("en-US", {
                                     year: "numeric",
                                     month: "long",
                                     day: "numeric",
@@ -206,9 +206,9 @@ export default async function TechnicianBookingDetailsPage({
                     </div>
 
                     {/* Actions */}
-                    <div className="rounded-2xl border bg-white p-6 shadow-sm">
-                        <h2 className="text-lg font-semibold">Actions</h2>
-                        <p className="mt-1 text-sm text-gray-700">Progress the booking through your workflow when appropriate.</p>
+                    <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+                        <h2 className="text-lg font-semibold text-foreground">Actions</h2>
+                        <p className="mt-1 text-sm text-muted-foreground">Progress the booking through your workflow when appropriate.</p>
                         <div className="mt-4">
                             <TechnicianBookingActions bookingId={booking.id} currentStatus={booking.status} />
                         </div>
@@ -221,9 +221,9 @@ export default async function TechnicianBookingDetailsPage({
 
 function Info({ label, value }: { label: string; value: string }) {
     return (
-        <div className="rounded-xl border bg-gray-50 p-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-gray-400">{label}</p>
-            <p className="mt-2 text-sm font-semibold text-gray-900">{value}</p>
+        <div className="rounded-xl border border-border bg-muted/30 dark:bg-muted/20 p-4">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
+            <p className="mt-2 text-sm font-semibold text-foreground">{value}</p>
         </div>
     );
 }

@@ -18,20 +18,21 @@ export default async function TechnicianAvailabilityPage() {
 
     if (!technicianId) {
         return (
-            <div className="rounded-xl border bg-white p-8 shadow-sm">
-                <h1 className="text-2xl font-bold text-gray-900">Availability unavailable</h1>
-                <p className="mt-2 text-sm text-gray-500">Your technician profile is missing, so availability cannot be managed yet.</p>
+            <div className="rounded-xl border border-border bg-card p-8 shadow-sm">
+                <h1 className="text-2xl font-bold text-foreground">Availability unavailable</h1>
+                <p className="mt-2 text-sm text-muted-foreground">Your technician profile is missing, so availability cannot be managed yet.</p>
             </div>
         );
     }
 
     const response = await getTechnicianById(technicianId);
+    // console.log(JSON.stringify(response.data.availability, null, 2));
 
     if (!response.success) {
         return (
-            <div className="rounded-xl border bg-white p-8 shadow-sm">
-                <h1 className="text-2xl font-bold text-gray-900">Unable to load availability</h1>
-                <p className="mt-2 text-sm text-gray-500">{response.message || "Please try again later."}</p>
+            <div className="rounded-xl border border-border bg-card p-8 shadow-sm">
+                <h1 className="text-2xl font-bold text-foreground">Unable to load availability</h1>
+                <p className="mt-2 text-sm text-muted-foreground">{response.message || "Please try again later."}</p>
             </div>
         );
     }
@@ -39,8 +40,8 @@ export default async function TechnicianAvailabilityPage() {
     return (
         <div className="space-y-6">
             <div>
-                <h1 className="text-2xl font-bold text-gray-900">Availability scheduler</h1>
-                <p className="mt-1 text-sm text-gray-500">Create working hours and toggle availability for booking windows.</p>
+                <h1 className="text-2xl font-bold text-foreground">Availability scheduler</h1>
+                <p className="mt-1 text-sm text-muted-foreground">Create working hours and toggle availability for booking windows.</p>
             </div>
 
             <TechnicianAvailabilityManager slots={response.data.availability ?? []} />

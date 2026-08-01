@@ -194,7 +194,7 @@ export function EditBookingModal({ booking }: EditBookingModalProps) {
             <Dialog open={open} onOpenChange={handleOpenChange}>
                 <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                     <DialogHeader>
-                        <DialogTitle>Update Booking</DialogTitle>
+                        <DialogTitle className="text-foreground">Update Booking</DialogTitle>
                     </DialogHeader>
 
                     <form action={formAction} className="space-y-6">
@@ -205,9 +205,9 @@ export function EditBookingModal({ booking }: EditBookingModalProps) {
                         {/* Slot Selection Disabled if no available slots */}
                         <div className="space-y-3">
                             <div className="flex items-center justify-between">
-                                <Label>Select Date &amp; Time</Label>
+                                <Label className="text-foreground">Select Date &amp; Time</Label>
                                 {!hasAvailableSlots && !loadingSlots && (
-                                    <span className="text-xs text-red-500 flex items-center gap-1">
+                                    <span className="text-xs text-red-500 dark:text-red-400 flex items-center gap-1">
                                         <CalendarX className="h-3 w-3" />
                                         No slots available
                                     </span>
@@ -231,22 +231,22 @@ export function EditBookingModal({ booking }: EditBookingModalProps) {
                                         <Loader2 className="h-6 w-6 animate-spin text-primary" />
                                     </div>
                                 ) : !hasAvailableSlots ? (
-                                    <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-center">
-                                        <CalendarX className="mx-auto h-8 w-8 text-red-500" />
-                                        <p className="mt-2 text-sm font-medium text-red-700">
+                                    <div className="rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 p-3 text-center">
+                                        <CalendarX className="mx-auto h-8 w-8 text-red-500 dark:text-red-400" />
+                                        <p className="mt-2 text-sm font-medium text-red-700 dark:text-red-300">
                                             No Available Time Slots
                                         </p>
-                                        <p className="mt-1 text-xs text-red-600">
+                                        <p className="mt-1 text-xs text-red-600 dark:text-red-400">
                                             The technician has no available slots for this date.
                                             You can still update your address and notes.
                                         </p>
                                     </div>
                                 ) : (
                                     <div>
-                                        <p className="mb-2 text-xs text-gray-500">
+                                        <p className="mb-2 text-xs text-muted-foreground">
                                             Select a time slot for your booking
                                             {booking.availableSlot && !slotChanged && (
-                                                <span className="ml-1 text-amber-600">
+                                                <span className="ml-1 text-amber-600 dark:text-amber-400">
                                                     (Current: {formatTime(booking.availableSlot.startAt)})
                                                 </span>
                                             )}
@@ -267,26 +267,26 @@ export function EditBookingModal({ booking }: EditBookingModalProps) {
                                                         onClick={() => !isPast && handleSlotSelect(slot.id)}
                                                         disabled={isPast}
                                                         className={`flex flex-col rounded-xl border-2 p-4 text-left transition-all ${isSelected
-                                                            ? "border-primary bg-primary/5 ring-2 ring-primary/20"
-                                                            : isPast
-                                                                ? "border-gray-200 bg-gray-50 opacity-50 cursor-not-allowed"
-                                                                : "border-gray-200 hover:border-primary/50 hover:bg-gray-50"
+                                                                ? "border-primary bg-primary/5 ring-2 ring-primary/20"
+                                                                : isPast
+                                                                    ? "border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-muted/20 opacity-50 cursor-not-allowed"
+                                                                    : "border-gray-200 dark:border-gray-700 hover:border-primary/50 hover:bg-muted/30"
                                                             }`}
                                                     >
-                                                        <span className="font-semibold text-gray-900">
+                                                        <span className="font-semibold text-foreground">
                                                             {formatDate(slot.startAt)}
                                                         </span>
-                                                        <span className="mt-1 text-sm text-gray-500">
+                                                        <span className="mt-1 text-sm text-muted-foreground">
                                                             {formatTime(slot.startAt)} – {formatTime(slot.endAt)}
                                                         </span>
                                                         {isSelected && (
                                                             <CheckCircle className="mt-2 h-4 w-4 text-primary" />
                                                         )}
                                                         {isPast && (
-                                                            <span className="mt-1 text-xs text-red-500">Unavailable</span>
+                                                            <span className="mt-1 text-xs text-red-500 dark:text-red-400">Unavailable</span>
                                                         )}
                                                         {!isPast && !isSelected && booking.availableSlotId === slot.id && (
-                                                            <span className="mt-1 text-xs text-amber-600">● Current</span>
+                                                            <span className="mt-1 text-xs text-amber-600 dark:text-amber-400">● Current</span>
                                                         )}
                                                     </button>
                                                 );
@@ -298,8 +298,8 @@ export function EditBookingModal({ booking }: EditBookingModalProps) {
 
                             {/* Warning if no slot selected but slots exist */}
                             {hasAvailableSlots && slotChanged && !selectedSlotId && (
-                                <div className="rounded-lg border border-red-200 bg-red-50 p-3">
-                                    <p className="text-sm text-red-600 flex items-center gap-1">
+                                <div className="rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 p-3">
+                                    <p className="text-sm text-red-600 dark:text-red-400 flex items-center gap-1">
                                         <AlertCircle className="h-4 w-4" />
                                         Please select a time slot to update your booking time
                                     </p>
@@ -309,7 +309,9 @@ export function EditBookingModal({ booking }: EditBookingModalProps) {
 
                         {/* Address - Always editable */}
                         <div className="space-y-2">
-                            <Label htmlFor="address">Address <span className="text-red-500">*</span></Label>
+                            <Label htmlFor="address" className="text-foreground">
+                                Address <span className="text-red-500">*</span>
+                            </Label>
                             <Textarea
                                 id="address"
                                 name="address"
@@ -324,7 +326,9 @@ export function EditBookingModal({ booking }: EditBookingModalProps) {
 
                         {/* Notes - Always editable */}
                         <div className="space-y-2">
-                            <Label htmlFor="notes">Notes <span className="text-gray-600 text-xs">(optional)</span></Label>
+                            <Label htmlFor="notes" className="text-foreground">
+                                Notes <span className="text-muted-foreground text-xs">(optional)</span>
+                            </Label>
                             <Textarea
                                 id="notes"
                                 name="notes"
@@ -337,14 +341,14 @@ export function EditBookingModal({ booking }: EditBookingModalProps) {
                         </div>
 
                         {/* Selected time preview - Only show if slot selected */}
-                        {scheduledAt && selectedSlotId && hasAvailableSlots && (
-                            <div className="rounded-lg bg-green-50 border border-green-200 p-4">
+                        {/* {scheduledAt && selectedSlotId && hasAvailableSlots && (
+                            <div className="rounded-lg bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 p-4">
                                 <div className="flex items-center gap-2">
-                                    <Clock className="h-4 w-4 text-green-600" />
-                                    <span className="text-sm font-medium text-green-700">
+                                    <Clock className="h-4 w-4 text-green-600 dark:text-green-400" />
+                                    <span className="text-sm font-medium text-green-700 dark:text-green-300">
                                         {slotChanged ? "New" : "Current"} Scheduled Time:
                                     </span>
-                                    <span className="text-sm text-green-700">
+                                    <span className="text-sm text-green-700 dark:text-green-300">
                                         {new Date(scheduledAt).toLocaleString("en-US", {
                                             weekday: "short",
                                             month: "short",
@@ -356,7 +360,7 @@ export function EditBookingModal({ booking }: EditBookingModalProps) {
                                     </span>
                                 </div>
                             </div>
-                        )}
+                        )} */}
 
                         <Button
                             type="submit"

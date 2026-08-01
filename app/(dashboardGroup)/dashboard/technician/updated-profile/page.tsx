@@ -18,9 +18,9 @@ export default async function TechnicianUpdateProfilePage() {
 
     if (!technicianId) {
         return (
-            <div className="rounded-xl border bg-white p-8 shadow-sm">
-                <h1 className="text-2xl font-bold text-gray-900">Technician profile not found</h1>
-                <p className="mt-2 text-sm text-gray-500">Your account does not have a technician profile attached yet.</p>
+            <div className="rounded-xl border border-border bg-card p-8 shadow-sm">
+                <h1 className="text-2xl font-bold text-foreground">Technician profile not found</h1>
+                <p className="mt-2 text-sm text-muted-foreground">Your account does not have a technician profile attached yet.</p>
             </div>
         );
     }
@@ -29,9 +29,9 @@ export default async function TechnicianUpdateProfilePage() {
 
     if (!response.success) {
         return (
-            <div className="rounded-xl border bg-white p-8 shadow-sm">
-                <h1 className="text-2xl font-bold text-gray-900">Unable to load profile</h1>
-                <p className="mt-2 text-sm text-gray-500">{response.message || "Please try again later."}</p>
+            <div className="rounded-xl border border-border bg-card p-8 shadow-sm">
+                <h1 className="text-2xl font-bold text-foreground">Unable to load profile</h1>
+                <p className="mt-2 text-sm text-muted-foreground">{response.message || "Please try again later."}</p>
             </div>
         );
     }
@@ -41,13 +41,13 @@ export default async function TechnicianUpdateProfilePage() {
     return (
         <div className="space-y-6">
             <div>
-                <h1 className="text-2xl font-bold text-gray-900">Profile & Services</h1>
-                <p className="mt-1 text-sm text-gray-500">Keep your public profile accurate so customers can find and trust you.</p>
+                <h1 className="text-2xl font-bold text-foreground">Profile & Services</h1>
+                <p className="mt-1 text-sm text-muted-foreground">Keep your public profile accurate so customers can find and trust you.</p>
             </div>
 
             {/* grid gap-6 xl:grid-cols-[1.15fr_0.85fr] */}
             <div className="">
-                <div className="rounded-2xl border bg-white p-6 shadow-sm">
+                <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
                     <TechnicianProfileForm
                         initialValues={{
                             name: technician.user.name ?? "",

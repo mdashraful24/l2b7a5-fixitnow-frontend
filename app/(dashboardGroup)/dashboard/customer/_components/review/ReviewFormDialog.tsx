@@ -87,12 +87,12 @@ export function ReviewFormDialog({ mode, booking, review, onSuccess }: ReviewFor
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 {mode === "edit" ? (
-                    <button className="flex items-center gap-1 rounded-lg border border-blue-400 bg-blue-50 px-3 py-1.5 text-sm font-semibold text-blue-700 transition hover:bg-blue-100 cursor-pointer">
+                    <button className="flex items-center gap-1 rounded-lg border border-blue-400 dark:border-blue-600 bg-blue-50 dark:bg-blue-950/30 px-3 py-1.5 text-sm font-semibold text-blue-700 dark:text-blue-400 transition hover:bg-blue-100 dark:hover:bg-blue-950/50 cursor-pointer">
                         <PencilIcon className="h-4 w-4" />
                         Edit Review
                     </button>
                 ) : (
-                    <button className="flex items-center gap-1 rounded-lg border border-yellow-400 bg-yellow-50 px-3 py-1.5 text-sm font-semibold text-yellow-700 transition hover:bg-yellow-100 cursor-pointer">
+                    <button className="flex items-center gap-1 rounded-lg border border-yellow-400 dark:border-yellow-600 bg-yellow-50 dark:bg-yellow-950/30 px-3 py-1.5 text-sm font-semibold text-yellow-700 dark:text-yellow-400 transition hover:bg-yellow-100 dark:hover:bg-yellow-950/50 cursor-pointer">
                         <PlusIcon className="h-4 w-4" />
                         Leave Review
                     </button>
@@ -100,10 +100,10 @@ export function ReviewFormDialog({ mode, booking, review, onSuccess }: ReviewFor
             </DialogTrigger>
             <DialogContent className="max-w-md">
                 <DialogHeader>
-                    <DialogTitle>
+                    <DialogTitle className="text-foreground">
                         {mode === "edit" ? "Edit Your Review" : "Leave a Review"}
                     </DialogTitle>
-                    <DialogDescription className="text-gray-700">
+                    <DialogDescription className="text-muted-foreground">
                         {mode === "edit"
                             ? "Update your rating and feedback for this service."
                             : `How was your experience with ${booking.technician?.user?.name || "the technician"}?`}
@@ -117,7 +117,7 @@ export function ReviewFormDialog({ mode, booking, review, onSuccess }: ReviewFor
 
                     {/* Rating Stars */}
                     <div className="space-y-2">
-                        <Label>Rating <span className="text-red-500">*</span></Label>
+                        <Label className="text-foreground">Rating <span className="text-red-500">*</span></Label>
                         <div className="flex gap-1.5">
                             {[1, 2, 3, 4, 5].map((star) => {
                                 const isFilled = (hoverRating || rating) >= star;
@@ -134,24 +134,26 @@ export function ReviewFormDialog({ mode, booking, review, onSuccess }: ReviewFor
                                         <Star
                                             className={`h-6 w-6 ${isFilled
                                                     ? "fill-yellow-400 text-yellow-400"
-                                                    : "fill-gray-300 text-gray-300"
+                                                    : "fill-muted text-muted-foreground"
                                                 } transition-colors`}
                                         />
                                     </button>
                                 );
                             })}
                         </div>
-                        <p className="text-sm text-gray-700">
+                        <p className="text-sm text-muted-foreground">
                             {rating > 0 ? `${rating} out of 5 stars` : "Select a rating"}
                         </p>
                         {state?.fieldErrors?.rating && (
-                            <p className="text-sm text-red-500">{state.fieldErrors.rating}</p>
+                            <p className="text-sm text-destructive">{state.fieldErrors.rating}</p>
                         )}
                     </div>
 
                     {/* Comment */}
                     <div className="space-y-2">
-                        <Label htmlFor="comment">Comment <span className="text-gray-600 text-xs">(optional)</span></Label>
+                        <Label htmlFor="comment" className="text-foreground">
+                            Comment <span className="text-muted-foreground text-xs">(optional)</span>
+                        </Label>
                         <Textarea
                             id="comment"
                             name="comment"
@@ -163,19 +165,19 @@ export function ReviewFormDialog({ mode, booking, review, onSuccess }: ReviewFor
                             className="resize-none"
                         />
                         {state?.fieldErrors?.comment && (
-                            <p className="text-sm text-red-500">{state.fieldErrors.comment}</p>
+                            <p className="text-sm text-destructive">{state.fieldErrors.comment}</p>
                         )}
-                        <p className="text-xs text-gray-700">
+                        <p className="text-xs text-muted-foreground">
                             {comment.length}/500 characters
                         </p>
                     </div>
 
                     {/* Technician Info */}
-                    <div className="rounded-lg bg-gray-50 p-3 text-sm">
-                        <p className="text-gray-700">
+                    <div className="rounded-lg bg-muted/30 dark:bg-muted/20 p-3 text-sm">
+                        <p className="text-foreground">
                             <span className="font-medium">Technician:</span> {booking.technician?.user?.name}
                         </p>
-                        <p className="text-gray-700">
+                        <p className="text-foreground">
                             <span className="font-medium">Service:</span> {booking.service?.title}
                         </p>
                     </div>
@@ -193,7 +195,7 @@ export function ReviewFormDialog({ mode, booking, review, onSuccess }: ReviewFor
                         <Button
                             type="submit"
                             disabled={pending || rating === 0}
-                            className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white"
+                            className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white dark:bg-yellow-600 dark:hover:bg-yellow-700"
                         >
                             {pending ? (
                                 <>

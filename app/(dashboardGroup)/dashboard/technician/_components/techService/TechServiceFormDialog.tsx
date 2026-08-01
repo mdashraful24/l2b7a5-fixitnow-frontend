@@ -60,20 +60,20 @@ export function TechServiceFormDialog({ mode, service, categories }: ServiceForm
             </DialogTrigger>
             <DialogContent className="max-w-lg">
                 <DialogHeader>
-                    <DialogTitle>
+                    <DialogTitle className="text-foreground">
                         {mode === "edit" ? "Edit Service" : "Create Service"}
                     </DialogTitle>
                 </DialogHeader>
                 <form action={formAction} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="title">Title</Label>
+                        <Label htmlFor="title" className="text-foreground">Title</Label>
                         <Input id="title" name="title" defaultValue={service?.title} required />
                         {state?.fieldErrors?.title && (
                             <p className="text-sm text-destructive">{state.fieldErrors.title}</p>
                         )}
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="description">Description</Label>
+                        <Label htmlFor="description" className="text-foreground">Description</Label>
                         <Textarea
                             id="description"
                             name="description"
@@ -86,7 +86,7 @@ export function TechServiceFormDialog({ mode, service, categories }: ServiceForm
                         )}
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="serviceImage">Service Image URL</Label>
+                        <Label htmlFor="serviceImage" className="text-foreground">Service Image URL</Label>
                         <Input
                             id="serviceImage"
                             name="serviceImage"
@@ -102,7 +102,7 @@ export function TechServiceFormDialog({ mode, service, categories }: ServiceForm
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <Label htmlFor="price">Price ($)</Label>
+                            <Label htmlFor="price" className="text-foreground">Price ($)</Label>
                             <Input
                                 id="price"
                                 name="price"
@@ -117,7 +117,7 @@ export function TechServiceFormDialog({ mode, service, categories }: ServiceForm
                             )}
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="duration">Duration (min)</Label>
+                            <Label htmlFor="duration" className="text-foreground">Duration (min)</Label>
                             <Input
                                 id="duration"
                                 name="duration"
@@ -132,7 +132,7 @@ export function TechServiceFormDialog({ mode, service, categories }: ServiceForm
                         </div>
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="categoryId">Category</Label>
+                        <Label htmlFor="categoryId" className="text-foreground">Category</Label>
                         <input type="hidden" name="categoryId" value={selectedCategoryId} />
                         <Select
                             value={selectedCategoryId}

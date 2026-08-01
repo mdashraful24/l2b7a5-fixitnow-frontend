@@ -17,9 +17,9 @@ export function TechnicianBookingActions({ bookingId, currentStatus, compact = f
     const badge = bookingStatusBadge[currentStatus as keyof typeof bookingStatusBadge];
     const info = badge || {
         label: currentStatus,
-        bg: "bg-gray-100",
-        text: "text-gray-600",
-        border: "border-gray-200",
+        bg: "bg-gray-100 dark:bg-gray-800",
+        text: "text-gray-600 dark:text-gray-300",
+        border: "border-gray-200 dark:border-gray-700",
         icon: AlertCircle,
     };
 
@@ -78,10 +78,10 @@ export function TechnicianBookingActions({ bookingId, currentStatus, compact = f
                         disabled={isDisabled}
                         onClick={() => handleStatusChange(action.status)}
                         className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer ${isDisabled
-                                ? "bg-gray-200 text-gray-500"
+                                ? "bg-muted text-muted-foreground"
                                 : action.variant || (isCancelAction
-                                    ? "bg-red-600 hover:bg-red-700 text-white"
-                                    : "bg-primary hover:bg-primary/90 text-white")
+                                    ? "bg-red-600 hover:bg-red-700 text-white dark:bg-red-700 dark:hover:bg-red-800"
+                                    : "bg-primary hover:bg-primary/90 text-primary-foreground")
                             }`}
                     >
                         <action.icon className={`h-3.5 w-3.5 ${isLoading ? "animate-spin" : ""}`} />

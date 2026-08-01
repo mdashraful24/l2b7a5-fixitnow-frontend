@@ -45,15 +45,15 @@ export default async function CustomerDashboardPage({
     return (
         <div className="space-y-8">
             {/* Header */}
-            <div className="flex flex-col gap-4 rounded-2xl border bg-white p-6 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-6 shadow-sm lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                    <p className="text-sm font-medium text-primary">Customer dashboard</p>
-                    <h1 className="mt-1 text-2xl font-bold text-gray-900">Dashboard Overview</h1>
-                    <p className="mt-1 text-sm text-gray-500">Manage all your service bookings here.</p>
+                    <p className="text-sm font-medium text-primary dark:text-blue-500">Customer dashboard</p>
+                    <h1 className="mt-1 text-2xl font-bold text-foreground">Dashboard Overview</h1>
+                    <p className="mt-1 text-sm text-muted-foreground">Manage all your service bookings here.</p>
                 </div>
                 <Link
                     href="/services"
-                    className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary/90"
+                    className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
                 >
                     <CalendarDays className="h-4 w-4" />
                     Book a Service
@@ -132,7 +132,7 @@ export default async function CustomerDashboardPage({
 
             {/* Status Tabs */}
             <div>
-                <div className="flex flex-wrap gap-2 border-b pb-4">
+                <div className="flex flex-wrap gap-2 border-b border-border pb-4">
                     {statusTabs.map((tab) => {
                         const isActive = activeStatus === tab.value;
                         return (
@@ -140,8 +140,8 @@ export default async function CustomerDashboardPage({
                                 key={tab.value}
                                 href={tab.value === "ALL" ? "/dashboard/customer" : `/dashboard/customer?status=${tab.value}`}
                                 className={`flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium transition-all border ${isActive
-                                        ? "border-primary bg-primary text-white"
-                                        : "border-gray-200 bg-white text-gray-600 hover:border-primary/40 hover:text-primary"
+                                    ? "border-primary bg-primary text-primary-foreground"
+                                    : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-primary dark:hover:text-blue-500"
                                     }`}
                             >
                                 <tab.icon className="h-4 w-4" />
@@ -154,17 +154,17 @@ export default async function CustomerDashboardPage({
                 {/* Bookings List */}
                 <div className="mt-6 space-y-4">
                     {bookings.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center rounded-xl border border-dashed bg-white py-16 text-center">
-                            <CalendarDays className="h-12 w-12 text-gray-300" />
-                            <h3 className="mt-4 text-lg font-semibold text-gray-600">No bookings found</h3>
-                            <p className="mt-1 text-sm text-gray-400">
+                        <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card py-16 text-center">
+                            <CalendarDays className="h-12 w-12 text-muted-foreground" />
+                            <h3 className="mt-4 text-lg font-semibold text-foreground">No bookings found</h3>
+                            <p className="mt-1 text-sm text-muted-foreground">
                                 {activeStatus === "ALL"
                                     ? "You haven't booked any services yet."
                                     : `No ${activeStatus.toLowerCase()} bookings.`}
                             </p>
                             <Link
                                 href="/services"
-                                className="mt-6 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white hover:bg-primary/90"
+                                className="mt-6 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
                             >
                                 Browse Services
                             </Link>

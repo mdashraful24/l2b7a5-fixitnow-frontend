@@ -55,7 +55,7 @@ export function TechnicianProfileForm({ initialValues }: TechnicianProfileFormPr
                     <input
                         value={formState.name}
                         onChange={(event) => handleChange("name", event.target.value)}
-                        className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-primary"
+                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                     />
                 </Field>
 
@@ -64,7 +64,7 @@ export function TechnicianProfileForm({ initialValues }: TechnicianProfileFormPr
                         type="email"
                         value={formState.email}
                         onChange={(event) => handleChange("email", event.target.value)}
-                        className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-primary"
+                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                     />
                 </Field>
 
@@ -74,7 +74,7 @@ export function TechnicianProfileForm({ initialValues }: TechnicianProfileFormPr
                         value={formState.password ?? ""}
                         onChange={(event) => handleChange("password", event.target.value)}
                         placeholder="Leave blank to keep current password"
-                        className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-primary"
+                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                     />
                 </Field>
 
@@ -82,7 +82,7 @@ export function TechnicianProfileForm({ initialValues }: TechnicianProfileFormPr
                     <input
                         value={formState.phone ?? ""}
                         onChange={(event) => handleChange("phone", event.target.value)}
-                        className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-primary"
+                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                     />
                 </Field>
 
@@ -90,7 +90,7 @@ export function TechnicianProfileForm({ initialValues }: TechnicianProfileFormPr
                     <input
                         value={formState.location ?? ""}
                         onChange={(event) => handleChange("location", event.target.value)}
-                        className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-primary"
+                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                     />
                 </Field>
 
@@ -98,7 +98,7 @@ export function TechnicianProfileForm({ initialValues }: TechnicianProfileFormPr
                     <input
                         value={formState.address ?? ""}
                         onChange={(event) => handleChange("address", event.target.value)}
-                        className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-primary"
+                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                     />
                 </Field>
             </div>
@@ -108,7 +108,7 @@ export function TechnicianProfileForm({ initialValues }: TechnicianProfileFormPr
                     value={formState.bio ?? ""}
                     onChange={(event) => handleChange("bio", event.target.value)}
                     rows={4}
-                    className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-primary"
+                    className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                 />
             </Field>
 
@@ -117,7 +117,7 @@ export function TechnicianProfileForm({ initialValues }: TechnicianProfileFormPr
                     value={formState.description ?? ""}
                     onChange={(event) => handleChange("description", event.target.value)}
                     rows={4}
-                    className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-primary"
+                    className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                 />
             </Field>
 
@@ -133,7 +133,7 @@ export function TechnicianProfileForm({ initialValues }: TechnicianProfileFormPr
                                 .filter(Boolean),
                         }))
                     }
-                    className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-primary"
+                    className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                 />
             </Field>
 
@@ -141,14 +141,14 @@ export function TechnicianProfileForm({ initialValues }: TechnicianProfileFormPr
                 <button
                     type="button"
                     onClick={() => setFormState(initialValues)}
-                    className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-600 hover:bg-gray-50"
+                    className="rounded-lg border border-input bg-background px-4 py-2.5 text-sm font-semibold text-foreground hover:bg-muted/50 transition"
                 >
                     Reset
                 </button>
                 <button
                     type="submit"
                     disabled={isSaving}
-                    className="rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary/90 disabled:opacity-60"
+                    className="rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-60 transition"
                 >
                     {isSaving ? "Saving..." : "Save changes"}
                 </button>
@@ -171,11 +171,11 @@ function Field({
     return (
         <label className="block space-y-2">
             <div className="flex items-center justify-between gap-3">
-                <span className="text-sm font-medium text-gray-700">{label}</span>
-                {hint && <span className="text-xs text-gray-400">{hint}</span>}
+                <span className="text-sm font-medium text-foreground">{label}</span>
+                {hint && <span className="text-xs text-muted-foreground">{hint}</span>}
             </div>
             {children}
-            {error && <p className="text-xs text-red-500">{error}</p>}
+            {error && <p className="text-xs text-destructive">{error}</p>}
         </label>
     );
 }

@@ -22,13 +22,13 @@ export function TechServicePostCard({
     categories,
 }: TechServiceCardProps) {
     return (
-        <Card className="group relative flex h-full flex-col bg-linear-to-br from-card to-muted/20 border-0 shadow-lg shadow-primary/5 hover:shadow-xl hover:shadow-primary/10 transition-all duration-500">
+        <Card className="group relative flex h-full flex-col bg-linear-to-br from-card to-muted/20 border border-border shadow-lg shadow-primary/5 hover:shadow-xl hover:shadow-primary/10 transition-all duration-500">
             <CardHeader className="relative space-y-3">
                 <div className="flex items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
                             {service.serviceImage ? (
-                                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border">
+                                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border border-border">
                                     <Image
                                         src={service.serviceImage}
                                         alt={service.title}
@@ -43,7 +43,7 @@ export function TechServicePostCard({
                                 </div>
                             )}
 
-                            <Badge className="bg-primary/10 text-primary hover:bg-primary/20 border-0 text-sm font-semibold uppercase tracking-wider">
+                            <Badge className="bg-primary/10 dark:bg-primary/30 text-primary dark:text-blue-500 hover:bg-primary/20 border-0 text-sm font-semibold uppercase tracking-wider">
                                 {service.category.name}
                             </Badge>
                         </div>
@@ -83,15 +83,15 @@ export function TechServicePostCard({
                     </div>
                 </div>
 
-                <CardTitle className="text-xl font-medium tracking-tight group-hover:text-primary transition-colors duration-300">
+                <CardTitle className="text-xl font-medium tracking-tight text-foreground group-hover:text-primary dark:group-hover:text-blue-500 transition-colors duration-300">
                     {service.title}
                 </CardTitle>
             </CardHeader>
 
             <CardContent className="relative flex flex-1 flex-col space-y-5">
                 {/* Description takes available space */}
-                <div className="relative flex-1 pl-4 border-l-2 border-primary/70 group-hover:border-primary transition-colors">
-                    <p className="line-clamp-3 text-md leading-relaxed">
+                <div className="relative flex-1 pl-4 border-l-2 border-primary/70 group-hover:border-primary dark:group-hover:border-blue-500 transition-colors">
+                    <p className="line-clamp-3 text-md leading-relaxed text-muted-foreground">
                         {service.description}
                     </p>
                 </div>
@@ -101,13 +101,13 @@ export function TechServicePostCard({
                     <div className="relative overflow-hidden rounded-lg bg-linear-to-br from-emerald-500/5 to-emerald-500/10 p-4 group/price">
                         <div className="relative flex items-center gap-3">
                             <div className="rounded-full bg-emerald-500/10 p-2.5">
-                                <DollarSign className="h-4 w-4 text-emerald-600" />
+                                <DollarSign className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                             </div>
                             <div>
-                                <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-emerald-600/60">
+                                <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-emerald-600/60 dark:text-emerald-400/60">
                                     Price
                                 </p>
-                                <p className="text-lg font-bold tracking-tight text-emerald-600">
+                                <p className="text-lg font-bold tracking-tight text-emerald-600 dark:text-emerald-400">
                                     ${service.price.toFixed(2)}
                                 </p>
                             </div>
@@ -117,13 +117,13 @@ export function TechServicePostCard({
                     <div className="relative overflow-hidden rounded-lg bg-linear-to-br from-violet-500/5 to-violet-500/10 p-4 group/duration">
                         <div className="relative flex items-center gap-3">
                             <div className="rounded-full bg-violet-500/10 p-2.5">
-                                <Clock className="h-4 w-4 text-violet-600" />
+                                <Clock className="h-4 w-4 text-violet-600 dark:text-violet-400" />
                             </div>
                             <div>
-                                <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-violet-600/60">
+                                <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-violet-600/60 dark:text-violet-400/60">
                                     Duration
                                 </p>
-                                <p className="text-lg font-bold tracking-tight text-violet-600">
+                                <p className="text-lg font-bold tracking-tight text-violet-600 dark:text-violet-400">
                                     {service.duration}m
                                 </p>
                             </div>
@@ -152,8 +152,8 @@ export function TechServicePostCard({
                     </div>
                     <span
                         className={`text-sm font-medium ${service.isAvailable
-                                ? "text-green-600"
-                                : "text-red-600"
+                                ? "text-green-600 dark:text-green-400"
+                                : "text-red-600 dark:text-red-400"
                             }`}
                     >
                         {service.isAvailable
@@ -164,7 +164,7 @@ export function TechServicePostCard({
                 <div className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
                     <span>Service ID</span>
 
-                    <span className="font-mono bg-muted/30 px-2 py-0.5 rounded">
+                    <span className="font-mono bg-muted/30 dark:bg-muted/20 px-2 py-0.5 rounded">
                         {service.id.slice(0, 6)}
                     </span>
                 </div>

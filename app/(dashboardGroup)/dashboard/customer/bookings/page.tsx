@@ -12,18 +12,18 @@ export default async function MyBookingsPage() {
     return (
         <div className="space-y-6">
             <div>
-                <h1 className="text-2xl font-bold text-gray-900">My Bookings</h1>
-                <p className="mt-1 text-sm text-gray-500">All your service bookings in one place.</p>
+                <h1 className="text-2xl font-bold text-foreground">My Bookings</h1>
+                <p className="mt-1 text-sm text-muted-foreground">All your service bookings in one place.</p>
             </div>
 
             {bookings.length === 0 ? (
-                <div className="flex flex-col items-center justify-center rounded-xl border border-dashed bg-white py-16 text-center">
-                    <CalendarDays className="h-12 w-12 text-gray-300" />
-                    <h3 className="mt-4 text-lg font-semibold text-gray-600">No bookings yet</h3>
-                    <p className="mt-1 text-sm text-gray-400">Book a service to get started.</p>
+                <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card py-16 text-center">
+                    <CalendarDays className="h-12 w-12 text-muted-foreground" />
+                    <h3 className="mt-4 text-lg font-semibold text-foreground">No bookings yet</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">Book a service to get started.</p>
                     <Link
                         href="/services"
-                        className="mt-6 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-white hover:bg-primary/90"
+                        className="mt-6 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
                     >
                         Browse Services
                     </Link>

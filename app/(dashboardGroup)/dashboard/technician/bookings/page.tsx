@@ -46,13 +46,13 @@ export default async function TechnicianBookingsPage({
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="flex flex-col gap-4 rounded-2xl border bg-white p-6 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-6 shadow-sm lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                    <p className="text-sm font-medium text-primary">Booking management</p>
-                    <h1 className="mt-1 text-2xl font-bold text-gray-900">Incoming booking requests</h1>
-                    <p className="mt-1 text-sm text-gray-500">Accept, decline, start, and complete assigned jobs from one place.</p>
+                    <p className="text-sm font-medium text-primary dark:text-blue-500">Booking management</p>
+                    <h1 className="mt-1 text-2xl font-bold text-foreground">Incoming booking requests</h1>
+                    <p className="mt-1 text-sm text-muted-foreground">Accept, decline, start, and complete assigned jobs from one place.</p>
                 </div>
-                <Link href="/dashboard/technician/availability" className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary/90">
+                <Link href="/dashboard/technician/availability" className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90">
                     <CalendarDays className="h-4 w-4" />
                     Adjust schedule
                 </Link>
@@ -70,15 +70,15 @@ export default async function TechnicianBookingsPage({
                     { label: "Completed", value: stats.completed },
                     { label: "Cancelled", value: stats.cancelled },
                 ].map((item) => (
-                    <div key={item.label} className="rounded-2xl border bg-white p-5 shadow-sm">
-                        <p className="text-sm text-gray-500">{item.label}</p>
-                        <p className="mt-2 text-3xl font-bold text-gray-900">{item.value}</p>
+                    <div key={item.label} className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+                        <p className="text-sm text-muted-foreground">{item.label}</p>
+                        <p className="mt-2 text-3xl font-bold text-foreground">{item.value}</p>
                     </div>
                 ))}
             </div>
 
             {/* Tabs */}
-            <div className="flex flex-wrap gap-2 border-b pb-4">
+            <div className="flex flex-wrap gap-2 border-b border-border pb-4">
                 {statusTabs.map((tab) => {
                     const isActive = activeStatus === tab.value;
                     return (
@@ -86,8 +86,8 @@ export default async function TechnicianBookingsPage({
                             key={tab.value}
                             href={tab.value === "ALL" ? "/dashboard/technician/bookings" : `/dashboard/technician/bookings?status=${tab.value}`}
                             className={`flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium transition-all border ${isActive
-                                ? "border-primary bg-primary text-white"
-                                : "border-gray-200 bg-white text-gray-600 hover:border-primary/40 hover:text-primary"
+                                    ? "border-primary bg-primary text-primary-foreground"
+                                    : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-primary"
                                 }`}
                         >
                             <tab.icon className="h-4 w-4" />
@@ -100,7 +100,7 @@ export default async function TechnicianBookingsPage({
             {/* Bookings List */}
             <div className="space-y-4">
                 {bookings.length === 0 ? (
-                    <div className="rounded-2xl border border-dashed bg-white p-10 text-center text-sm text-gray-500 shadow-sm">
+                    <div className="rounded-2xl border border-dashed border-border bg-card p-10 text-center text-sm text-muted-foreground shadow-sm">
                         No bookings found for the selected filter.
                     </div>
                 ) : (
@@ -108,23 +108,23 @@ export default async function TechnicianBookingsPage({
                         const hasReview = booking.review !== null && booking.review !== undefined;
 
                         return (
-                            <div key={booking.id} className="rounded-2xl border bg-white p-5 shadow-sm">
+                            <div key={booking.id} className="rounded-2xl border border-border bg-card p-5 shadow-sm">
                                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                                     <div className="space-y-2">
                                         <div className="flex flex-wrap items-center gap-2">
-                                            <h3 className="text-lg font-semibold">{booking.service?.title}</h3>
-                                            <span className={`rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusBadges[booking.status] || "bg-gray-100 text-gray-600 border-gray-200"}`}>
+                                            <h3 className="text-lg font-semibold text-foreground">{booking.service?.title}</h3>
+                                            <span className={`rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusBadges[booking.status] || "bg-muted text-muted-foreground border-border"}`}>
                                                 {booking.status}
                                             </span>
                                             {booking.status === "COMPLETED" && hasReview && (
-                                                <span className="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-700">
+                                                <span className="inline-flex items-center rounded-full bg-yellow-100 dark:bg-yellow-900/30 px-2.5 py-0.5 text-xs font-medium text-yellow-700 dark:text-yellow-300">
                                                     <Star className="h-3 w-3 mr-1 fill-yellow-500" />
                                                     Reviewed
                                                 </span>
                                             )}
                                         </div>
 
-                                        <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-gray-500">
+                                        <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground">
                                             <span className="flex items-center gap-1.5">
                                                 <User2 className="h-4 w-4" />
                                                 {booking.customer?.name || "Customer"}
@@ -147,12 +147,12 @@ export default async function TechnicianBookingsPage({
                                         </div>
                                     </div>
                                     <div className="space-y-3 lg:min-w-56 lg:text-right">
-                                        <p className="text-2xl font-bold text-primary">${booking.totalAmount}</p>
+                                        <p className="text-2xl font-bold text-primary dark:text-blue-500">${booking.totalAmount}</p>
                                     </div>
                                 </div>
 
                                 <div className="flex justify-end">
-                                    <Link href={`/dashboard/technician/bookings/${booking.id}`} className="text-sm font-medium text-white px-4 py-2 rounded-full bg-primary hover:bg-primary/90 transition">
+                                    <Link href={`/dashboard/technician/bookings/${booking.id}`} className="text-sm font-medium text-primary-foreground px-4 py-2 rounded-full bg-primary hover:bg-primary/90 transition">
                                         View Details
                                     </Link>
                                 </div>
