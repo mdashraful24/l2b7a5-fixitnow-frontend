@@ -26,6 +26,12 @@ const toDateTimeLocal = (value: string) => {
     return new Date(date.getTime() - offset).toISOString().slice(0, 16);
 };
 
+const getBangladeshDayName = (value: string) =>
+    new Intl.DateTimeFormat("en-US", {
+        weekday: "long",
+        timeZone: "Asia/Dhaka",
+    }).format(new Date(value));
+
 export function TechnicianAvailabilityManager({ slots }: { slots: AvailabilitySlot[] }) {
     const router = useRouter();
     const [creating, setCreating] = useState(false);
@@ -65,11 +71,17 @@ export function TechnicianAvailabilityManager({ slots }: { slots: AvailabilitySl
             return;
         }
 
+        const resolvedDay = getBangladeshDayName(startDate.toISOString()) as (typeof dayOptions)[number];
+
+        if (newSlot.dayOfWeek && newSlot.dayOfWeek !== resolvedDay) {
+            toast.message(`Day adjusted to ${resolvedDay} based on Bangladesh time`);
+        }
+
         setCreating(true);
 
         try {
             const result = await createTechnicianAvailability({
-                dayOfWeek: newSlot.dayOfWeek as (typeof dayOptions)[number],
+                dayOfWeek: resolvedDay,
                 startAt: startDate.toISOString(),
                 endAt: endDate.toISOString(),
                 isAvailable: newSlot.isAvailable,
@@ -78,7 +90,7 @@ export function TechnicianAvailabilityManager({ slots }: { slots: AvailabilitySl
             if (result.success) {
                 toast.success(result.message || "Availability slot created");
                 router.refresh();
-                setNewSlot({ dayOfWeek: newSlot.dayOfWeek as (typeof dayOptions)[number], startAt: "", endAt: "", isAvailable: true });
+                setNewSlot({ dayOfWeek: resolvedDay, startAt: "", endAt: "", isAvailable: true });
             } else {
                 toast.error(result.message || "Unable to create slot");
             }
@@ -87,27 +99,6 @@ export function TechnicianAvailabilityManager({ slots }: { slots: AvailabilitySl
             console.error(error);
         } finally {
             setCreating(false);
-        }
-    };
-
-    const handleToggleAvailability = async (slot: AvailabilitySlot) => {
-        setSavingSlotId(slot.id);
-
-        const result = await updateTechnicianAvailability({
-            availabilitySlotId: slot.id,
-            dayOfWeek: slot.dayOfWeek as (typeof dayOptions)[number],
-            startAt: slot.startAt,
-            endAt: slot.endAt,
-            isAvailable: !slot.isAvailable,
-        });
-
-        setSavingSlotId(null);
-
-        if (result.success) {
-            toast.success(result.message || "Availability slot updated");
-            router.refresh();
-        } else {
-            toast.error(result.message || "Unable to update slot");
         }
     };
 
@@ -128,63 +119,72 @@ export function TechnicianAvailabilityManager({ slots }: { slots: AvailabilitySl
                 </div>
 
                 <form onSubmit={handleCreate} className="p-6">
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-foreground flex items-center gap-2">
-                                <Calendar className="w-4 h-4 text-muted-foreground" />
-                                Day
-                            </label>
-                            <select
-                                value={newSlot.dayOfWeek}
-                                onChange={(event) => setNewSlot((current) => ({ ...current, dayOfWeek: event.target.value }))}
-                                className="w-full rounded-xl border-input bg-muted/50 px-4 py-2.5 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
-                                required
-                            >
-                                <option value="">Select day</option>
-                                {dayOptions.map((day) => (
-                                    <option key={day} value={day}>{day}</option>
-                                ))}
-                            </select>
+                    <div className="rounded-2xl border border-border/70 bg-muted/20 p-4">
+                        <div className="mb-4 flex items-start justify-between gap-3">
+                            <div>
+                                <p className="text-sm font-semibold text-foreground">New availability window</p>
+                                <p className="text-sm text-muted-foreground">Pick a day and the exact start/end times. The day will be adjusted automatically for Bangladesh time when needed.</p>
+                            </div>
                         </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-foreground flex items-center gap-2">
-                                <Clock className="w-4 h-4 text-muted-foreground" />
-                                Start time <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="datetime-local"
-                                value={newSlot.startAt}
-                                onChange={(event) => setNewSlot((current) => ({ ...current, startAt: event.target.value }))}
-                                className="w-full rounded-xl border-input bg-muted/50 px-4 py-2.5 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
-                                required
-                            />
-                        </div>
+                        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium text-foreground flex items-center gap-2">
+                                    <Calendar className="w-4 h-4 text-muted-foreground" />
+                                    Day
+                                </label>
+                                <select
+                                    value={newSlot.dayOfWeek}
+                                    onChange={(event) => setNewSlot((current) => ({ ...current, dayOfWeek: event.target.value }))}
+                                    className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
+                                    required
+                                >
+                                    <option value="">Select day</option>
+                                    {dayOptions.map((day) => (
+                                        <option key={day} value={day}>{day}</option>
+                                    ))}
+                                </select>
+                            </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-foreground flex items-center gap-2">
-                                <Clock className="w-4 h-4 text-muted-foreground" />
-                                End time <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="datetime-local"
-                                value={newSlot.endAt}
-                                onChange={(event) => setNewSlot((current) => ({ ...current, endAt: event.target.value }))}
-                                className="w-full rounded-xl border-input bg-muted/50 px-4 py-2.5 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
-                                required
-                            />
-                        </div>
-
-                        <div className="flex items-end">
-                            <label className="flex items-center gap-3 rounded-xl border border-input bg-muted/50 px-4 py-2.5 text-sm font-medium text-foreground hover:bg-muted/70 transition-colors duration-200 cursor-pointer">
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium text-foreground flex items-center gap-2">
+                                    <Clock className="w-4 h-4 text-muted-foreground" />
+                                    Start time <span className="text-red-500">*</span>
+                                </label>
                                 <input
-                                    type="checkbox"
-                                    checked={newSlot.isAvailable}
-                                    onChange={(event) => setNewSlot((current) => ({ ...current, isAvailable: event.target.checked }))}
-                                    className="h-4 w-4 rounded border-input text-primary focus:ring-primary focus:ring-2"
+                                    type="datetime-local"
+                                    value={newSlot.startAt}
+                                    onChange={(event) => setNewSlot((current) => ({ ...current, startAt: event.target.value }))}
+                                    className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
+                                    required
                                 />
-                                Available for booking
-                            </label>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium text-foreground flex items-center gap-2">
+                                    <Clock className="w-4 h-4 text-muted-foreground" />
+                                    End time <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="datetime-local"
+                                    value={newSlot.endAt}
+                                    onChange={(event) => setNewSlot((current) => ({ ...current, endAt: event.target.value }))}
+                                    className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
+                                    required
+                                />
+                            </div>
+
+                            <div className="flex items-end">
+                                <label className="flex w-full items-center justify-between gap-3 rounded-xl border border-input bg-background px-4 py-2.5 text-sm font-medium text-foreground hover:bg-muted/70 transition-colors duration-200 cursor-pointer">
+                                    <span>Available for booking</span>
+                                    <input
+                                        type="checkbox"
+                                        checked={newSlot.isAvailable}
+                                        onChange={(event) => setNewSlot((current) => ({ ...current, isAvailable: event.target.checked }))}
+                                        className="h-4 w-4 rounded border-input text-primary focus:ring-primary focus:ring-2"
+                                    />
+                                </label>
+                            </div>
                         </div>
                     </div>
 
@@ -271,9 +271,11 @@ export function TechnicianAvailabilityManager({ slots }: { slots: AvailabilitySl
                                             return;
                                         }
 
+                                        const resolvedDay = getBangladeshDayName(startDate.toISOString()) as (typeof dayOptions)[number];
+
                                         const result = await updateTechnicianAvailability({
                                             availabilitySlotId: slot.id,
-                                            dayOfWeek: formData.get("dayOfWeek") as (typeof dayOptions)[number],
+                                            dayOfWeek: resolvedDay,
                                             startAt: startDate.toISOString(),
                                             endAt: endDate.toISOString(),
                                             isAvailable: formData.get("isAvailable") === "on",
@@ -288,15 +290,15 @@ export function TechnicianAvailabilityManager({ slots }: { slots: AvailabilitySl
                                             toast.error(result.message || "Unable to update slot");
                                         }
                                     }}
-                                    className="group rounded-xl border border-border hover:border-primary/40 p-5 transition-all duration-200 shadow-sm hover:shadow-md"
+                                    className="group rounded-xl border border-border/80 bg-background/70 p-5 transition-all duration-200 shadow-sm hover:shadow-md hover:border-primary/40"
                                 >
-                                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5 items-start">
+                                    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5 items-start">
                                         <div className="space-y-1">
                                             <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Day</label>
                                             <select
                                                 name="dayOfWeek"
                                                 defaultValue={slot.dayOfWeek}
-                                                className="w-full rounded-lg border-input bg-muted/50 px-3 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
+                                                className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
                                             >
                                                 {dayOptions.map((day) => (
                                                     <option key={day} value={day}>{day}</option>
@@ -310,7 +312,7 @@ export function TechnicianAvailabilityManager({ slots }: { slots: AvailabilitySl
                                                 name="startAt"
                                                 type="datetime-local"
                                                 defaultValue={toDateTimeLocal(slot.startAt)}
-                                                className="w-full rounded-lg border-input bg-muted/50 px-3 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
+                                                className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
                                                 required
                                             />
                                         </div>
@@ -321,23 +323,23 @@ export function TechnicianAvailabilityManager({ slots }: { slots: AvailabilitySl
                                                 name="endAt"
                                                 type="datetime-local"
                                                 defaultValue={toDateTimeLocal(slot.endAt)}
-                                                className="w-full rounded-lg border-input bg-muted/50 px-3 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
+                                                className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
                                                 required
                                             />
                                         </div>
 
                                         <div className="space-y-1">
                                             <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Status</label>
-                                            <label className="flex items-center gap-3 rounded-lg border border-input bg-muted/50 px-3 py-2 text-sm font-medium text-foreground cursor-pointer hover:bg-muted/70 transition-colors duration-200">
+                                            <label className="flex items-center justify-between gap-3 rounded-lg border border-input bg-background px-3 py-2 text-sm font-medium text-foreground cursor-pointer hover:bg-muted/70 transition-colors duration-200">
+                                                <span className={slot.isAvailable ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}>
+                                                    {slot.isAvailable ? "Available" : "Unavailable"}
+                                                </span>
                                                 <input
                                                     name="isAvailable"
                                                     type="checkbox"
                                                     defaultChecked={slot.isAvailable}
                                                     className="h-4 w-4 rounded border-input text-primary focus:ring-primary focus:ring-2"
                                                 />
-                                                <span className={slot.isAvailable ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}>
-                                                    {slot.isAvailable ? "Available" : "Unavailable"}
-                                                </span>
                                             </label>
                                         </div>
 

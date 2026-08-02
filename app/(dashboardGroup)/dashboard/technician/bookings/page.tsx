@@ -4,7 +4,7 @@ import { CalendarDays, Clock3, MapPin, User2, Star } from "lucide-react";
 import { getMe } from "@/services/getMe";
 import { getTechnicianBookings } from "@/app/(dashboardGroup)/_actions/technician";
 import { StatusFilter } from "@/lib/type";
-import { statusBadges, statusTabs } from "@/lib/bookingConstants";
+import { buildBookingStatCards, statusBadges, statusTabs } from "@/lib/bookingConstants";
 
 export default async function TechnicianBookingsPage({
     searchParams,
@@ -43,6 +43,8 @@ export default async function TechnicianBookingsPage({
         cancelled: allBookings.filter((booking) => booking.status === "CANCELLED").length,
     };
 
+    const statCards = buildBookingStatCards(stats).filter((item) => item.key !== "earnings");
+
     return (
         <div className="space-y-6">
             {/* Header */}
@@ -60,21 +62,19 @@ export default async function TechnicianBookingsPage({
 
             {/* Stats Cards */}
             <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
-                {[
-                    { label: "Total Bookings", value: stats.total },
-                    { label: "Requested", value: stats.requested },
-                    { label: "Accepted", value: stats.accepted },
-                    { label: "Declined", value: stats.declined },
-                    { label: "Paid", value: stats.paid },
-                    { label: "In Progress", value: stats.inProgress },
-                    { label: "Completed", value: stats.completed },
-                    { label: "Cancelled", value: stats.cancelled },
-                ].map((item) => (
-                    <div key={item.label} className="rounded-2xl border border-border bg-card p-5 shadow-sm">
-                        <p className="text-sm text-muted-foreground">{item.label}</p>
-                        <p className="mt-2 text-3xl font-bold text-foreground">{item.value}</p>
-                    </div>
-                ))}
+                {statCards.map((item) => {
+                    const Icon = item.icon;
+
+                    return (
+                        <div key={item.key} className={`rounded-2xl border border-border bg-card p-5 shadow-sm ${item.color}`}>
+                            <div className="flex items-center gap-2">
+                                <Icon className={`h-5 w-5 ${item.iconColor}`} />
+                                <p className="text-sm font-semibold text-white">{item.label}</p>
+                            </div>
+                            <p className="mt-2 text-3xl font-bold text-white">{item.value}</p>
+                        </div>
+                    );
+                })}
             </div>
 
             {/* Tabs */}
@@ -86,8 +86,8 @@ export default async function TechnicianBookingsPage({
                             key={tab.value}
                             href={tab.value === "ALL" ? "/dashboard/technician/bookings" : `/dashboard/technician/bookings?status=${tab.value}`}
                             className={`flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium transition-all border ${isActive
-                                    ? "border-primary bg-primary text-primary-foreground"
-                                    : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-primary"
+                                ? "border-primary bg-primary text-primary-foreground"
+                                : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-primary"
                                 }`}
                         >
                             <tab.icon className="h-4 w-4" />
