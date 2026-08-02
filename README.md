@@ -192,10 +192,17 @@ npm run lint
 
 ## Live Links
 
-- Frontend app: add your deployed frontend URL here
+- Frontend app: https://fixitnow-frontend-six.vercel.app
 - Backend API: https://fixitnow-blush.vercel.app
 - API documentation: https://documenter.getpostman.com/view/54687734/2sBY4LQMTR
 - API integration file: [API_INTEGRATION.md](API_INTEGRATION.md)
+
+## Default Admin Credentials
+
+A default admin account is created automatically on startup if none exists.
+
+- Email: `admin@fixitnow.com`
+- Password: `admin123` 
 
 ## Notes
 
