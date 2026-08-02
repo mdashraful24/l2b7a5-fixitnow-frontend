@@ -65,11 +65,27 @@ export async function getDashboardStats(): Promise<DashboardStats> {
         ? ((thisMonthBookings.length - lastMonthBookings.length) / lastMonthBookings.length) * 100
         : 0;
 
+    // Calculate review stats from completed bookings
+    const reviews = allBookings
+        .filter((b: any) => b.review);
+
+    const totalReviews = reviews.length;
+
+    const averageReviewRating =
+        totalReviews > 0
+            ? reviews.reduce(
+                (sum: number, b: any) =>
+                    sum + (b.review?.rating || 0),
+                0
+            ) / totalReviews
+            : 0;
+
     return {
         bookings: bookingStats,
         users: userStats,
         totalRevenue,
-        averageRating,
+        averageRating: averageReviewRating,
+        totalReviews,
         totalCategories: categories.length,
         growthRate
     };

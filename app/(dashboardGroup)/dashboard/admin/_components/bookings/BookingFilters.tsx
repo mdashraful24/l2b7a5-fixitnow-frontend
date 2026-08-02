@@ -1,20 +1,8 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { 
-    Clock, 
-    CheckCircle, 
-    XCircle, 
-    Loader2, 
-    DollarSign,
-    AlertCircle,
-    ListChecks
-} from "lucide-react";
-import { BookingStats } from "@/lib/type";
-
-type BookingFiltersProps = {
-    stats?: BookingStats;
-};
+import { BookingFiltersProps } from "@/lib/type";
+import { getBookingFilterOptions } from "@/lib/bookingConstants";
 
 export function BookingFilters({ stats }: BookingFiltersProps) {
     const pathName = usePathname();
@@ -22,6 +10,7 @@ export function BookingFilters({ stats }: BookingFiltersProps) {
     const router = useRouter();
 
     const currentStatus = searchParams.get("status") || "";
+    const filterOptions = getBookingFilterOptions(stats);
 
     const handleFilterClick = (value: string) => {
         const params = new URLSearchParams(searchParams.toString());
@@ -42,65 +31,6 @@ export function BookingFilters({ stats }: BookingFiltersProps) {
     //     params.delete("status");
     //     router.replace(`${pathName}?${params.toString()}`);
     // };
-
-    const filterOptions = [
-        { 
-            value: "", 
-            label: "All", 
-            icon: ListChecks,
-            count: stats?.totalBookings || 0,
-            color: "bg-blue-500"
-        },
-        { 
-            value: "REQUESTED", 
-            label: "Requested", 
-            icon: Clock,
-            count: stats?.requestedBookings || 0,
-            color: "bg-yellow-500"
-        },
-        { 
-            value: "ACCEPTED", 
-            label: "Accepted", 
-            icon: CheckCircle,
-            count: stats?.acceptedBookings || 0,
-            color: "bg-green-500"
-        },
-        { 
-            value: "DECLINED", 
-            label: "Declined", 
-            icon: AlertCircle,
-            count: stats?.declinedBookings || 0,
-            color: "bg-orange-500"
-        },
-        { 
-            value: "PAID", 
-            label: "Paid", 
-            icon: DollarSign,
-            count: stats?.paidBookings || 0,
-            color: "bg-emerald-500"
-        },
-        { 
-            value: "IN_PROGRESS", 
-            label: "In Progress", 
-            icon: Loader2,
-            count: stats?.inProgressBookings || 0,
-            color: "bg-purple-500"
-        },
-        { 
-            value: "COMPLETED", 
-            label: "Completed", 
-            icon: CheckCircle,
-            count: stats?.completedBookings || 0,
-            color: "bg-indigo-500"
-        },
-        { 
-            value: "CANCELLED", 
-            label: "Cancelled", 
-            icon: XCircle,
-            count: stats?.cancelledBookings || 0,
-            color: "bg-red-500"
-        }
-    ];
 
     // const hasFilters = currentStatus !== "";
     // const activeFilter = filterOptions.find(f => f.value === currentStatus);

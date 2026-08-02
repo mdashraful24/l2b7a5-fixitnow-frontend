@@ -1,77 +1,27 @@
 "use client";
 
 import { IAdminBookings } from "@/lib/type";
-import { MapPin, User, Wrench, Clock, Mail, DollarSign, Star } from "lucide-react";
+import { MapPin, User, Wrench, Clock, Mail, DollarSign, Star, AlertCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import { bookingStatusTheme } from "@/lib/bookingConstants";
 
 type BookingCardProps = {
     booking: IAdminBookings;
 };
 
 export function BookingCard({ booking }: BookingCardProps) {
-    const getStatusConfig = (status: string) => {
-        switch (status) {
-            case "REQUESTED":
-                return {
-                    color: "bg-yellow-500",
-                    textColor: "text-white",
-                    bgColor: "bg-yellow-500 dark:bg-yellow-800",
-                    label: "Requested"
-                };
-            case "ACCEPTED":
-                return {
-                    color: "bg-green-500",
-                    textColor: "text-white",
-                    bgColor: "bg-green-500 dark:bg-green-800",
-                    label: "Accepted"
-                };
-            case "DECLINED":
-                return {
-                    color: "bg-orange-500",
-                    textColor: "text-white",
-                    bgColor: "bg-orange-500 dark:bg-orange-800",
-                    label: "Declined"
-                };
-            case "PAID":
-                return {
-                    color: "bg-emerald-500",
-                    textColor: "text-white",
-                    bgColor: "bg-emerald-500 dark:bg-emerald-800",
-                    label: "Paid"
-                };
-            case "IN_PROGRESS":
-                return {
-                    color: "bg-purple-500",
-                    textColor: "text-white",
-                    bgColor: "bg-purple-500 dark:bg-purple-800",
-                    label: "In Progress"
-                };
-            case "COMPLETED":
-                return {
-                    color: "bg-indigo-500",
-                    textColor: "text-white",
-                    bgColor: "bg-indigo-500 dark:bg-indigo-800",
-                    label: "Completed"
-                };
-            case "CANCELLED":
-                return {
-                    color: "bg-red-500",
-                    textColor: "text-white",
-                    bgColor: "bg-red-500 dark:bg-red-800",
-                    label: "Cancelled"
-                };
-            default:
-                return {
-                    color: "bg-gray-500",
-                    textColor: "text-white",
-                    bgColor: "bg-gray-500 dark:bg-gray-800",
-                    label: status
-                };
-        }
+    const statusConfig = bookingStatusTheme[booking.status as keyof typeof bookingStatusTheme] ?? {
+        label: booking.status,
+        icon: AlertCircle,
+        accent: "bg-gray-500",
+        badgeBg: "bg-gray-100",
+        badgeText: "text-gray-700",
+        badgeBorder: "border-gray-200",
+        softBg: "bg-gray-50 dark:bg-gray-950/30",
+        softText: "text-gray-700 dark:text-gray-300",
+        softBorder: "border-gray-200 dark:border-gray-800",
     };
-
-    const statusConfig = getStatusConfig(booking.status);
 
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {
@@ -92,7 +42,7 @@ export function BookingCard({ booking }: BookingCardProps) {
         <Link href={`/dashboard/admin/bookings/${booking.id}`}>
             <div className="group relative bg-white dark:bg-card rounded-xl border border-zinc-200 dark:border-border shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5 overflow-hidden flex flex-col h-full cursor-pointer">
                 {/* Gradient Top Bar */}
-                <div className={`h-1 w-full bg-linear-to-r ${statusConfig.color} from-${statusConfig.color}/50 to-${statusConfig.color} shrink-0`} />
+                <div className={`h-1 w-full ${statusConfig.accent} shrink-0`} />
 
                 <div className="p-4 flex flex-col flex-1">
                     {/* Header */}
@@ -102,7 +52,7 @@ export function BookingCard({ booking }: BookingCardProps) {
                                 <h3 className="text-base font-semibold truncate text-foreground">
                                     {booking.service.title}
                                 </h3>
-                                <Badge className={`${statusConfig.bgColor} ${statusConfig.textColor} border-0 text-xs`}>
+                                <Badge className={`${statusConfig.badgeBg} ${statusConfig.badgeText} ${statusConfig.badgeBorder} border-0 text-xs`}>
                                     {statusConfig.label}
                                 </Badge>
                             </div>

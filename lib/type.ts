@@ -507,6 +507,21 @@ export type BookingStats = {
     thisMonth?: number;
 };
 
+export type BookingFiltersProps = {
+    stats?: BookingStats;
+};
+
+export type TotalBookingsCountStats = {
+    totalBookings?: number;
+    requestedBookings?: number;
+    acceptedBookings?: number;
+    declinedBookings?: number;
+    paidBookings?: number;
+    inProgressBookings?: number;
+    completedBookings?: number;
+    cancelledBookings?: number;
+}
+
 export interface ICategory {
     id: string;
     name: string;
@@ -562,6 +577,7 @@ export interface DashboardStats {
     users: UserStats;
     totalRevenue: number;
     averageRating: number;
+    totalReviews: number;
     totalCategories: number;
     growthRate: number;
 }
@@ -574,6 +590,7 @@ export interface StatCardProps {
     trend?: number;
     color: string;
     bgColor: string;
+    cardBgColor?: string;
 }
 
 export interface MiniStatCardProps {
@@ -581,4 +598,6 @@ export interface MiniStatCardProps {
     value: number;
     color: string;
     icon: React.ElementType;
+    bgColor: string;
+    iconBgColor: string;
 }

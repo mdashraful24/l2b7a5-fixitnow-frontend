@@ -9,6 +9,8 @@ export function BookingCard({ booking, statusColors }: BookingCardProps) {
     const canReview = booking.status === "COMPLETED";
     const hasReview = booking.review !== null && booking.review !== undefined;
 
+    // console.log(hasReview, "review");
+
     return (
         <div className="rounded-xl border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">

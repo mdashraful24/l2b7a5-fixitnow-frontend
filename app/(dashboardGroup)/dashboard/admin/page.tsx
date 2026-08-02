@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Calendar, Clock, CheckCircle, XCircle, Loader2, Users, DollarSign, ArrowUpRight, BookOpen, Star, Briefcase } from "lucide-react";
+import { Calendar, Clock, CheckCircle, XCircle, Loader2, Users, DollarSign, ArrowUpRight, BookOpen, Star, Briefcase, UserStar} from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,9 +12,11 @@ import { MiniStatCard } from "./_components/dashboardStats/MiniStatCard";
 
 export default async function AdminDashboardPage() {
     const stats = await getDashboardStats();
-    const { bookings, users, totalRevenue, averageRating, totalCategories, growthRate } = stats;
+    const { bookings, users, totalRevenue, averageRating, totalReviews, totalCategories, growthRate } = stats;
 
     const bookingsResult = await getAllBookings({});
+    // console.log(bookingsResult, "review bookings result");
+
     const recentBookings = (bookingsResult.data || [])
         .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
         .slice(0, 5);
@@ -53,7 +55,7 @@ export default async function AdminDashboardPage() {
             </div>
 
             {/* Main stats cards */}
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
                 <StatCard
                     title="Total Bookings"
                     value={bookings.totalBookings}
@@ -62,14 +64,7 @@ export default async function AdminDashboardPage() {
                     trend={growthRate}
                     color="text-blue-500"
                     bgColor="bg-blue-50 dark:bg-blue-950/30"
-                />
-                <StatCard
-                    title="Total Revenue"
-                    value={`$${totalRevenue.toLocaleString()}`}
-                    icon={DollarSign}
-                    description={`${bookings.completedBookings} completed bookings`}
-                    color="text-green-500"
-                    bgColor="bg-green-50 dark:bg-green-950/30"
+                    cardBgColor="bg-gradient-to-br from-gray-700 to-gray-900"
                 />
                 <StatCard
                     title="Total Users"
@@ -78,6 +73,16 @@ export default async function AdminDashboardPage() {
                     description={`${users.activeUsers} active, ${users.bannedUsers} banned`}
                     color="text-purple-500"
                     bgColor="bg-purple-50 dark:bg-purple-950/30"
+                    cardBgColor="bg-gradient-to-br from-gray-700 to-gray-900"
+                />
+                <StatCard
+                    title="Total Revenue"
+                    value={`$${totalRevenue.toLocaleString()}`}
+                    icon={DollarSign}
+                    description={`${bookings.completedBookings} completed bookings`}
+                    color="text-green-500"
+                    bgColor="bg-green-50 dark:bg-green-950/30"
+                    cardBgColor="bg-gradient-to-br from-gray-700 to-gray-900"
                 />
                 <StatCard
                     title="Avg. Rating"
@@ -86,6 +91,16 @@ export default async function AdminDashboardPage() {
                     description={`${users.totalTechnicians} technicians`}
                     color="text-yellow-500"
                     bgColor="bg-yellow-50 dark:bg-yellow-950/30"
+                    cardBgColor="bg-gradient-to-br from-gray-700 to-gray-900"
+                />
+                <StatCard
+                    title="Total Reviews"
+                    value={totalReviews > 0 ? totalReviews.toFixed(1) : 'N/A'}
+                    icon={UserStar}
+                    description={`${users.totalTechnicians} technicians`}
+                    color="text-red-500"
+                    bgColor="bg-red-50 dark:bg-red-950/30"
+                    cardBgColor="bg-gradient-to-br from-gray-700 to-gray-900"
                 />
             </div>
 
@@ -94,32 +109,42 @@ export default async function AdminDashboardPage() {
                 <MiniStatCard
                     title="Requested"
                     value={bookings.requestedBookings}
-                    color="bg-yellow-500"
+                    color="bg-orange-500"
                     icon={Clock}
+                    iconBgColor="bg-orange-500"
+                    bgColor="bg-gradient-to-br from-orange-700 to-orange-800"
                 />
                 <MiniStatCard
                     title="In Progress"
                     value={bookings.inProgressBookings}
-                    color="bg-purple-500"
+                    color="bg-green-500"
                     icon={Loader2}
+                    iconBgColor="bg-green-500"
+                    bgColor="bg-gradient-to-br from-green-700 to-green-800"
                 />
                 <MiniStatCard
                     title="Completed"
                     value={bookings.completedBookings}
-                    color="bg-green-500"
+                    color="bg-gray-500"
                     icon={CheckCircle}
+                    iconBgColor="bg-gray-500"
+                    bgColor="bg-gradient-to-br from-gray-600 to-gray-700"
                 />
                 <MiniStatCard
                     title="Cancelled"
                     value={bookings.cancelledBookings}
                     color="bg-red-500"
                     icon={XCircle}
+                    iconBgColor="bg-red-500"
+                    bgColor="bg-gradient-to-br from-red-700 to-red-800"
                 />
                 <MiniStatCard
                     title="Categories"
                     value={totalCategories}
                     color="bg-indigo-500"
                     icon={BookOpen}
+                    iconBgColor="bg-indigo-500"
+                    bgColor="bg-gradient-to-br from-indigo-700 to-indigo-800"
                 />
             </div>
 

@@ -1,18 +1,9 @@
 import { getAllBookings } from "../../_actions/getBookings";
 import { IBooking } from "@/lib/type";
-import {
-    CalendarDays,
-    CheckCircle,
-    Clock,
-    Loader2,
-    Ban,
-    ThumbsUp,
-    ThumbsDown,
-    CreditCard
-} from "lucide-react";
+import { CalendarDays } from "lucide-react";
 import Link from "next/link";
 import { BookingCard } from "./_components/BookingCard";
-import { statusColors, StatusFilter, statusTabs } from "@/lib/bookingConstants";
+import { buildBookingStatCards, statusColors, StatusFilter, statusTabs } from "@/lib/bookingConstants";
 
 export default async function CustomerDashboardPage({
     searchParams,
@@ -42,6 +33,8 @@ export default async function CustomerDashboardPage({
         cancelled: allBookings.filter((b: IBooking) => b.status === "CANCELLED").length,
     };
 
+    const statCards = buildBookingStatCards(stats).filter((item) => item.key !== "earnings");
+
     return (
         <div className="space-y-8">
             {/* Header */}
@@ -61,71 +54,14 @@ export default async function CustomerDashboardPage({
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
-                {[
-                    {
-                        label: "Total Bookings",
-                        value: stats.total,
-                        icon: CalendarDays,
-                        color: "bg-gradient-to-br from-gray-700 to-gray-900",
-                        iconColor: "text-gray-300"
-                    },
-                    {
-                        label: "Requested",
-                        value: stats.requested,
-                        icon: Clock,
-                        color: "bg-gradient-to-br from-blue-500 to-blue-600",
-                        iconColor: "text-blue-200"
-                    },
-                    {
-                        label: "Declined",
-                        value: stats.declined,
-                        icon: ThumbsDown,
-                        color: "bg-gradient-to-br from-gray-400 to-gray-500",
-                        iconColor: "text-gray-200"
-                    },
-                    {
-                        label: "Accepted",
-                        value: stats.accepted,
-                        icon: CheckCircle,
-                        color: "bg-gradient-to-br from-teal-500 to-teal-600",
-                        iconColor: "text-teal-200"
-                    },
-                    {
-                        label: "Paid",
-                        value: stats.paid,
-                        icon: CreditCard,
-                        color: "bg-gradient-to-br from-indigo-500 to-indigo-600",
-                        iconColor: "text-indigo-200"
-                    },
-                    {
-                        label: "In Progress",
-                        value: stats.inProgress,
-                        icon: Loader2,
-                        color: "bg-gradient-to-br from-amber-500 to-amber-600",
-                        iconColor: "text-amber-200"
-                    },
-                    {
-                        label: "Completed",
-                        value: stats.completed,
-                        icon: ThumbsUp,
-                        color: "bg-gradient-to-br from-green-500 to-green-600",
-                        iconColor: "text-green-200"
-                    },
-                    {
-                        label: "Cancelled",
-                        value: stats.cancelled,
-                        icon: Ban,
-                        color: "bg-gradient-to-br from-red-500 to-red-600",
-                        iconColor: "text-red-200"
-                    },
-                ].map((item) => (
+            <div className="grid grid-cols-2 gap-4 xl:grid-cols-5">
+                {statCards.map((item) => (
                     <div key={item.label} className={`${item.color} rounded-xl px-5 py-3 text-white shadow-lg transition-transform hover:scale-[1.02]`}>
                         <div className="flex items-center gap-2 mb-2">
                             <item.icon className={`h-5 w-5 ${item.iconColor}`} />
                             <p className="text-sm text-white/90">{item.label}</p>
                         </div>
-                        <p className="text-3xl font-bold">{item.value}</p>
+                        <p className="text-2xl font-bold">{item.value}</p>
                     </div>
                 ))}
             </div>

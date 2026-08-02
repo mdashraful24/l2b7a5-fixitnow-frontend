@@ -10,21 +10,18 @@ import {
     DollarSign,
     Wrench,
     Star,
-    CheckCircle,
-    XCircle,
-    Loader2,
     AlertCircle,
-    FileText,
-    CreditCard,
     UserCircle,
     CalendarDays,
-    Briefcase
+    Briefcase,
+    FileText
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getBookingDetails } from "@/app/(dashboardGroup)/_actions/admin";
+import { bookingStatusTheme } from "@/lib/bookingConstants";
 
 type BookingDetailsPageProps = {
     params: Promise<{ id: string }>;
@@ -40,84 +37,17 @@ export default async function BookingDetailsPage({ params }: BookingDetailsPageP
 
     const booking = result.data;
 
-    const getStatusConfig = (status: string) => {
-        switch (status) {
-            case "REQUESTED":
-                return {
-                    color: "bg-yellow-500",
-                    textColor: "text-yellow-700 dark:text-yellow-300",
-                    bgColor: "bg-yellow-50 dark:bg-yellow-950/30",
-                    borderColor: "border-yellow-200 dark:border-yellow-800",
-                    icon: Clock,
-                    label: "Requested"
-                };
-            case "ACCEPTED":
-                return {
-                    color: "bg-green-500",
-                    textColor: "text-green-700 dark:text-green-300",
-                    bgColor: "bg-green-50 dark:bg-green-950/30",
-                    borderColor: "border-green-200 dark:border-green-800",
-                    icon: CheckCircle,
-                    label: "Accepted"
-                };
-            case "DECLINED":
-                return {
-                    color: "bg-orange-500",
-                    textColor: "text-orange-700 dark:text-orange-300",
-                    bgColor: "bg-orange-50 dark:bg-orange-950/30",
-                    borderColor: "border-orange-200 dark:border-orange-800",
-                    icon: XCircle,
-                    label: "Declined"
-                };
-            case "PAID":
-                return {
-                    color: "bg-emerald-500",
-                    textColor: "text-emerald-700 dark:text-emerald-300",
-                    bgColor: "bg-emerald-50 dark:bg-emerald-950/30",
-                    borderColor: "border-emerald-200 dark:border-emerald-800",
-                    icon: CreditCard,
-                    label: "Paid"
-                };
-            case "IN_PROGRESS":
-                return {
-                    color: "bg-purple-500",
-                    textColor: "text-purple-700 dark:text-purple-300",
-                    bgColor: "bg-purple-50 dark:bg-purple-950/30",
-                    borderColor: "border-purple-200 dark:border-purple-800",
-                    icon: Loader2,
-                    label: "In Progress"
-                };
-            case "COMPLETED":
-                return {
-                    color: "bg-indigo-500",
-                    textColor: "text-indigo-700 dark:text-indigo-300",
-                    bgColor: "bg-indigo-50 dark:bg-indigo-950/30",
-                    borderColor: "border-indigo-200 dark:border-indigo-800",
-                    icon: CheckCircle,
-                    label: "Completed"
-                };
-            case "CANCELLED":
-                return {
-                    color: "bg-red-500",
-                    textColor: "text-red-700 dark:text-red-300",
-                    bgColor: "bg-red-50 dark:bg-red-950/30",
-                    borderColor: "border-red-200 dark:border-red-800",
-                    icon: XCircle,
-                    label: "Cancelled"
-                };
-            default:
-                return {
-                    color: "bg-gray-500",
-                    textColor: "text-gray-700 dark:text-gray-300",
-                    bgColor: "bg-gray-50 dark:bg-gray-950/30",
-                    borderColor: "border-gray-200 dark:border-gray-800",
-                    icon: AlertCircle,
-                    label: status
-                };
-        }
+    const statusConfig = bookingStatusTheme[booking.status as keyof typeof bookingStatusTheme] ?? {
+        label: booking.status,
+        icon: AlertCircle,
+        accent: "bg-gray-500",
+        badgeBg: "bg-gray-100",
+        badgeText: "text-gray-700",
+        badgeBorder: "border-gray-200",
+        softBg: "bg-gray-50 dark:bg-gray-950/30",
+        softText: "text-gray-700 dark:text-gray-300",
+        softBorder: "border-gray-200 dark:border-gray-800",
     };
-
-    const statusConfig = getStatusConfig(booking.status);
     const StatusIcon = statusConfig.icon;
 
     const formatDate = (dateString: string) => {
@@ -165,10 +95,10 @@ export default async function BookingDetailsPage({ params }: BookingDetailsPageP
             </div>
 
             {/* Status Banner */}
-            <div className={`rounded-lg border ${statusConfig.borderColor} ${statusConfig.bgColor} p-4 flex items-center gap-3`}>
-                <StatusIcon className={`h-6 w-6 ${statusConfig.textColor}`} />
+            <div className={`rounded-lg border ${statusConfig.softBorder} ${statusConfig.softBg} p-4 flex items-center gap-3`}>
+                <StatusIcon className={`h-6 w-6 ${statusConfig.softText}`} />
                 <div>
-                    <p className={`font-semibold ${statusConfig.textColor}`}>
+                    <p className={`font-semibold ${statusConfig.softText}`}>
                         Status: {statusConfig.label}
                     </p>
                     <p className="text-sm text-muted-foreground">
