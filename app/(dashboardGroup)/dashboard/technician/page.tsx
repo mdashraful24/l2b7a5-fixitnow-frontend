@@ -63,7 +63,7 @@ export default async function TechnicianDashboardPage() {
         completed: bookings.filter((booking) => booking.status === "COMPLETED").length,
         cancelled: bookings.filter((booking) => booking.status === "CANCELLED").length,
         earnings: bookings
-            .filter((booking) => booking.status === "COMPLETED")
+            .filter((booking) => booking.status === "COMPLETED" || booking.status === "PAID")
             .reduce((total, booking) => total + (booking.totalAmount || 0), 0),
     };
 
