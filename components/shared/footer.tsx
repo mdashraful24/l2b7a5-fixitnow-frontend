@@ -5,7 +5,6 @@ import {
     Mail,
     Phone,
     MapPin,
-    ArrowRight,
     Clock
 } from 'lucide-react'
 import { FacebookLogoIcon, InstagramLogoIcon, TwitterLogoIcon, YoutubeLogoIcon } from '@phosphor-icons/react'
@@ -21,7 +20,7 @@ const Footer = () => {
                     {/* Company Info */}
                     <div className="space-y-4">
                         <h3 className="text-2xl font-bold text-foreground">
-                            ServiceHub
+                            FixItNow
                         </h3>
                         <p className="text-sm text-muted-foreground">
                             Your trusted platform for finding professional home services.
@@ -33,28 +32,28 @@ const Footer = () => {
                                 className="text-muted-foreground hover:text-primary transition-colors"
                                 aria-label="Facebook"
                             >
-                                <FacebookLogoIcon className="h-5 w-5" />
+                                <FacebookLogoIcon className="h-6 w-6" />
                             </Link>
                             <Link
                                 href="#"
                                 className="text-muted-foreground hover:text-primary transition-colors"
                                 aria-label="Twitter"
                             >
-                                <TwitterLogoIcon className="h-5 w-5" />
+                                <TwitterLogoIcon className="h-6 w-6" />
                             </Link>
                             <Link
                                 href="#"
                                 className="text-muted-foreground hover:text-primary transition-colors"
                                 aria-label="Instagram"
                             >
-                                <InstagramLogoIcon className="h-5 w-5" />
+                                <InstagramLogoIcon className="h-6 w-6" />
                             </Link>
                             <Link
                                 href="#"
                                 className="text-muted-foreground hover:text-primary transition-colors"
                                 aria-label="YouTube"
                             >
-                                <YoutubeLogoIcon className="h-5 w-5" />
+                                <YoutubeLogoIcon className="h-6 w-6" />
                             </Link>
                         </div>
                     </div>
@@ -149,18 +148,18 @@ const Footer = () => {
                         <ul className="space-y-3">
                             <li className="flex items-start gap-3 text-sm text-muted-foreground">
                                 <MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                                <span>123 Service Street, City, State 12345</span>
+                                <span>123 FixItNow Street, Dhaka, Bangladesh</span>
                             </li>
                             <li className="flex items-center gap-3 text-sm text-muted-foreground">
                                 <Phone className="h-5 w-5 text-primary shrink-0" />
-                                <a href="tel:+1234567890" className="hover:text-primary transition-colors">
-                                    +1 (234) 567-890
+                                <a href="tel:+8801234567890" className="hover:text-primary transition-colors">
+                                    +880 123 456 7890
                                 </a>
                             </li>
                             <li className="flex items-center gap-3 text-sm text-muted-foreground">
                                 <Mail className="h-5 w-5 text-primary shrink-0" />
-                                <a href="mailto:info@servicehub.com" className="hover:text-primary transition-colors">
-                                    info@servicehub.com
+                                <a href="mailto:info@FixItNow.com" className="hover:text-primary transition-colors">
+                                    info@FixItNow.com
                                 </a>
                             </li>
                             <li className="flex items-center gap-3 text-sm text-muted-foreground">
@@ -204,7 +203,7 @@ const Footer = () => {
                 <div className="border-t border-border py-6">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                         <p className="text-sm text-muted-foreground">
-                            &copy; {currentYear} ServiceHub. All rights reserved.
+                            &copy; {currentYear} FixItNow. All rights reserved.
                         </p>
                         <div className="flex items-center gap-6">
                             <Link

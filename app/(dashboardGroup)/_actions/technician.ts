@@ -373,6 +373,12 @@ export const createService = async (prevState: unknown, formData: FormData): Pro
         revalidateTag("tech-services", {
             expire: 0
         });
+        revalidateTag("services", {
+            expire: 0
+        });
+        revalidateTag("categories", {
+            expire: 0
+        });
     }
 
     return result;
@@ -457,6 +463,12 @@ export const updatedService = async (serviceId: string, prevState: unknown, form
         revalidateTag("tech-services", {
             expire: 0
         });
+        revalidateTag("services", {
+            expire: 0
+        });
+        revalidateTag("categories", {
+            expire: 0
+        });
     }
 
     return result;
@@ -484,6 +496,12 @@ export const deleteService = async (serviceId: string) => {
 
     if (result.success) {
         revalidateTag("tech-services", {
+            expire: 0
+        });
+        revalidateTag("services", {
+            expire: 0
+        });
+        revalidateTag("categories", {
             expire: 0
         });
     }
