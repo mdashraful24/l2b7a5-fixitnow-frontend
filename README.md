@@ -1,130 +1,413 @@
 # FixItNow Frontend
 
-**FixItNow** is a modern Next.js frontend for a home services marketplace. Customers can browse services, view technician profiles, choose time slots, book appointments, and complete payment through Stripe Checkout. Technicians manage their availability and bookings through protected dashboards, while admins can oversee users, bookings, and categories through role-based admin pages.
+**FixItNow** is a modern Next.js frontend for a full-stack home services marketplace. Customers can browse services, discover technicians, book appointments, make secure payments through Stripe Checkout, and manage their booking history.
 
-This frontend is built to work with the companion backend in `fixitnow-backend` and follows the mandatory requirements, including API integration, protected routes, validation, and payment redirects.
+Technicians can manage availability, services, profiles, and bookings, while administrators can oversee users, categories, and platform-wide operations through dedicated dashboards.
+
+The application works with the companion **FixItNow Backend** and implements secure authentication, role-based authorization, API integration, payment processing, protected routes, and responsive user experiences.
 
 <div align="center">
   <img height="500" src="https://drive.google.com/uc?export=view&id=1d5jTMB4bT40idwTtkWgun0Cg-gLXIru9" alt="FixItNow" />
 </div>
 
-## Overview
+---
 
-FixItNow delivers three role-based experiences:
+# Live Demo & Documentation
 
-- Customers browse services, book slots, pay for accepted bookings, review completed jobs, and manage booking history.
-- Technicians manage their profile, services, availability slots, and incoming bookings.
-- Admins manage users, categories, and platform-wide booking data.
+* Frontend: https://fixitnow-frontend-six.vercel.app
+* Backend API: https://fixitnow-blush.vercel.app
+* API Documentation: https://documenter.getpostman.com/view/54687734/2sBY4LQMTR
+* Integration Guide: [API_INTEGRATION.md](./API_INTEGRATION.md)
 
-The app uses Next.js App Router, server actions, middleware-based authentication, and Stripe Checkout redirect flows for a secure booking experience.
+---
 
-## Tech Stack
+# Table of Contents
 
-- Next.js 16 App Router
-- React 19
-- TypeScript
-- Tailwind CSS 4
-- Shadcn UI / Radix UI primitives
-- Zod for validation
-- Next.js Server Actions
-- Next.js Middleware / proxy route protection
-- Stripe Checkout integration
-- Sonner for toast notifications
-- Lucide React and Phosphor Icons
+* [Project Highlights](#project-highlights)
+* [Architecture Overview](#architecture-overview)
+* [Overview](#overview)
+* [API Documentation](#api-documentation)
+* [Tech Stack](#tech-stack)
+* [Features](#features)
+* [Security](#security)
+* [Local Development](#local-development)
+* [Routes](#important-routes)
+* [Deployment](#deployment)
+* [Future Enhancements](#future-enhancements)
 
-## Main Features
+---
 
-### Public Experience
+# Project Highlights
 
-- Service browsing with filters and service/technician discovery.
-- Technician profile pages with ratings, services, reviews, and booking entry points.
-- Responsive UI with loading and empty states.
+* Full-stack home services marketplace
+* Role-based authentication and authorization
+* Customer, Technician, and Admin dashboards
+* Stripe Checkout payment integration
+* Booking lifecycle management
+* Availability and slot scheduling
+* Review and rating system
+* Middleware-based route protection
+* Zod-powered validation
+* Responsive UI design
+* Next.js App Router architecture
+* Server Actions integration
 
-### Customer Experience
+---
 
-- Role-based login and registration flows.
-- Booking flow with slot selection and booking summaries.
-- Booking detail page with payment, cancel, and edit actions.
-- Stripe payment handoff with `/payment/success` and `/payment/cancel` return pages.
-- Booking history, payment history, and review submission after completion.
+# Architecture Overview
 
-### Technician Experience
+```text
+Customer / Technician / Admin
+              │
+              ▼
+      Next.js Frontend
+              │
+              ▼
+     Server Actions / API Calls
+              │
+              ▼
+       Express Backend
+              │
+      ┌───────┴────────┐
+      ▼                ▼
+ Prisma ORM       Stripe Checkout
+      │
+      ▼
+ PostgreSQL
+```
 
-- Technician dashboard and profile management.
-- Availability scheduling and time-slot management.
-- Booking management actions such as accept, decline, start, and complete.
+---
 
-### Admin Experience
+# Overview
 
-- Admin dashboard and user statistics.
-- User moderation actions.
-- Booking and category management screens.
+FixItNow provides three role-based experiences.
 
-## Requirement Coverage
+## Customer
 
-This project is aligned with the mandatory requirements from the assignment docs:
+Customers can:
 
-- API integration is documented in [API_INTEGRATION.md](API_INTEGRATION.md).
-- Form and action validation uses Zod-powered checks and structured UI feedback.
-- Error handling uses toast messages, route guards, and empty-state fallbacks.
-- Stripe Checkout is integrated for the customer payment flow with success and cancel pages.
-- Routes are protected by the Next.js proxy middleware based on authentication and role.
+* Browse available services
+* Discover technicians
+* View technician profiles
+* Select available time slots
+* Create bookings
+* Complete payments through Stripe Checkout
+* Track booking history
+* View payment records
+* Submit reviews after completed services
 
-## Dependencies
+---
 
-Main runtime dependencies used in this frontend:
+## Technician
 
-- `next`
-- `react`
-- `react-dom`
-- `zod`
-- `sonner`
-- `lucide-react`
-- `@phosphor-icons/react`
-- `next-themes`
-- `class-variance-authority`
-- `clsx`
-- `tailwind-merge`
-- `radix-ui`
-- `jsonwebtoken`
+Technicians can:
 
-Main development dependencies:
+* Manage profiles
+* Create and update services
+* Manage availability slots
+* View booking requests
+* Accept or decline bookings
+* Start and complete services
 
-- `typescript`
-- `eslint`
-- `eslint-config-next`
-- `tailwindcss`
-- `@tailwindcss/postcss`
-- `@types/node`
-- `@types/react`
-- `@types/react-dom`
-- `@types/jsonwebtoken`
+---
+
+## Admin
+
+Administrators can:
+
+* Manage users
+* Manage service categories
+* Monitor bookings
+* View platform statistics
+* Moderate user activity
+
+---
+
+# API Documentation
+
+This frontend communicates with the FixItNow backend through REST APIs.
+
+## Resources
+
+* Backend Repository: https://github.com/mdashraful24/L2B7-Assignment-4
+* API Integration Guide: [API_INTEGRATION.md](./API_INTEGRATION.md)
+* Postman Documentation:
+  https://documenter.getpostman.com/view/54687734/2sBY4LQMTR
+* Production API:
+  https://fixitnow-blush.vercel.app
+
+## Covered Endpoints
+
+* Authentication
+* Users
+* Technicians
+* Services
+* Categories
+* Availability Slots
+* Bookings
+* Payments
+* Reviews
+* Admin Operations
+
+Detailed request payloads, responses, authentication flow, and frontend integration details are documented in:
+
+```
+API_INTEGRATION.md
+```
+
+---
+
+# Tech Stack
+
+## Frontend
+
+* Next.js 16 (App Router)
+* React 19
+* TypeScript
+* Tailwind CSS 4
+* Shadcn UI
+* Radix UI
+* Sonner
+* Lucide React
+* Phosphor Icons
+
+---
 
 ## Backend Integration
 
-This frontend consumes the deployed FixItNow backend API from the companion project.
+The frontend integrates with a backend built using:
 
-- Backend source: `fixitnow-backend`
-- API integration guide: [API_INTEGRATION.md](API_INTEGRATION.md)
-- API base URL: `https://fixitnow-blush.vercel.app`
+* Node.js
+* Express.js
+* TypeScript
+* Prisma ORM
+* PostgreSQL
+* JWT Authentication
+* Stripe Payment Gateway
 
-The frontend uses server actions and fetch calls to communicate with the backend for:
+---
 
-- authentication
-- services and technicians
-- bookings and slot availability
-- payment creation and confirmation
-- reviews and admin actions
+## Validation & Application Logic
 
-## Local Setup
+* Zod
+* Next.js Server Actions
+
+---
+
+## Authentication & Security
+
+* JWT authentication
+* Role-based authorization
+* Middleware route protection
+
+---
+
+## Payment
+
+* Stripe Checkout
+
+---
+
+## Key Features
+
+### Public Experience
+
+* Service browsing and filtering
+* Technician discovery
+* Technician profile pages
+* Ratings and reviews
+* Responsive design
+* Loading and empty states
+
+### Customer Experience
+
+* Secure registration and login
+* Service booking workflow
+* Slot selection
+* Booking management
+* Stripe payment processing
+* Booking history
+* Payment history
+* Review submission
+
+### Technician Experience
+
+* Profile management
+* Service management
+* Availability scheduling
+* Booking request management
+* Booking status updates
+
+### Admin Experience
+
+* User management
+* Category management
+* Booking oversight
+* Platform analytics
+* Administrative moderation tools
+
+---
+
+## Role Permission Matrix
+
+| Feature             | Customer | Technician | Admin |
+| ------------------- | -------- | ---------- | ----- |
+| Browse Services     | ✅        | ✅          | ✅     |
+| View Technicians    | ✅        | ✅          | ✅     |
+| Create Booking      | ✅        | ❌          | ❌     |
+| Make Payments       | ✅        | ❌          | ❌     |
+| Submit Reviews      | ✅        | ❌          | ❌     |
+| Manage Availability | ❌        | ✅          | ❌     |
+| Accept Bookings     | ❌        | ✅          | ❌     |
+| Complete Services   | ❌        | ✅          | ❌     |
+| Manage Users        | ❌        | ❌          | ✅     |
+| Manage Categories   | ❌        | ❌          | ✅     |
+| View Platform Data  | ❌        | ❌          | ✅     |
+
+---
+
+## Technical Decisions
+
+### Next.js App Router
+
+App Router was selected to leverage server components, improved routing patterns, and enhanced performance.
+
+### Server Actions
+
+Server Actions simplify data mutations while reducing client-side complexity.
+
+### Zod Validation
+
+Zod ensures consistent validation and type safety across forms and server actions.
+
+### Middleware Authorization
+
+Middleware protects routes before rendering, preventing unauthorized dashboard access.
+
+### Stripe Checkout
+
+Stripe Checkout provides secure, PCI-compliant payment processing and simplifies payment workflows.
+
+---
+
+## Security Features
+
+* JWT-based authentication
+* Role-based authorization
+* Protected routes using middleware
+* Server-side validation
+* Ownership verification for bookings
+* Secure payment redirection through Stripe Checkout
+* Protected dashboard experiences
+* API request validation
+
+---
+
+## Performance & User Experience
+
+* Mobile-first responsive design
+* Optimized component rendering
+* Loading skeletons
+* Error boundaries
+* Empty-state handling
+* Toast notifications
+* Server-side rendering where appropriate
+* Fast page transitions
+* Accessible UI components
+
+---
+
+## Requirement Coverage
+
+This project satisfies the assignment requirements:
+
+* API integration documented in `API_INTEGRATION.md`
+* Zod-powered validation
+* Structured form error handling
+* Protected routes and role-based authorization
+* Stripe Checkout integration
+* Payment success and cancellation flows
+* Server Actions implementation
+* Responsive user interface
+* Error handling and fallback states
+
+---
+
+## Dependencies
+
+### Runtime Dependencies
+
+```bash
+next
+react
+react-dom
+zod
+sonner
+lucide-react
+@phosphor-icons/react
+next-themes
+class-variance-authority
+clsx
+tailwind-merge
+radix-ui
+jsonwebtoken
+```
+
+### Development Dependencies
+
+```bash
+typescript
+eslint
+eslint-config-next
+tailwindcss
+@tailwindcss/postcss
+@types/node
+@types/react
+@types/react-dom
+@types/jsonwebtoken
+```
+
+---
+
+## Backend Integration
+
+The frontend communicates with the companion backend API.
+
+### Backend Repository
+
+fixitnow-backend
+
+### API Base URL
+
+```text
+https://fixitnow-blush.vercel.app
+```
+
+### API Usage
+
+The frontend consumes backend APIs for:
+
+* Authentication
+* Services
+* Technicians
+* Availability slots
+* Bookings
+* Reviews
+* Payments
+* Categories
+* Administrative operations
+
+---
+
+## Local Development Setup
 
 ### Prerequisites
 
-- Node.js 18 or newer
-- npm, pnpm, or yarn
-- A running FixItNow backend API
+* Node.js 18+
+* npm, pnpm, or yarn
+* Running FixItNow backend
 
-### Install
+### Installation
 
 ```bash
 npm install
@@ -132,7 +415,7 @@ npm install
 
 ### Environment Variables
 
-Create a `.env.local` file in the project root with the values below:
+Create a `.env.local` file:
 
 ```env
 BACKEND_API_URL=https://fixitnow-blush.vercel.app
@@ -151,19 +434,19 @@ STRIPE_SECRET_KEY=your_stripe_secret_key
 STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
 ```
 
-### Run the App
+### Run Development Server
 
 ```bash
 npm run dev
 ```
 
-Then open:
+Open:
 
 ```text
 http://localhost:3000
 ```
 
-### Build for Production
+### Production Build
 
 ```bash
 npm run build
@@ -176,36 +459,99 @@ npm run start
 npm run lint
 ```
 
+---
+
 ## Important Routes
 
-- `/` - Home page
-- `/services` - Browse services
-- `/technicians/[id]` - Technician profile
-- `/auth/login` - Login page
-- `/auth/register` - Register page
-- `/dashboard/customer` - Customer dashboard
-- `/dashboard/customer/bookings/[id]/pay` - Payment initiation page
-- `/payment/success` - Stripe success redirect page
-- `/payment/cancel` - Stripe cancel redirect page
-- `/dashboard/technician` - Technician dashboard
-- `/dashboard/admin` - Admin dashboard
+### Public Routes
 
-## Live Links
+```text
+/
+/services
+/technicians/[id]
+/auth/login
+/auth/register
+```
 
-- Frontend app: https://fixitnow-frontend-six.vercel.app
-- Backend API: https://fixitnow-blush.vercel.app
-- API documentation: https://documenter.getpostman.com/view/54687734/2sBY4LQMTR
-- API integration file: [API_INTEGRATION.md](API_INTEGRATION.md)
+### Customer Routes
 
-## Default Admin Credentials
+```text
+/dashboard/customer
+/dashboard/customer/bookings/[id]/pay
+/payment/success
+/payment/cancel
+```
 
-A default admin account is created automatically on startup if none exists.
+### Technician Routes
 
-- Email: `admin@fixitnow.com`
-- Password: `admin123` 
+```text
+/dashboard/technician
+```
+
+### Admin Routes
+
+```text
+/dashboard/admin
+```
+
+---
+
+## Deployment
+
+### Production Infrastructure
+
+| Service  | Provider      |
+| -------- | ------------- |
+| Frontend | Vercel        |
+| Backend  | Vercel        |
+| Database | PostgreSQL    |
+| ORM      | Prisma ORM    |
+| Payments | Stripe        |
+
+### Production URLs
+
+Frontend:
+https://fixitnow-frontend-six.vercel.app
+
+Backend:
+https://fixitnow-blush.vercel.app
+
+---
+
+## Key Achievements
+
+* Developed a complete role-based marketplace platform.
+* Implemented secure Stripe payment workflows.
+* Built protected dashboards for three distinct user roles.
+* Integrated a production-ready backend API.
+* Designed responsive interfaces using modern Next.js architecture.
+* Implemented booking lifecycle management with real-time status updates.
+* Applied secure authentication and authorization practices.
+
+---
+
+## Future Enhancements
+
+* Real-time booking notifications
+* In-app messaging system
+* Advanced analytics dashboard
+* Technician verification workflow
+* Service recommendations
+* Multi-language support
+* Push notifications
+* Mobile application support
+
+---
 
 ## Notes
 
-- The app uses role-based route protection through `proxy.ts`.
-- The booking and payment flows are designed around the backend booking ownership rules.
-- If you add a production deployment for this frontend, replace the frontend live link above with the deployed URL.
+* Route protection is handled through middleware (`proxy.ts`).
+* Booking ownership rules are enforced by the backend.
+* Payment processing uses Stripe Checkout redirection flows.
+* The frontend follows a role-based architecture for Customers, Technicians, and Admins.
+
+---
+
+## License
+
+This project was developed for educational and portfolio purposes.
