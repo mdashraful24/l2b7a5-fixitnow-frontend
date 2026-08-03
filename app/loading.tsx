@@ -6,7 +6,7 @@ import {
 
 const GlobalLoading = () => {
     return (
-        <div className="flex min-h-dvh items-center justify-center p-6">
+        <div className="flex min-h-[80vh] items-center justify-center p-6">
             <Card className="w-full max-w-sm shadow-lg">
                 <CardContent className="flex flex-col items-center gap-4 py-10">
                     <Loader2 className="h-10 w-10 animate-spin text-primary" />
