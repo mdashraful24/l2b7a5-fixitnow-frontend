@@ -56,7 +56,7 @@ export default async function PaymentDetailsPage({
                 <div>
                     <Link
                         href={`/dashboard/customer/bookings/${id}/pay`}
-                        className="mb-2 inline-flex items-center gap-2 text-sm text-gray-600 hover:text-primary"
+                        className="mb-2 inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary"
                     >
                         <ArrowLeft className="h-4 w-4" />
                         Back to Booking
@@ -84,7 +84,7 @@ export default async function PaymentDetailsPage({
 
                     <div className="space-y-4">
                         <div className="space-y-1.5">
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
                                 Amount
                             </p>
                             <p className="text-3xl font-bold text-primary dark:text-blue-500">
@@ -92,7 +92,7 @@ export default async function PaymentDetailsPage({
                             </p>
                         </div>
                         <div className="space-y-1.5">
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
                                 Status
                             </p>
                             <span className="inline-flex rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700">
@@ -100,7 +100,7 @@ export default async function PaymentDetailsPage({
                             </span>
                         </div>
                         <div className="space-y-1.5">
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
                                 Provider
                             </p>
                             <p className="font-medium">
@@ -108,7 +108,7 @@ export default async function PaymentDetailsPage({
                             </p>
                         </div>
                         <div className="space-y-1.5">
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
                                 Currency
                             </p>
                             <p className="font-medium uppercase">
@@ -126,7 +126,7 @@ export default async function PaymentDetailsPage({
                     </h2>
                     <div className="space-y-4 text-sm">
                         <div className="space-y-2">
-                            <p className="text-gray-600">
+                            <p className="text-gray-600 dark:text-gray-400">
                                 Transaction ID
                             </p>
                             <p className="font-mono break-all">
@@ -142,7 +142,7 @@ export default async function PaymentDetailsPage({
                             </p>
                         </div> */}
                         <div className="space-y-2">
-                            <p className="text-gray-600">
+                            <p className="text-gray-600 dark:text-gray-400">
                                 Session ID
                             </p>
                             <p className="font-mono break-all">
@@ -160,7 +160,7 @@ export default async function PaymentDetailsPage({
                     </h2>
                     <div className="grid gap-4 md:grid-cols-3">
                         <div>
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
                                 Paid At
                             </p>
                             <p>
@@ -172,7 +172,7 @@ export default async function PaymentDetailsPage({
                             </p>
                         </div>
                         <div>
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
                                 Created At
                             </p>
                             <p>
@@ -182,7 +182,7 @@ export default async function PaymentDetailsPage({
                             </p>
                         </div>
                         <div>
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
                                 Updated At
                             </p>
                             <p>
@@ -202,7 +202,7 @@ export default async function PaymentDetailsPage({
                     </h2>
                     <div className="space-y-3 text-sm">
                         <div>
-                            <p className="text-gray-600">
+                            <p className="text-gray-600 dark:text-gray-400">
                                 Booking ID
                             </p>
                             <p className="font-mono break-all">
@@ -210,7 +210,7 @@ export default async function PaymentDetailsPage({
                             </p>
                         </div>
                         <div>
-                            <p className="text-gray-600">
+                            <p className="text-gray-600 dark:text-gray-400">
                                 Payment ID
                             </p>
                             <p className="font-mono break-all">

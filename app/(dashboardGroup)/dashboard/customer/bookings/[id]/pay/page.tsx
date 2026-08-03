@@ -177,8 +177,8 @@ export default async function BookingDetailPage({
             {/* Payment Actions */}
             <div className="space-y-3">
                 {canPay && (
-                    <div className="rounded-lg bg-blue-50 p-4 border border-blue-200">
-                        <p className="text-sm text-blue-700 mb-3">
+                    <div className="rounded-lg bg-blue-50 dark:bg-muted p-4 border border-blue-200 dark:border-muted">
+                        <p className="text-blue-700 dark:text-blue-500 mb-3">
                             This booking has been accepted by the technician. Please complete the payment to confirm your booking.
                         </p>
 

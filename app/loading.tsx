@@ -16,7 +16,7 @@ const GlobalLoading = () => {
                             Loading Application
                         </h3>
 
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-foreground dark:text-gray-300">
                             Preparing your content...
                         </p>
                     </div>
