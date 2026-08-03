@@ -58,11 +58,39 @@ export interface IUserProfile {
         experience: string;
         location: string;
         rating: number;
+        totalReviews: number;
+        description: string;
     };
+    createdAt: string;
 }
 
 export type MyProfileProps = {
     user: IUserProfile
+}
+
+export interface TechnicianProfileData {
+    user: {
+        name: string;
+        email: string;
+        phone?: string;
+        role: string;
+        status: string;
+    };
+    location: string;
+    rating: number;
+    bio?: string;
+    description?: string;
+    experience?: string;
+    skills?: string[];
+    reviewStats: {
+        totalReviews: number;
+    };
+    services?: IBookingDetailsResponse[];
+    availability?: IAvailableSlot[];
+}
+
+export interface TechnicianProfileProps {
+    technician: TechnicianProfileData;
 }
 
 export interface ICategory {

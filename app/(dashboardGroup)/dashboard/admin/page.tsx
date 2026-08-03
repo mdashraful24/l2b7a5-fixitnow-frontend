@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Calendar, Clock, CheckCircle, XCircle, Loader2, Users, DollarSign, ArrowUpRight, BookOpen, Star, Briefcase, UserStar} from "lucide-react";
+import { Calendar, Clock, CheckCircle, XCircle, Loader2, Users, DollarSign, ArrowUpRight, BookOpen, Star, Briefcase, UserStar } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -31,7 +31,7 @@ export default async function AdminDashboardPage() {
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div className="space-y-2">
                     <h1 className="text-3xl font-bold tracking-tight text-foreground">Dashboard Overview</h1>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm md:text-base text-muted-foreground">
                         Welcome back! Here&apos;s what&apos;s happening with your platform today.
                     </p>
                 </div>
@@ -162,7 +162,7 @@ export default async function AdminDashboardPage() {
                                 </Button>
                             </Link>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="px-3">
                             <div className="space-y-4">
                                 {recentBookings.length === 0 ? (
                                     <p className="text-center text-muted-foreground py-8">No bookings yet</p>
@@ -176,7 +176,7 @@ export default async function AdminDashboardPage() {
                                             <div className="flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 dark:hover:bg-muted/30 transition-colors border border-transparent hover:border-border">
                                                 <div className="flex-1 space-y-2 min-w-0">
                                                     <div className="flex items-center gap-2">
-                                                        <p className="font-medium text-base text-foreground truncate">
+                                                        <p className="font-medium text-base text-foreground line-clamp-1">
                                                             {booking.service?.title || 'Unknown Service'}
                                                         </p>
                                                         <Badge
@@ -243,7 +243,7 @@ export default async function AdminDashboardPage() {
                                 </Button>
                             </Link>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="px-4">
                             <div className="space-y-3">
                                 {recentUsers.length === 0 ? (
                                     <p className="text-center text-muted-foreground py-4 text-sm">No users yet</p>
@@ -255,12 +255,14 @@ export default async function AdminDashboardPage() {
                                             className="block"
                                         >
                                             <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 dark:hover:bg-muted/30 transition-colors">
-                                                <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm">
-                                                    {user.name?.charAt(0) || 'U'}
+                                                <div className="hidden md:block">
+                                                    <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm">
+                                                        {user.name?.charAt(0) || 'U'}
+                                                    </div>
                                                 </div>
                                                 <div className="flex-1 min-w-0 space-y-1">
                                                     <p className="text-sm font-medium text-foreground truncate">{user.name}</p>
-                                                    <p className="text-xs text-muted-foreground dark:text-gray-300 truncate">{user.email}</p>
+                                                    <p className="text-xs md:text-sm text-muted-foreground dark:text-gray-300 truncate line-clamp-1">{user.email}</p>
                                                 </div>
                                                 <Badge
                                                     variant={user.status === 'ACTIVE' ? 'default' : 'destructive'}

@@ -13,7 +13,7 @@ const Footer = () => {
     const currentYear = new Date().getFullYear()
 
     return (
-        <footer className="bg-background border-t border-border mt-16">
+        <footer className="bg-background border-t border-border mt-10">
             <div className="container mx-auto px-4">
                 {/* Main Footer Content */}
                 <div className="grid grid-cols-1 gap-8 py-12 md:grid-cols-2 lg:grid-cols-4">

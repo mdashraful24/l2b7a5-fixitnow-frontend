@@ -35,13 +35,6 @@ export default async function HomePage({
                 Browse and choose the best services tailored to your needs
               </p>
             </div>
-            <Link
-              href="/services"
-              className="inline-flex items-center gap-2 text-primary font-semibold hover:text-primary/80 transition-colors mt-4 md:mt-0"
-            >
-              View All Services
-              <ArrowRight className="h-4 w-4" />
-            </Link>
           </div>
 
           {/* <ServiceSearchBar /> */}
@@ -49,6 +42,14 @@ export default async function HomePage({
           <Suspense fallback={<ServiceSkeleton />}>
             <ServiceList searchParams={searchParams} />
           </Suspense>
+
+          <Link
+            href="/services"
+            className="inline-flex items-center justify-end gap-2 text-primary font-semibold hover:text-primary/80 transition-colors mt-6 w-full"
+          >
+            View All Services
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </section>
 

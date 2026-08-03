@@ -1,22 +1,21 @@
 import { getMe } from "@/services/getMe"
 import MyProfile from "../_components/profileInfo/MyProfile";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import MyProfileSkeleton from "../_components/profileInfo/MyProfileSkeleton";
 
 const UserProfilePage = async () => {
     const user = await getMe();
-    
+
     if (!user.success || !user.data) {
-        return (
-            <div className="flex min-h-100 items-center justify-center">
-                <p className="text-muted-foreground">
-                    Profile not found. Please login to view your profile.
-                </p>
-            </div>
-        );
+        notFound();
     }
 
     return (
-        <div className="mx-auto max-w-7xl space-y-6 px-4 py-10 sm:px-6 lg:px-8">
-            <MyProfile user={user.data} />
+        <div className="lg:container mx-auto max-w-7xl space-y-6 px-4 py-10">
+            <Suspense fallback={<MyProfileSkeleton />}>
+                <MyProfile user={user.data} />
+            </Suspense>
         </div>
     )
 }
