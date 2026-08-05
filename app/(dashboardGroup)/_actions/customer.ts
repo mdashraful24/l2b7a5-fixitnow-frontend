@@ -248,6 +248,8 @@ export const createReview = async (prevState: IReview, formData: FormData) => {
             revalidateTag("services", { expire: 0 });
             // revalidateTag(`services-${params.toString()}`, { expire: 0 });
 
+            revalidateTag("reviews", { expire: 0 });
+
             if (result.data?.id) {
                 revalidateTag(`technician-${result.data?.technicianId}`, {
                     expire: 0
@@ -311,6 +313,8 @@ export const updateReview = async (reviewId: string, prevState: IReview, formDat
 
             revalidateTag("services", { expire: 0 });
             // revalidateTag(`services-${params.toString()}`, { expire: 0 });
+
+            revalidateTag("reviews", { expire: 0 });
 
             if (result.data?.id) {
                 revalidateTag(`technician-${result.data?.technicianId}`, {
