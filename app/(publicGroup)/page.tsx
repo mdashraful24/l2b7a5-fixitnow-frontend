@@ -6,7 +6,7 @@ import { ServiceList } from "./_components/serviceInfo/ServiceList";
 import { ArrowRight } from "lucide-react";
 import HeroSection from "./_components/home/HereSection";
 import HowItWorkSection from "./_components/home/HowItWorkSection";
-import TestimonialsSection from "./_components/home/TestimonialsSection";
+import { TestimonialsSection } from "./_components/home/TestimonialsSection";
 import CTASection from "./_components/home/CTASection";
 
 export default async function HomePage({
