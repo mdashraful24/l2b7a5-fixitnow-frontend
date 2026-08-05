@@ -82,7 +82,7 @@ export default async function TechnicianDashboardPage() {
                 </div>
                 <div className="flex flex-wrap gap-3">
                     <Link href="/dashboard/technician/updated-profile" className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90">
-                        Update Profile
+                        Edit Profile
                     </Link>
                     <Link href="/dashboard/technician/availability" className="rounded-lg border border-border px-4 py-2 text-sm font-semibold text-muted-foreground hover:border-primary/40 hover:text-primary">
                         Manage Availability

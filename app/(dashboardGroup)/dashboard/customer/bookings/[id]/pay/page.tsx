@@ -192,7 +192,7 @@ export default async function BookingDetailPage({
                 {booking.payment && (
                     <Link
                         href={`/dashboard/customer/bookings/${booking.id}/payment-details`}
-                        className="inline-flex items-center gap-2 rounded-lg border bg-white dark:bg-card text-black dark:text-white px-4 py-2 text-sm font-medium hover:bg-gray-50"
+                        className="inline-flex items-center gap-2 rounded-lg border bg-purple-100 text-purple-800 px-4 py-2.5 text-sm font-medium"
                     >
                         <CreditCard className="h-4 w-4" />
                         View Payment Details

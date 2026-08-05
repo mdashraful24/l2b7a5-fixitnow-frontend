@@ -162,13 +162,20 @@ export const updateTechnicianProfile = async (payload: UpdateTechnicianProfilePa
 
     const result = await res.json();
 
+    // console.log(result.data?.technicianProfile?.id, "result.data?.id");
+
     if (result.success) {
-        revalidateTag("my-profile", {
-            expire: 0
-        });
         revalidateTag("technicians", {
-            expire: 0
+            expire: 0,
         });
+        revalidateTag("my-profile", {
+            expire: 0,
+        });
+        if (result.data?.id) {
+            revalidateTag(`technician-${result.data?.technicianProfile?.id || result.data.id}`, {
+                expire: 0,
+            });
+        }
     }
 
     return result;
@@ -207,11 +214,16 @@ export const createTechnicianAvailability = async (payload: CreateAvailabilityPa
 
     if (result.success) {
         revalidateTag("technicians", {
-            expire: 0
+            expire: 0,
         });
         revalidateTag("my-profile", {
-            expire: 0
+            expire: 0,
         });
+        if (result.data?.id) {
+            revalidateTag(`technician-${result.data?.technicianProfile?.id || result.data.id}`, {
+                expire: 0,
+            });
+        }
     }
 
     return result;
@@ -252,11 +264,16 @@ export const updateTechnicianAvailability = async (payload: UpdateTechnicianAvai
 
     if (result.success) {
         revalidateTag("technicians", {
-            expire: 0
+            expire: 0,
         });
         revalidateTag("my-profile", {
-            expire: 0
+            expire: 0,
         });
+        if (result.data?.id) {
+            revalidateTag(`technician-${result.data?.technicianProfile?.id || result.data.id}`, {
+                expire: 0,
+            });
+        }
     }
 
     return result;

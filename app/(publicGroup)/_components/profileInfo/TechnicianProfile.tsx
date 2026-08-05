@@ -5,6 +5,8 @@ import { IAvailableSlot, IBookingDetailsResponse, TechnicianProfileProps } from 
 export default function TechnicianProfile({ technician }: TechnicianProfileProps) {
     const { user, reviewStats, services, availability } = technician;
 
+    // console.log(technician, "reviews");
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Left Column - Profile Info */}
@@ -27,7 +29,7 @@ export default function TechnicianProfile({ technician }: TechnicianProfileProps
                     </div>
                     <div className="flex items-center justify-center gap-2 mt-2">
                         <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                        <span className="font-semibold text-foreground">{technician.rating}</span>
+                        <span className="font-semibold text-foreground">{reviewStats?.averageRating.toFixed(1)}</span>
                         <span className="text-sm text-muted-foreground">({reviewStats?.totalReviews || 0} reviews)</span>
                     </div>
                 </div>

@@ -26,6 +26,17 @@ export function ServiceCard({ service }: ServiceCardProps) {
     // Check if we're on the home page
     const isHomePage = pathname === "/";
 
+    const reviews = service.technician.reviews || [];
+
+    // console.log(service, "data")
+
+    const totalReviews = reviews.length;
+
+    const averageRating =
+        totalReviews > 0
+            ? reviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews
+            : 0;
+
     const getRatingColor = (rating: number) => {
         if (rating >= 4.5) return "text-green-600 dark:text-green-400";
         if (rating >= 4) return "text-blue-600 dark:text-blue-400";
@@ -70,7 +81,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
                             Available
                         </span>
                     )} */}
-                    {service.technician.rating >= 4.5 && (
+                    {Number(averageRating.toFixed(1)) >= 4.5 && (
                         <span className="flex items-center gap-1 rounded-full bg-yellow-500/90 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white shadow-lg shadow-yellow-500/30">
                             <Star className="h-3 w-3 fill-white" />
                             Top Rated
@@ -100,12 +111,14 @@ export function ServiceCard({ service }: ServiceCardProps) {
                         </span>
                         <div className="flex items-center gap-1">
                             <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
-                            <span className={`text-sm font-semibold ${getRatingColor(service.technician.rating)}`}>
-                                {service.technician.rating}
+
+                            <span className={`text-sm font-semibold ${getRatingColor(averageRating)}`}>
+                                {averageRating.toFixed(1)}
                             </span>
-                            <span className="text-xs text-gray-400 dark:text-gray-500">
-                                ({service.technician.totalReviews})
-                            </span>
+
+                            {/* <span className="text-xs text-gray-400 dark:text-gray-500">
+                                ({totalReviews} reviews)
+                            </span> */}
                         </div>
                     </div>
 

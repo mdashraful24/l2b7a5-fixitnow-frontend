@@ -54,10 +54,18 @@ export function BookingCard({ booking, statusColors }: BookingCardProps) {
                 <div className="flex flex-col items-end gap-2">
                     <p className="text-lg font-bold text-primary dark:text-blue-500">${booking.totalAmount}</p>
                     <div className="flex flex-wrap items-center gap-4 justify-end">
-                        {/* {canCancel && <CancelBookingButton bookingId={booking.id} />} */}
-                        {canReview && !hasReview && (
+                        {canCancel && <CancelBookingButton bookingId={booking.id} />}
+                        {/* {canReview && !hasReview && (
                             <ReviewFormDialog
                                 mode="create"
+                                booking={booking}
+                                review={booking.review}
+                            />
+                        )} */}
+
+                        {canReview && (
+                            <ReviewFormDialog
+                                mode={hasReview ? "edit" : "create"}
                                 booking={booking}
                                 review={booking.review}
                             />

@@ -82,8 +82,8 @@ export function Navbar({ user }: NavbarProps) {
                     FixItNow
                 </Link>
 
-                {/* Desktop Navigation Links */}
-                {!isDashboardRoute && !isProfileRoute && (
+                {/* Desktop Navigation Links ` && !isProfileRoute ` */}
+                {!isDashboardRoute && (
                     <div className="hidden gap-1 md:flex">
                         {navItems.map((item) => (
                             <Button
@@ -148,8 +148,8 @@ export function Navbar({ user }: NavbarProps) {
                                                     <Link
                                                         href={item.href}
                                                         className={`flex w-full items-center gap-3 rounded-lg px-2 py-2 ${pathname === item.href
-                                                                ? 'bg-primary text-primary-foreground'
-                                                                : 'hover:bg-accent'
+                                                            ? 'bg-primary text-primary-foreground'
+                                                            : 'hover:bg-accent'
                                                             }`}
                                                     >
                                                         <item.icon className="size-4" />
@@ -163,8 +163,8 @@ export function Navbar({ user }: NavbarProps) {
                                                 <Link
                                                     href="/profile"
                                                     className={`flex w-full items-center gap-3 rounded-lg px-2 py-2 ${pathname === '/profile'
-                                                            ? 'bg-primary text-primary-foreground'
-                                                            : 'hover:bg-accent'
+                                                        ? 'bg-primary text-primary-foreground'
+                                                        : 'hover:bg-accent'
                                                         }`}
                                                 >
                                                     <User className="size-4" />
@@ -273,19 +273,19 @@ export function Navbar({ user }: NavbarProps) {
                                         </div>
 
                                         {/* Menu Items */}
-                                        <div className="py-2">
+                                        <div className="py-2.5">
                                             {visibleUserMenuItems.map((item) => (
                                                 <DropdownMenuItem
                                                     key={item.label}
                                                     asChild
                                                     className={`rounded-lg text-accent-foreground ${item.action === 'profile' && pathname === '/profile'
-                                                            ? 'bg-primary/10'
-                                                            : ''
+                                                        ? 'bg-primary/10'
+                                                        : ''
                                                         }`}
                                                 >
                                                     <button
                                                         onClick={() => handleNavigation(item.action)}
-                                                        className="flex w-full items-center gap-3"
+                                                        className="flex w-full items-center gap-3 cursor-pointer px-3 py-2"
                                                     >
                                                         <item.icon className="size-4" />
                                                         <span>{item.label}</span>
@@ -297,15 +297,19 @@ export function Navbar({ user }: NavbarProps) {
                                             ))}
 
                                             {/* Show logout button on dashboard routes too */}
-                                            <DropdownMenuSeparator />
+                                            {/* <DropdownMenuSeparator /> */}
 
-                                            <DropdownMenuItem
-                                                onClick={() => handleNavigation('logout')}
-                                                className="rounded-lg text-red-500 focus:text-red-500"
-                                            >
-                                                <LogOut className="size-4" />
-                                                <span>Logout</span>
-                                            </DropdownMenuItem>
+                                            {!isDashboardRoute && (
+                                                <>
+                                                    <DropdownMenuItem
+                                                        onClick={() => handleNavigation('logout')}
+                                                        className="rounded-lg text-red-500 focus:text-red-500 px-3 py-2 cursor-pointer"
+                                                    >
+                                                        <LogOut className="size-4" />
+                                                        <span>Logout</span>
+                                                    </DropdownMenuItem>
+                                                </>
+                                            )}
                                         </div>
                                     </DropdownMenuLabel>
                                 </DropdownMenuContent>

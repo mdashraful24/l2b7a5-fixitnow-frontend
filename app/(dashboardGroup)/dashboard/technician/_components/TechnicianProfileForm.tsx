@@ -37,6 +37,7 @@ export function TechnicianProfileForm({ initialValues }: TechnicianProfileFormPr
 
         if (result.success) {
             toast.success(result.message || "Profile updated successfully");
+            router.push("/profile");
             router.refresh();
             return;
         }
@@ -141,14 +142,14 @@ export function TechnicianProfileForm({ initialValues }: TechnicianProfileFormPr
                 <button
                     type="button"
                     onClick={() => setFormState(initialValues)}
-                    className="rounded-lg border border-input bg-background px-4 py-2.5 text-sm font-semibold text-foreground hover:bg-muted/50 transition"
+                    className="rounded-lg border border-input bg-background px-4 py-2.5 text-sm font-semibold text-foreground hover:bg-muted/50 transition cursor-pointer"
                 >
                     Reset
                 </button>
                 <button
                     type="submit"
                     disabled={isSaving}
-                    className="rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-60 transition"
+                    className="rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-60 transition cursor-pointer"
                 >
                     {isSaving ? "Saving..." : "Save changes"}
                 </button>

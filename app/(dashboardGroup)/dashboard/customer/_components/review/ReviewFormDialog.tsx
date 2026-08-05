@@ -110,7 +110,7 @@ export function ReviewFormDialog({ mode, booking, review, onSuccess }: ReviewFor
                     </DialogDescription>
                 </DialogHeader>
 
-                <form action={formAction} className="space-y-6 py-4">
+                <form action={formAction} className="space-y-6">
                     {/* Hidden fields */}
                     <input type="hidden" name="bookingId" value={booking.id} />
                     <input type="hidden" name="rating" value={rating} />
@@ -173,29 +173,29 @@ export function ReviewFormDialog({ mode, booking, review, onSuccess }: ReviewFor
                     </div>
 
                     {/* Technician Info */}
-                    <div className="rounded-lg bg-muted/30 dark:bg-muted/20 p-3 text-sm">
+                    <div className="rounded-lg bg-muted p-3 text-sm">
                         <p className="text-foreground">
-                            <span className="font-medium">Technician:</span> {booking.technician?.user?.name}
+                            <span className="font-semibold">Technician:</span> {booking.technician?.user?.name}
                         </p>
                         <p className="text-foreground">
-                            <span className="font-medium">Service:</span> {booking.service?.title}
+                            <span className="font-semibold">Service:</span> {booking.service?.title}
                         </p>
                     </div>
 
-                    <div className="flex gap-3 pt-2">
+                    <div className="flex gap-3">
                         <Button
                             type="button"
                             variant="outline"
                             onClick={() => setOpen(false)}
                             disabled={pending}
-                            className="flex-1"
+                            className="flex-1 cursor-pointer"
                         >
                             Cancel
                         </Button>
                         <Button
                             type="submit"
                             disabled={pending || rating === 0}
-                            className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white dark:bg-yellow-600 dark:hover:bg-yellow-700"
+                            className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white dark:bg-yellow-600 dark:hover:bg-yellow-700 cursor-pointer"
                         >
                             {pending ? (
                                 <>

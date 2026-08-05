@@ -82,9 +82,7 @@ export interface TechnicianProfileData {
     description?: string;
     experience?: string;
     skills?: string[];
-    reviewStats: {
-        totalReviews: number;
-    };
+    reviewStats: IReviewStats;
     services?: IBookingDetailsResponse[];
     availability?: IAvailableSlot[];
 }
@@ -153,6 +151,7 @@ export interface IService {
         };
         availability: IAvailableSlot[];
         services?: IService[];
+        reviews?: IReview[];
     };
 }
 
@@ -597,6 +596,14 @@ export interface IReview {
         id: string;
         name: string;
         email: string;
+    };
+}
+
+export interface IReviewStats {
+    totalReviews: number;
+    averageRating: number;
+    ratingDistribution: {
+        [key: string]: number;
     };
 }
 
