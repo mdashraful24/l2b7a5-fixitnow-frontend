@@ -105,7 +105,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
                 {/* Category and title */}
                 <div className="space-y-2.5">
                     <div className="flex items-center justify-between">
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 dark:bg-accent px-3 py-1 text-xs font-semibold text-primary dark:text-foreground transition-colors group-hover:bg-primary/20">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 dark:bg-accent px-2 py-1 text-xs font-semibold text-primary dark:text-foreground transition-colors group-hover:bg-primary/20">
                             <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
                             {service.category.name}
                         </span>
@@ -122,11 +122,11 @@ export function ServiceCard({ service }: ServiceCardProps) {
                         </div>
                     </div>
 
-                    <h3 className="line-clamp-1 text-lg font-bold text-gray-900 dark:text-foreground transition-colors group-hover:text-primary">
+                    <h3 className="line-clamp-1 text-xl font-bold text-gray-900 dark:text-foreground transition-colors group-hover:text-primary">
                         {service.title}
                     </h3>
 
-                    <p className="text-sm text-gray-600 dark:text-muted-foreground leading-relaxed">
+                    <p className="text-gray-600 dark:text-muted-foreground leading-relaxed line-clamp-2">
                         {service.description}
                     </p>
                 </div>
@@ -140,7 +140,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
                         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 dark:bg-primary/20 text-primary">
                             <User className="h-4 w-4" />
                         </div>
-                        <div className="flex flex-col">
+                        <div className="flex flex-col gap-1">
                             <span className="text-sm font-semibold text-gray-800 dark:text-foreground">
                                 {service.technician.user.name}
                             </span>

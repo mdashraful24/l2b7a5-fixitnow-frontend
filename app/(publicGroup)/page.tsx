@@ -8,6 +8,7 @@ import HeroSection from "./_components/home/HereSection";
 import HowItWorkSection from "./_components/home/HowItWorkSection";
 import { TestimonialsSection } from "./_components/home/TestimonialsSection";
 import CTASection from "./_components/home/CTASection";
+import AllCategories from "./_components/categories/AllCategories";
 
 export default async function HomePage({
   searchParams
@@ -23,6 +24,9 @@ export default async function HomePage({
       {/* How It Works Section */}
       <HowItWorkSection />
 
+      {/* All Categories */}
+      <AllCategories />
+
       {/* Featured Services Section */}
       <section className="bg-background transition-colors">
         <div className="container mx-auto px-4">
@@ -31,7 +35,7 @@ export default async function HomePage({
               <h2 className="text-3xl font-bold text-foreground">
                 Featured Services
               </h2>
-              <p className="text-muted-foreground">
+              <p className="text-foreground">
                 Browse and choose the best services tailored to your needs
               </p>
             </div>

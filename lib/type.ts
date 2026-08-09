@@ -637,3 +637,11 @@ export interface MiniStatCardProps {
     bgColor: string;
     iconBgColor: string;
 }
+
+export interface PaginationProps {
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    itemsPerPage: number;
+    itemLabel?: string;
+}

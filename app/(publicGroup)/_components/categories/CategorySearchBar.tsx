@@ -5,7 +5,7 @@ import { SearchIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useRef } from "react";
 
-export function ServiceSearchBar () {
+export default function CategorySearchBar () {
     const pathName = usePathname();
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -22,8 +22,10 @@ export function ServiceSearchBar () {
 
             if (value) {
                 params.set("searchTerm", value);
+                params.set("page", "1");
             } else {
                 params.delete("searchTerm");
+                params.set("page", "1");
             }
 
             router.replace(`${pathName}?${params.toString()}`);
@@ -36,7 +38,7 @@ export function ServiceSearchBar () {
             <Input
                 defaultValue={searchParams.get("searchTerm") ? searchParams.get("searchTerm")?.toString() : ""}
                 onChange={(e) => { handleChange(e.target.value) }}
-                placeholder="Search services..."
+                placeholder="Search categories..."
                 className="pl-9"
             />
         </div>

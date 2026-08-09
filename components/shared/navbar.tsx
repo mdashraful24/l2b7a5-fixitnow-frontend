@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { NavbarProps } from '@/lib/type';
 import { logOut } from '@/services/logout';
-import { Home, LayoutDashboard, LogOut, Menu, User, Wrench } from 'lucide-react';
+import { Home, LayoutDashboard, List, LogOut, Menu, User, Wrench } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -42,6 +42,7 @@ export function Navbar({ user }: NavbarProps) {
     const navItems = [
         { label: 'Home', icon: Home, href: '/' },
         { label: 'Services', icon: Wrench, href: '/services' },
+        { label: 'Categories', icon: List, href: '/all-categories' },
     ];
 
     // Hide dashboard menu item when already inside dashboard

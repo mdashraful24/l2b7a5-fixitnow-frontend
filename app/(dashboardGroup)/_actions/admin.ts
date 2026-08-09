@@ -282,6 +282,9 @@ export const createCategory = async (prevState: ICategory, formData: FormData) =
         revalidateTag("tech-services", {
             expire: 0
         });
+        revalidateTag("all-public-categories", {
+            expire: 0
+        });
     }
 
     return data;
@@ -320,6 +323,9 @@ export const updateCategory = async (categoryId: string, prevState: ICategory, f
         revalidateTag("tech-services", {
             expire: 0
         });
+        revalidateTag("all-public-categories", {
+            expire: 0
+        });
     }
 
     return data;
@@ -347,6 +353,9 @@ export const deleteCategory = async (id: string) => {
             expire: 0
         });
         revalidateTag("tech-services", {
+            expire: 0
+        });
+        revalidateTag("all-public-categories", {
             expire: 0
         });
     }

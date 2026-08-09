@@ -15,13 +15,14 @@ export default async function ServicesPage({
     const categories = categoriesResult?.success ? categoriesResult.data : [];
 
     return (
-        <div className="container mx-auto space-y-6 px-4 py-8">
+        <div className="container mx-auto px-4 py-8">
+            {/* Header Section */}
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h1 className="text-3xl font-bold text-foreground">
                         Find the Right Service
                     </h1>
-                    <p className="mt-1 text-sm text-muted-foreground">
+                    <p className="mt-1 text-foreground">
                         Browse our extensive list of professional home services.
                     </p>
                 </div>
@@ -31,20 +32,25 @@ export default async function ServicesPage({
                 </div>
             </div>
 
-            <div className="flex flex-col lg:flex-row lg:gap-8">
-                {/* Sidebar Filters */}
-                <aside className="w-full shrink-0 lg:w-64">
-                    <div className="rounded-xl border border-border bg-card/50 p-6 shadow-sm backdrop-blur-sm transition-colors">
-                        <ServiceFilters categories={categories} />
-                    </div>
-                </aside>
+            {/* Main Layout with Fixed Sidebar */}
+            <div className="relative mt-6">
+                <div className="flex flex-col lg:flex-row lg:gap-8">
+                    {/* Sidebar - Fixed on large screens */}
+                    <aside className="w-full shrink-0 lg:w-64">
+                        <div className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
+                            <div className="rounded-xl border border-border bg-card/50 p-6 shadow-sm backdrop-blur-sm transition-colors">
+                                <ServiceFilters categories={categories} />
+                            </div>
+                        </div>
+                    </aside>
 
-                {/* Main Content Area */}
-                <main className="mt-6 flex-1 lg:mt-0">
-                    <Suspense fallback={<ServiceSkeleton />}>
-                        <ServiceList searchParams={searchParams} />
-                    </Suspense>
-                </main>
+                    {/* Main Content - Scrollable */}
+                    <main className="mt-6 flex-1 lg:mt-0 lg:min-h-150">
+                        <Suspense fallback={<ServiceSkeleton />}>
+                            <ServiceList searchParams={searchParams} />
+                        </Suspense>
+                    </main>
+                </div>
             </div>
         </div>
     );

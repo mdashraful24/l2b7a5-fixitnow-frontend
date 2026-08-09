@@ -17,7 +17,7 @@ export const TestimonialsSection = async () => {
                         What Our Top Customers Say
                     </h2>
 
-                    <p className="text-lg text-muted-foreground">
+                    <p className="text-lg text-foreground">
                         Real reviews from real people who used our services
                     </p>
                 </div>
