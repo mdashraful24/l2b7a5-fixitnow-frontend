@@ -1,10 +1,17 @@
 import { getMe } from "@/services/getMe";
 import { getTechnicianById } from "@/app/(publicGroup)/_actions/getTechnician";
 import { redirect } from "next/navigation";
-import { TechnicianAvailabilityManager } from "../_components/TechnicianAvailabilityManager";
+import { TechnicianAvailabilityManager } from "../_components/techAvailabilitySlot/TechnicianAvailabilityManager";
 
-export default async function TechnicianAvailabilityPage() {
+export default async function TechnicianAvailabilityPage({
+    searchParams,
+}: {
+    searchParams: Promise<{ page?: string }>
+}) {
     const user = await getMe();
+    const { page } = await searchParams;
+    const currentPage = Number(page) || 1;
+    const itemsPerPage = 5;
 
     if (!user?.success) {
         redirect("/auth/login");
@@ -26,7 +33,7 @@ export default async function TechnicianAvailabilityPage() {
     }
 
     const response = await getTechnicianById(technicianId);
-    // console.log(JSON.stringify(response.data.availability, null, 2));
+    const allSlots = response.data?.availability ?? [];
 
     if (!response.success) {
         return (
@@ -37,14 +44,22 @@ export default async function TechnicianAvailabilityPage() {
         );
     }
 
+    // Calculate pagination
+    const totalSlots = allSlots.length;
+    const totalPages = Math.ceil(totalSlots / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedSlots = allSlots.slice(startIndex, endIndex);
+
     return (
         <div className="space-y-6">
-            <div>
-                <h1 className="text-2xl font-bold text-foreground">Availability scheduler</h1>
-                <p className="mt-1 text-sm text-muted-foreground">Create working hours and toggle availability for booking windows.</p>
-            </div>
-
-            <TechnicianAvailabilityManager slots={response.data.availability ?? []} />
+            <TechnicianAvailabilityManager
+                slots={paginatedSlots}
+                totalSlots={totalSlots}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                itemsPerPage={itemsPerPage}
+            />
         </div>
     );
 }

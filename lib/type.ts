@@ -329,6 +329,14 @@ export type CreateAvailabilityPayload = {
     isAvailable: boolean;
 };
 
+export interface TechnicianAvailabilityManagerProps {
+    slots: AvailabilitySlot[];
+    totalSlots?: number;
+    currentPage?: number;
+    totalPages?: number;
+    itemsPerPage?: number;
+}
+
 export interface TechnicianBookingRecord {
     id: string;
     status: string;
@@ -368,12 +376,7 @@ export interface TechnicianBookingsResponse {
     success: boolean;
     message: string;
     data: TechnicianBookingRecord[];
-    meta: {
-        page: number;
-        limit: number;
-        total: number;
-        totalPage: number;
-    } | null;
+    meta: PaginationMeta | null;
 }
 
 export interface TechnicianBookingActionsProps {
@@ -646,9 +649,9 @@ export interface PaginationProps {
     itemLabel?: string;
 }
 
-export interface IMeta {
+export interface PaginationMeta {
     page: number;
     limit: number;
     total: number;
-    totalPage: number;
+    totalPages: number;
 }

@@ -1,6 +1,6 @@
 import { ServiceList } from "./ServiceList";
 import { getAllServices } from "../../_actions/allServices";
-import { IMeta, IService } from "@/lib/type";
+import { IService, PaginationMeta } from "@/lib/type";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -13,11 +13,11 @@ const ServiceContent = async () => {
     });
 
     const services: IService[] = result?.data || [];
-    const meta: IMeta = result?.meta || {
+    const meta: PaginationMeta = result?.meta || {
         total: 0,
         page: 1,
         limit: 6,
-        totalPage: 0
+        totalPages: 0
     };
 
     return (

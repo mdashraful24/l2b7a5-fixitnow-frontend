@@ -1,5 +1,5 @@
 import { getAllServices } from "../../_actions/allServices";
-import { IMeta, IService } from "@/lib/type";
+import { IService, PaginationMeta } from "@/lib/type";
 import { ServiceCard } from "./ServiceCard";
 import Pagination from "../categories/Pagination";
 
@@ -11,11 +11,11 @@ export async function ServiceList({
 }: {
     searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
     services?: IService[];
-    meta?: IMeta;
+    meta?: PaginationMeta;
     showPagination?: boolean;
 }) {
     let services: IService[] = [];
-    let meta: IMeta = { total: 0, page: 1, limit: 9, totalPage: 0 };
+    let meta: PaginationMeta = { total: 0, page: 1, limit: 9, totalPages: 0 };
 
     if (propServices && propMeta) {
         // Use provided data
@@ -47,7 +47,7 @@ export async function ServiceList({
     const currentPage = meta?.page || 1;
     const limit = meta?.limit || 9;
     const total = meta?.total || services.length;
-    const totalPages = meta?.totalPage ?? Math.ceil(total / limit);
+    const totalPages = meta?.totalPages ?? Math.ceil(total / limit);
 
     return (
         <div className='space-y-8'>

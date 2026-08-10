@@ -5,11 +5,12 @@ import { getMe } from "@/services/getMe";
 import { getTechnicianBookings } from "@/app/(dashboardGroup)/_actions/technician";
 import { StatusFilter } from "@/lib/type";
 import { buildBookingStatCards, statusBadges, statusTabs } from "@/lib/bookingConstants";
+import Pagination from "@/app/(publicGroup)/_components/categories/Pagination";
 
 export default async function TechnicianBookingsPage({
     searchParams,
 }: {
-    searchParams: Promise<{ status?: string }>;
+    searchParams: Promise<{ status?: string; page?: string }>;
 }) {
     const user = await getMe();
 
@@ -23,14 +24,23 @@ export default async function TechnicianBookingsPage({
 
     const params = await searchParams;
     const activeStatus = (params.status as StatusFilter) || "ALL";
+    const currentPage = parseInt(params.page || "1", 10);
+    const itemsPerPage = 10; // You can make this configurable
 
+    // Fetch with pagination
     const [allBookingsResponse, filteredBookingsResponse] = await Promise.all([
         getTechnicianBookings(),
-        getTechnicianBookings(activeStatus === "ALL" ? undefined : { status: activeStatus }),
+        getTechnicianBookings({
+            ...(activeStatus === "ALL" ? undefined : { status: activeStatus }),
+            page: currentPage.toString(),
+            limit: itemsPerPage.toString(),
+        }),
     ]);
 
     const allBookings = allBookingsResponse.data ?? [];
     const bookings = filteredBookingsResponse.data ?? [];
+    const totalItems = filteredBookingsResponse.meta?.total || allBookings.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     const stats = {
         total: allBookings.length,
@@ -47,7 +57,7 @@ export default async function TechnicianBookingsPage({
 
     return (
         <div className="space-y-6">
-            {/* Header */}
+            {/* Header - keep as is */}
             <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-6 shadow-sm lg:flex-row lg:items-center lg:justify-between">
                 <div>
                     <p className="text-sm font-medium text-primary dark:text-blue-500">Booking management</p>
@@ -60,7 +70,7 @@ export default async function TechnicianBookingsPage({
                 </Link>
             </div>
 
-            {/* Stats Cards */}
+            {/* Stats Cards - keep as is */}
             <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
                 {statCards.map((item) => {
                     const Icon = item.icon;
@@ -77,14 +87,18 @@ export default async function TechnicianBookingsPage({
                 })}
             </div>
 
-            {/* Tabs */}
+            {/* Tabs - keep as is but preserve page param */}
             <div className="flex flex-wrap gap-2 border-b border-border pb-4">
                 {statusTabs.map((tab) => {
                     const isActive = activeStatus === tab.value;
+                    const href = tab.value === "ALL"
+                        ? "/dashboard/technician/bookings"
+                        : `/dashboard/technician/bookings?status=${tab.value}`;
+
                     return (
                         <Link
                             key={tab.value}
-                            href={tab.value === "ALL" ? "/dashboard/technician/bookings" : `/dashboard/technician/bookings?status=${tab.value}`}
+                            href={href}
                             className={`flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium transition-all border ${isActive
                                 ? "border-primary bg-primary text-primary-foreground"
                                 : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:text-primary"
@@ -161,6 +175,15 @@ export default async function TechnicianBookingsPage({
                     })
                 )}
             </div>
+
+            {/* Add Pagination Component */}
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalItems={totalItems}
+                itemsPerPage={itemsPerPage}
+                itemLabel="bookings"
+            />
         </div>
     );
 }

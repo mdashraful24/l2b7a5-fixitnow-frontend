@@ -121,16 +121,28 @@ export const getTechnicianBookings = async (query?: {
     );
 
     const result = await res.json();
-    const bookings = Array.isArray(result?.data?.data)
-        ? result.data.data
-        : Array.isArray(result?.data)
-            ? result.data
+    
+    // Properly extract data and meta
+    const responseData = result?.data || result || {};
+    const bookings = Array.isArray(responseData?.data) 
+        ? responseData.data 
+        : Array.isArray(responseData) 
+            ? responseData 
             : [];
+    
+    // Extract meta information
+    const meta = responseData?.meta || {
+        page: parseInt(query?.page || "1", 10),
+        limit: parseInt(query?.limit || "10", 10),
+        total: bookings.length,
+        totalPages: Math.ceil(bookings.length / parseInt(query?.limit || "10", 10))
+    };
 
     return {
-        ...result,
+        success: result?.success ?? true,
         data: bookings,
-        meta: result?.data?.meta ?? result?.meta ?? null,
+        meta: meta,
+        message: result?.message || "Bookings fetched successfully"
     } as TechnicianBookingsResponse;
 };
 
