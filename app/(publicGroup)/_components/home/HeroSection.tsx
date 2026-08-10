@@ -53,7 +53,7 @@ const slides = [
         rating: '4.8',
         initials: 'TK',
         name: 'Theo Kim',
-        color: 'bg-yellow-500',
+        color: 'bg-purple-500',
     },
 ]
 
@@ -89,7 +89,7 @@ export function HeroSection() {
     }
 
     return (
-        <section className="relative isolate min-h-[70vh] overflow-hidden text-foreground">
+        <section className="relative isolate min-h-[65vh] overflow-hidden text-foreground">
             {/* Hero content */}
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_minmax(430px,.9fr)] items-center gap-8 lg:gap-[7vw] container mx-auto px-4 min-h-[calc(62vh-4rem)] pt-14">
                 {/* Left column */}
@@ -108,8 +108,8 @@ export function HeroSection() {
                         <Link href="/services" className="rounded-full px-5.25 py-3.75 text-sm font-bold bg-primary text-primary-foreground hover:shadow-[0_8px_20px_oklch(.48_.16_245_/.22)] hover:-translate-y-0.5 transition-all flex items-center gap-2">
                             Find a Services <ArrowRight className="h-4 w-4" />
                         </Link>
-                        <Link href="/all-categories" className="flex items-center gap-2.25 text-sm font-bold text-foreground border-2 border-gray-500 rounded-full px-5.25 py-2.5 hover:shadow-[0_8px_20px_oklch(.48_.16_245_/.22)] hover:-translate-y-0.5 transition-all">
-                            <span className="grid h-6.75 w-6.75 place-items-center rounded-full border pl-0.5 text-[9px] text-blue-500 bg-blue-100">
+                        <Link href="/all-categories" className="flex items-center gap-2.25 text-sm font-bold text-foreground border-2 border-blue-600 rounded-full px-5.25 py-2.5 hover:shadow-[0_8px_20px_oklch(.48_.16_245_/.22)] hover:-translate-y-0.5 transition-all">
+                            <span className="grid h-7 w-7 place-items-center rounded-full border pl-0.5 text-[10px] text-blue-600 bg-blue-100">
                                 ▶
                             </span>
                             All Categories

@@ -8,7 +8,7 @@ import {
     Clock,
     Wrench
 } from 'lucide-react'
-import { FacebookLogoIcon, InstagramLogoIcon, TwitterLogoIcon, YoutubeLogoIcon } from '@phosphor-icons/react'
+import { FacebookLogoIcon, GithubLogoIcon, LinkedinLogoIcon } from '@phosphor-icons/react'
 
 const Footer = () => {
     const currentYear = new Date().getFullYear()
@@ -27,38 +27,31 @@ const Footer = () => {
                             <span className="brand-mark"><Wrench size={17} strokeWidth={2.5} />
                             </span>FixIt<span>Now</span>
                         </Link>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-foreground/80">
                             Your trusted platform for finding professional home services.
                             Connect with verified professionals in your area.
                         </p>
                         <div className="flex space-x-4">
                             <Link
-                                href="#"
-                                className="text-muted-foreground hover:text-primary transition-colors"
+                                href="https://www.facebook.com/ashraful.islam.ratul2k"
+                                className="text-foreground/80 hover:text-blue-500 transition-colors"
                                 aria-label="Facebook"
                             >
-                                <FacebookLogoIcon className="h-6 w-6" />
+                                <FacebookLogoIcon className="h-7 w-7" />
                             </Link>
                             <Link
-                                href="#"
-                                className="text-muted-foreground hover:text-primary transition-colors"
-                                aria-label="Twitter"
+                                href="https://www.linkedin.com/in/ashraful-islam-ratul/"
+                                className="text-foreground/80 hover:text-blue-500 transition-colors"
+                                aria-label="Linkedin"
                             >
-                                <TwitterLogoIcon className="h-6 w-6" />
+                                <LinkedinLogoIcon className="h-7 w-7" />
                             </Link>
                             <Link
-                                href="#"
-                                className="text-muted-foreground hover:text-primary transition-colors"
-                                aria-label="Instagram"
+                                href="https://github.com/mdashraful24"
+                                className="text-foreground/80 hover:text-blue-500 transition-colors"
+                                aria-label="Github"
                             >
-                                <InstagramLogoIcon className="h-6 w-6" />
-                            </Link>
-                            <Link
-                                href="#"
-                                className="text-muted-foreground hover:text-primary transition-colors"
-                                aria-label="YouTube"
-                            >
-                                <YoutubeLogoIcon className="h-6 w-6" />
+                                <GithubLogoIcon className="h-7 w-7" />
                             </Link>
                         </div>
                     </div>
@@ -72,7 +65,7 @@ const Footer = () => {
                             <li>
                                 <Link
                                     href="/services"
-                                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                                    className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                                 >
                                     Browse Services
                                 </Link>
@@ -80,7 +73,7 @@ const Footer = () => {
                             <li>
                                 <Link
                                     href="#"
-                                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                                    className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                                 >
                                     About Us
                                 </Link>
@@ -88,7 +81,7 @@ const Footer = () => {
                             <li>
                                 <Link
                                     href="#"
-                                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                                    className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                                 >
                                     Contact
                                 </Link>
@@ -96,7 +89,7 @@ const Footer = () => {
                             <li>
                                 <Link
                                     href="#"
-                                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                                    className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                                 >
                                     Blog
                                 </Link>
@@ -110,18 +103,18 @@ const Footer = () => {
                             Support
                         </h4>
                         <ul className="space-y-3">
-                            <li>
+                            {/* <li>
                                 <Link
                                     href="#"
-                                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                                    className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                                 >
                                     FAQ
                                 </Link>
-                            </li>
+                            </li> */}
                             <li>
                                 <Link
                                     href="#"
-                                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                                    className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                                 >
                                     Privacy Policy
                                 </Link>
@@ -129,7 +122,7 @@ const Footer = () => {
                             <li>
                                 <Link
                                     href="#"
-                                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                                    className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                                 >
                                     Terms of Service
                                 </Link>
@@ -137,7 +130,7 @@ const Footer = () => {
                             <li>
                                 <Link
                                     href="#"
-                                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                                    className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                                 >
                                     Help Center
                                 </Link>
@@ -151,24 +144,24 @@ const Footer = () => {
                             Contact Us
                         </h4>
                         <ul className="space-y-3">
-                            <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                                <MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                            <li className="flex items-start gap-3 text-sm text-foreground/80">
+                                <MapPin className="h-5 w-5 text-primary dark:text-blue-500 shrink-0 mt-0.5" />
                                 <span>123 FixItNow Street, Dhaka, Bangladesh</span>
                             </li>
-                            <li className="flex items-center gap-3 text-sm text-muted-foreground">
-                                <Phone className="h-5 w-5 text-primary shrink-0" />
-                                <a href="tel:+8801234567890" className="hover:text-primary transition-colors">
+                            <li className="flex items-center gap-3 text-sm text-foreground/80">
+                                <Phone className="h-5 w-5 text-primary dark:text-blue-500 shrink-0" />
+                                <a href="tel:+8801234567890" className="hover:text-blue-500 transition-colors">
                                     +880 123 456 7890
                                 </a>
                             </li>
-                            <li className="flex items-center gap-3 text-sm text-muted-foreground">
-                                <Mail className="h-5 w-5 text-primary shrink-0" />
-                                <a href="mailto:info@FixItNow.com" className="hover:text-primary transition-colors">
+                            <li className="flex items-center gap-3 text-sm text-foreground/80">
+                                <Mail className="h-5 w-5 text-primary dark:text-blue-500 shrink-0" />
+                                <a href="mailto:info@FixItNow.com" className="hover:text-blue-500 transition-colors">
                                     info@FixItNow.com
                                 </a>
                             </li>
-                            <li className="flex items-center gap-3 text-sm text-muted-foreground">
-                                <Clock className="h-5 w-5 text-primary shrink-0" />
+                            <li className="flex items-center gap-3 text-sm text-foreground/80">
+                                <Clock className="h-5 w-5 text-primary dark:text-blue-500 shrink-0" />
                                 <span>Mon-Fri: 8AM - 8PM</span>
                             </li>
                         </ul>
@@ -182,7 +175,7 @@ const Footer = () => {
                             <h4 className="text-sm font-semibold text-foreground">
                                 Subscribe to our Newsletter
                             </h4>
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-sm text-foreground/80">
                                 Get the latest updates and offers
                             </p>
                         </div>
@@ -190,7 +183,7 @@ const Footer = () => {
                             <input
                                 type="email"
                                 placeholder="Enter your email"
-                                className="flex-1 rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                                className="flex-1 rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-foreground/80 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                                 required
                             />
                             <button
@@ -207,31 +200,31 @@ const Footer = () => {
                 {/* Bottom Bar */}
                 <div className="border-t border-border py-6">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-foreground/80">
                             &copy; {currentYear} FixItNow. All rights reserved.
                         </p>
                         <div className="flex items-center gap-6">
                             <Link
                                 href="#"
-                                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                                className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                             >
                                 Privacy
                             </Link>
                             <Link
                                 href="#"
-                                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                                className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                             >
                                 Terms
                             </Link>
                             <Link
                                 href="#"
-                                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                                className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                             >
                                 Cookies
                             </Link>
                             <Link
                                 href="#"
-                                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                                className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                             >
                                 Sitemap
                             </Link>

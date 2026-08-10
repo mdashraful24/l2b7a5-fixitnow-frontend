@@ -94,8 +94,8 @@ export function Navbar({ user }: NavbarProps) {
                 </Link> */}
 
                 <Link className="brand" href="/" aria-label="FixItNow home">
-                    <span className="brand-mark"><Wrench size={17} strokeWidth={2.5} />
-                    </span>FixIt<span>Now</span>
+                    <span className="brand-mark"><Wrench size={17} strokeWidth={2.5} /></span>
+                    FixIt<span>Now</span>
                 </Link>
 
                 {/* Desktop Navigation Links */}

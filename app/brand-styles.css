@@ -10,7 +10,11 @@
 }
 
 .brand span:last-child {
-    color: var(--primary)
+    color: var(--primary);
+}
+
+.dark .brand span:last-child {
+    color: #425eff;
 }
 
 .brand-mark {
