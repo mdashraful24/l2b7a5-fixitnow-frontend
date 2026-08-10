@@ -26,7 +26,7 @@ const steps = [
 
 const HowItWorkSection = () => {
     return (
-        <section className="py-20 bg-background transition-colors duration-300">
+        <section id="howItWorks" className="py-20 bg-background transition-colors duration-300">
             <div className="container mx-auto px-4">
                 <div className="text-center max-w-3xl mx-auto mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
@@ -42,17 +42,17 @@ const HowItWorkSection = () => {
                         const Icon = step.icon;
                         return (
                             <div key={index} className="relative group">
-                                <div className="text-center p-8 rounded-2xl bg-muted/50 hover:bg-card border border-border transition-all hover:shadow-xl hover:shadow-primary/5 dark:hover:shadow-primary/10">
+                                <div className="text-center p-8 rounded-2xl hover:bg-card border border-border transition-all hover:shadow-lg">
                                     <div className={`inline-flex h-16 w-16 items-center justify-center rounded-2xl ${step.color} mb-6 text-2xl font-bold`}>
                                         {step.step}
                                     </div>
                                     <div className="flex justify-center mb-4">
-                                        <Icon className="h-8 w-8 text-muted-foreground" />
+                                        <Icon className="h-8 w-8 text-foreground" />
                                     </div>
-                                    <h3 className="text-xl font-semibold text-foreground mb-2">
+                                    <h3 className="text-xl font-semibold mb-2">
                                         {step.title}
                                     </h3>
-                                    <p className="text-muted-foreground">
+                                    <p className="text-foreground/80">
                                         {step.description}
                                     </p>
                                 </div>

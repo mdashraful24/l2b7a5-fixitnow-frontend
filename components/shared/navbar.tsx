@@ -89,8 +89,13 @@ export function Navbar({ user }: NavbarProps) {
         <nav className={`sticky top-0 z-50 border-b border-border ${isDashboardRoute ? 'bg-background' : 'bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80'}`}>
             <div className="lg:container mx-auto max-w-7xl flex items-center justify-between px-4 py-4">
                 {/* Logo */}
-                <Link href="/" className="text-2xl font-bold text-primary dark:text-blue-400">
+                {/* <Link href="/" className="text-2xl font-bold text-primary dark:text-blue-400">
                     FixItNow
+                </Link> */}
+
+                <Link className="brand" href="/" aria-label="FixItNow home">
+                    <span className="brand-mark"><Wrench size={17} strokeWidth={2.5} />
+                    </span>FixIt<span>Now</span>
                 </Link>
 
                 {/* Desktop Navigation Links */}

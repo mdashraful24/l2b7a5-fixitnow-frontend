@@ -1,0 +1,25 @@
+/* FixItNow Brand */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: inherit;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -.06em
+}
+
+.brand span:last-child {
+    color: var(--primary)
+}
+
+.brand-mark {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    transform: rotate(-8deg)
+}

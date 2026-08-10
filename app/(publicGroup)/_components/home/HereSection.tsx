@@ -16,7 +16,7 @@ const categories = [
     { name: "Other Services", icon: Toolbox, href: "/services?category=security", color: "from-red-500 to-red-600" },
 ];
 
-const HeroSection = () => {
+const HereSection = () => {
     return (
         <div className="relative overflow-hidden bg-linear-to-br from-slate-900 via-blue-900 to-slate-800">
             {/* Background Pattern */}
@@ -114,4 +114,4 @@ const HeroSection = () => {
     )
 }
 
-export default HeroSection
+export default HereSection

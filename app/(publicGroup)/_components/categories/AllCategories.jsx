@@ -4,8 +4,8 @@ import CategoriesContent from "./CategoriesContent";
 
 const AllCategories = () => {
     return (
-        <div className="container mx-auto px-4 pb-20">
-            <div className="mx-auto mb-8 max-w-3xl space-y-2 text-center">
+        <div className="container mx-auto px-4 py-20">
+            <div className="mx-auto mb-12 max-w-3xl space-y-2 text-center">
                 <h2 className="text-3xl font-bold text-foreground md:text-4xl">
                     All Categories
                 </h2>

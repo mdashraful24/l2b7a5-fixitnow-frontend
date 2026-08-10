@@ -5,7 +5,8 @@ import {
     Mail,
     Phone,
     MapPin,
-    Clock
+    Clock,
+    Wrench
 } from 'lucide-react'
 import { FacebookLogoIcon, InstagramLogoIcon, TwitterLogoIcon, YoutubeLogoIcon } from '@phosphor-icons/react'
 
@@ -19,9 +20,13 @@ const Footer = () => {
                 <div className="grid grid-cols-1 gap-8 py-12 md:grid-cols-2 lg:grid-cols-4">
                     {/* Company Info */}
                     <div className="space-y-4">
-                        <h3 className="text-2xl font-bold text-foreground">
+                        {/* <h3 className="text-2xl font-bold text-foreground">
                             FixItNow
-                        </h3>
+                        </h3> */}
+                        <Link className="brand" href="/" aria-label="FixItNow home">
+                            <span className="brand-mark"><Wrench size={17} strokeWidth={2.5} />
+                            </span>FixIt<span>Now</span>
+                        </Link>
                         <p className="text-sm text-muted-foreground">
                             Your trusted platform for finding professional home services.
                             Connect with verified professionals in your area.
