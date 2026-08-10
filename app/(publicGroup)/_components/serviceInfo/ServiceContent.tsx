@@ -25,13 +25,13 @@ const ServiceContent = async () => {
             <ServiceList
                 services={services}
                 meta={meta}
-                showPagination={false} // Hide pagination on home page
+                showPagination={false}
             />
 
             {meta.total > 6 && (
                 <Link
                     href="/services"
-                    className="mt-6 flex w-full items-center justify-end gap-2 font-semibold text-primary transition-colors hover:text-primary/80"
+                    className="mt-6 flex w-fit items-center gap-2 font-semibold text-primary transition-colors hover:text-primary/80 ml-auto"
                 >
                     View All Services
                     <ArrowRight className="h-4 w-4" />
