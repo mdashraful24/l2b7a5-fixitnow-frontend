@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { NavbarProps } from '@/lib/type';
 import { logOut } from '@/services/logout';
-import { Home, LayoutDashboard, List, LogOut, Menu, User, Wrench } from 'lucide-react';
+import { Home, LayoutDashboard, List, LogOut, Mail, Menu, User, Wrench } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -20,7 +20,7 @@ import { ThemeToggle } from '../theme/theme-toggle';
 // User dropdown options
 const userMenuItems = [
     { label: 'Profile', icon: User, action: 'profile' },
-    { label: 'Dashboard', icon: LayoutDashboard, action: 'dashboard' },
+    // { label: 'Dashboard', icon: LayoutDashboard, action: 'dashboard' },
 ];
 
 export function Navbar({ user }: NavbarProps) {
@@ -54,6 +54,7 @@ export function Navbar({ user }: NavbarProps) {
         { label: 'Home', icon: Home, href: '/' },
         { label: 'Services', icon: Wrench, href: '/services' },
         { label: 'Categories', icon: List, href: '/all-categories' },
+        { label: 'Contact', icon: Mail, href: '/contact' },
     ];
 
     // Add Dashboard link if user is logged in
