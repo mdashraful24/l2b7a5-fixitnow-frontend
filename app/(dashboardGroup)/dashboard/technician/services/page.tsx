@@ -2,11 +2,14 @@ import { Suspense } from 'react'
 import TechServiceSkeleton from '../_components/techService/TechServiceSkeleton'
 import { TechServiceFormDialog } from '../_components/techService/TechServiceFormDialog'
 import { TechServiceList } from '../_components/techService/TechServiceList'
-import { getAllCategories } from '@/app/(publicGroup)/_actions/allCategories'
+// import { getAllCategories } from '@/app/(publicGroup)/_actions/allCategories'
+import { getAllPublicCategories } from '@/app/(publicGroup)/_actions/getAllPublicCategories'
 
 const TechnicianServicesPage = async () => {
-    const categoriesResult = await getAllCategories();
+    const categoriesResult = await getAllPublicCategories();
     const categories = categoriesResult?.data ?? [];
+
+    // console.log("Categories:", categories);
 
     return (
         <div className='space-y-6'>

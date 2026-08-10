@@ -1,12 +1,13 @@
 import { getTechServices } from "@/app/(dashboardGroup)/_actions/technician";
-import { getAllCategories } from "@/app/(publicGroup)/_actions/allCategories";
+// import { getAllCategories } from "@/app/(publicGroup)/_actions/allCategories";
 import { ITechService } from "@/lib/type";
 import { TechServicePostCard } from "./TechServiceCard";
+import { getAllPublicCategories } from "@/app/(publicGroup)/_actions/getAllPublicCategories";
 
 export async function TechServiceList() {
     const [result, categoriesResult] = await Promise.all([
         getTechServices(),
-        getAllCategories(),
+        getAllPublicCategories(),
     ]);
 
     const categories = categoriesResult?.data ?? [];

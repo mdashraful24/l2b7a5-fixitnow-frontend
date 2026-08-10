@@ -20,12 +20,15 @@ interface TestimonialsCarouselProps {
 export const TestimonialsCarousel = ({
     testimonials,
 }: TestimonialsCarouselProps) => {
-    if (!testimonials.length) {
+    // Fix: Check if testimonials exists before accessing length
+    if (!testimonials || !testimonials.length) {
         return (
-            <div className="py-10 text-center text-muted-foreground">
-                No reviews available yet.
+            <div className="text-center py-16">
+                <div className="text-6xl mb-4">🔍</div>
+                <p className="text-xl">No testimonials found</p>
+                <p className="mt-2">Please, try another time</p>
             </div>
-        );
+        )
     }
 
     return (

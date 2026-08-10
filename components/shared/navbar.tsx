@@ -38,12 +38,28 @@ export function Navbar({ user }: NavbarProps) {
     const isDashboardRoute = pathname.startsWith('/dashboard');
     const isProfileRoute = pathname === '/profile';
 
+    // Get dashboard href based on user role
+    const getDashboardHref = () => {
+        if (!user?.data?.role) return '/dashboard';
+
+        const role = user.data.role.toLowerCase();
+        if (role === 'customer') return '/dashboard/customer';
+        if (role === 'technician') return '/dashboard/technician';
+        if (role === 'admin') return '/dashboard/admin';
+        return '/dashboard';
+    };
+
     // Navigation items configuration
     const navItems = [
         { label: 'Home', icon: Home, href: '/' },
         { label: 'Services', icon: Wrench, href: '/services' },
         { label: 'Categories', icon: List, href: '/all-categories' },
     ];
+
+    // Add Dashboard link if user is logged in
+    const allNavItems = user?.success
+        ? [...navItems, { label: 'Dashboard', icon: LayoutDashboard, href: getDashboardHref() }]
+        : navItems;
 
     // Hide dashboard menu item when already inside dashboard
     const visibleUserMenuItems = isDashboardRoute
@@ -58,13 +74,7 @@ export function Navbar({ user }: NavbarProps) {
         }
 
         if (action === 'dashboard') {
-            if (user?.data?.role === 'CUSTOMER') {
-                router.push('/dashboard/customer');
-            } else if (user?.data?.role === 'TECHNICIAN') {
-                router.push('/dashboard/technician');
-            } else if (user?.data?.role === 'ADMIN') {
-                router.push('/dashboard/admin');
-            }
+            router.push(getDashboardHref());
             return;
         }
 
@@ -83,10 +93,10 @@ export function Navbar({ user }: NavbarProps) {
                     FixItNow
                 </Link>
 
-                {/* Desktop Navigation Links ` && !isProfileRoute ` */}
+                {/* Desktop Navigation Links */}
                 {!isDashboardRoute && (
                     <div className="hidden gap-1 md:flex">
-                        {navItems.map((item) => (
+                        {allNavItems.map((item) => (
                             <Button
                                 key={item.label}
                                 variant={pathname === item.href ? 'default' : 'ghost'}
@@ -97,15 +107,6 @@ export function Navbar({ user }: NavbarProps) {
                         ))}
                     </div>
                 )}
-
-                {/* Show Profile as active navigation item on profile page */}
-                {/* {(isProfileRoute && !isDashboardRoute) && (
-                    <div className="hidden gap-1 md:flex">
-                        <Button variant="default" asChild>
-                            <Link href="/profile">Profile</Link>
-                        </Button>
-                    </div>
-                )} */}
 
                 {/* Right side items */}
                 <div className="flex items-center gap-4">
@@ -144,7 +145,7 @@ export function Navbar({ user }: NavbarProps) {
                                             </div>
 
                                             {/* Navigation Links with Icons */}
-                                            {navItems.map((item) => (
+                                            {allNavItems.map((item) => (
                                                 <DropdownMenuItem key={item.label} asChild>
                                                     <Link
                                                         href={item.href}
@@ -296,9 +297,6 @@ export function Navbar({ user }: NavbarProps) {
                                                     </button>
                                                 </DropdownMenuItem>
                                             ))}
-
-                                            {/* Show logout button on dashboard routes too */}
-                                            {/* <DropdownMenuSeparator /> */}
 
                                             {!isDashboardRoute && (
                                                 <>
