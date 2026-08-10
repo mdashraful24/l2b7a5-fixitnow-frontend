@@ -5,7 +5,11 @@ import { TechServiceList } from '../_components/techService/TechServiceList'
 // import { getAllCategories } from '@/app/(publicGroup)/_actions/allCategories'
 import { getAllPublicCategories } from '@/app/(publicGroup)/_actions/getAllPublicCategories'
 
-const TechnicianServicesPage = async () => {
+const TechnicianServicesPage = async ({
+    searchParams
+}: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) => {
     const categoriesResult = await getAllPublicCategories();
     const categories = categoriesResult?.data ?? [];
 
@@ -24,7 +28,7 @@ const TechnicianServicesPage = async () => {
             </div>
 
             <Suspense fallback={<TechServiceSkeleton />}>
-                <TechServiceList />
+                <TechServiceList searchParams={searchParams} />
             </Suspense>
         </div>
     )

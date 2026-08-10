@@ -43,8 +43,8 @@ const Pagination: React.FC<PaginationProps> = ({
     if (totalPages <= 1) return null;
 
     return (
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-8 pt-4 border-t border-gray-200">
-            <div className="text-sm text-gray-600">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-8 pt-4 border-t border-border">
+            <div className="text-sm text-foreground/70">
                 Showing {(currentPage - 1) * itemsPerPage + 1} -{' '}
                 {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} {itemLabel}
             </div>

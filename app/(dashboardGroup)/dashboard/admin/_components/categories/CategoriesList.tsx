@@ -1,6 +1,7 @@
 import { ICategory } from "@/lib/type";
 import { CategoriesCard } from "./CategoriesCard";
 import { getAdminCategories } from "@/app/(dashboardGroup)/_actions/admin";
+import Pagination from "@/app/(publicGroup)/_components/categories/Pagination";
 
 export async function CategoriesList({
     searchParams
@@ -27,10 +28,21 @@ export async function CategoriesList({
     }
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-            {result.data.map((category: ICategory) => (
-                <CategoriesCard key={category.id} category={category} />
-            ))}
+        <div className="space-y-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+                {result.data.map((category: ICategory) => (
+                    <CategoriesCard key={category.id} category={category} />
+                ))}
+            </div>
+            {result.meta && (
+                <Pagination
+                    currentPage={result.meta.page}
+                    totalPages={result.meta.totalPage}
+                    totalItems={result.meta.total}
+                    itemsPerPage={result.meta.limit}
+                    itemLabel="categories"
+                />
+            )}
         </div>
     );
 }

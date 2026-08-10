@@ -1,6 +1,7 @@
 import { getAllUsers } from "@/app/(dashboardGroup)/_actions/admin";
 import { IAdminUsers } from "@/lib/type";
 import { UsersCard } from "./UserCard";
+import Pagination from "@/app/(publicGroup)/_components/categories/Pagination";
 
 export async function UserList({
     searchParams
@@ -8,7 +9,6 @@ export async function UserList({
     searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
     const query = await searchParams;
-
     const result = await getAllUsers({ query });
 
     if (!result.success || !result.data?.length) {
@@ -29,11 +29,15 @@ export async function UserList({
                     <UsersCard key={user.id} user={user} />
                 ))}
             </div>
-            {/* {result.meta && (
-                <div className="text-sm text-muted-foreground text-center">
-                    Showing {result.data.length} of {result.meta.total} users
-                </div>
-            )} */}
+            {result.meta && (
+                <Pagination
+                    currentPage={result.meta.page}
+                    totalPages={result.meta.totalPage}
+                    totalItems={result.meta.total}
+                    itemsPerPage={result.meta.limit}
+                    itemLabel="users"
+                />
+            )}
         </div>
     )
 }

@@ -401,7 +401,22 @@ export const createService = async (prevState: unknown, formData: FormData): Pro
     return result;
 };
 
-export const getTechServices = async () => {
+export const getTechServices = async ({
+    query
+}: {
+    query?: { [key: string]: string | string[] | undefined }
+}) => {
+    const params = new URLSearchParams();
+    if (query) {
+        Object.entries(query).forEach(([key, value]) => {
+            if (value && typeof value === 'string') {
+                params.set(key, value);
+            } else if (Array.isArray(value)) {
+                params.set(key, value.join(','));
+            }
+        });
+    }
+
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("accessToken")?.value;
 
@@ -409,10 +424,14 @@ export const getTechServices = async () => {
         return {
             success: false,
             message: "User not logged in!",
+            data: [],
+            meta: null
         };
     }
 
-    const res = await fetch(`${process.env.BACKEND_API_URL}/api/services/my-services`, {
+    const url = `${process.env.BACKEND_API_URL}/api/services/my-services${params.toString() ? `?${params.toString()}` : ''}`;
+
+    const res = await fetch(url, {
         headers: {
             cookie: `accessToken=${accessToken}`,
         },

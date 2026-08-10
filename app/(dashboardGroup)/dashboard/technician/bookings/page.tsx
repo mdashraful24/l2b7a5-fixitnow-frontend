@@ -52,7 +52,7 @@ export default async function TechnicianBookingsPage({
                 <div>
                     <p className="text-sm font-medium text-primary dark:text-blue-500">Booking management</p>
                     <h1 className="mt-1 text-2xl font-bold text-foreground">Incoming booking requests</h1>
-                    <p className="mt-1 text-sm text-muted-foreground">Accept, decline, start, and complete assigned jobs from one place.</p>
+                    <p className="mt-1 text-sm text-foreground/80">Accept, decline, start, and complete assigned jobs from one place.</p>
                 </div>
                 <Link href="/dashboard/technician/availability" className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90">
                     <CalendarDays className="h-4 w-4" />
@@ -100,7 +100,7 @@ export default async function TechnicianBookingsPage({
             {/* Bookings List */}
             <div className="space-y-4">
                 {bookings.length === 0 ? (
-                    <div className="rounded-2xl border border-dashed border-border bg-card p-10 text-center text-sm text-muted-foreground shadow-sm">
+                    <div className="rounded-2xl border border-dashed border-border bg-card p-10 text-center text-foreground/70 font-semibold shadow-sm">
                         No bookings found for the selected filter.
                     </div>
                 ) : (

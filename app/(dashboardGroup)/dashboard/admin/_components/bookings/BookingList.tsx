@@ -2,6 +2,7 @@ import { getAllBookings } from "@/app/(dashboardGroup)/_actions/admin";
 import { IAdminBookings } from "@/lib/type";
 import { BookingCard } from "./BookingCard";
 import { Calendar } from "lucide-react";
+import Pagination from "@/app/(publicGroup)/_components/categories/Pagination";
 
 export async function BookingList({
     searchParams
@@ -26,10 +27,21 @@ export async function BookingList({
     }
 
     return (
-        <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
-            {result.data.map((booking: IAdminBookings) => (
-                <BookingCard key={booking.id} booking={booking} />
-            ))}
+        <div className="space-y-8">
+            <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
+                {result.data.map((booking: IAdminBookings) => (
+                    <BookingCard key={booking.id} booking={booking} />
+                ))}
+            </div>
+            {result.meta && (
+                <Pagination
+                    currentPage={result.meta.page}
+                    totalPages={result.meta.totalPage}
+                    totalItems={result.meta.total}
+                    itemsPerPage={result.meta.limit}
+                    itemLabel="bookings"
+                />
+            )}
         </div>
     );
 }
