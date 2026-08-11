@@ -58,8 +58,8 @@ export const loginAction = async (redirectTo: string, prevState: LoginState | nu
 }
 
 export const registerAction = async (prevState: RegisterState, formData: FormData) => {
-    console.log(formData);
-    console.log(prevState, "prev");
+    // console.log(formData);
+    // console.log(prevState, "prev");
 
     const name = formData.get("name");
     const email = formData.get("email");

@@ -663,3 +663,41 @@ export interface IUpdateMe {
     phone?: string;
     address?: string;
 }
+
+export interface ICreateContact {
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+};
+
+export interface IContact {
+    id: string;
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface IContactResponse {
+    success: boolean;
+    message: string;
+    data: IContact[];
+    meta: PaginationMeta;
+}
+
+export interface IContactSingleResponse {
+    success: boolean;
+    message: string;
+    data: IContact | null;
+}
+
+export interface PaginationProps {
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    itemsPerPage: number;
+    itemLabel?: string;
+}
