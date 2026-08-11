@@ -91,8 +91,12 @@ export function Navbar({ user }: NavbarProps) {
             <div className="lg:container mx-auto max-w-7xl flex items-center justify-between px-4 py-4">
                 {/* Logo */}
                 <Link className="brand" href="/" aria-label="FixItNow home">
-                    <span className="brand-mark"><Wrench size={17} strokeWidth={2.5} /></span>
-                    FixIt<span>Now</span>
+                    <span className="brand-mark">
+                        <Wrench size={17} strokeWidth={2.5} />
+                    </span>
+                    <p>
+                        FixIt<span>Now</span>
+                    </p>
                 </Link>
 
                 {/* Desktop Navigation Links */}

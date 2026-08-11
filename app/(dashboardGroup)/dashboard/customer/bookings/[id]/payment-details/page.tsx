@@ -95,8 +95,11 @@ export default async function PaymentDetailsPage({
                             <p className="text-sm text-gray-600 dark:text-gray-400">
                                 Status
                             </p>
-                            <span className="inline-flex rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700">
-                                {payment.status}
+                            <span className={`font-medium ${payment.status === "COMPLETED" ? "text-green-600" :
+                                payment.status === "FAILED" ? "text-red-600" :
+                                    "text-yellow-600"
+                                }`}>
+                                {payment.status === "COMPLETED" ? "PAID" : payment.status}
                             </span>
                         </div>
                         <div className="space-y-1.5">

@@ -18,7 +18,7 @@ const AdminBookingsPage = async ({
                         <h1 className="text-3xl font-bold tracking-tight text-foreground">
                             Booking Management
                         </h1>
-                        <p className="text-sm text-muted-foreground max-w-xl">
+                        <p className="text-foreground/80 max-w-xl">
                             View all bookings across your platform.
                         </p>
                     </div>

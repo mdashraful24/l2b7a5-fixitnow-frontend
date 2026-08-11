@@ -24,8 +24,12 @@ const Footer = () => {
                             FixItNow
                         </h3> */}
                         <Link className="brand" href="/" aria-label="FixItNow home">
-                            <span className="brand-mark"><Wrench size={17} strokeWidth={2.5} />
-                            </span>FixIt<span>Now</span>
+                            <span className="brand-mark">
+                                <Wrench size={17} strokeWidth={2.5} />
+                            </span>
+                            <p>
+                                FixIt<span>Now</span>
+                            </p>
                         </Link>
                         <p className="text-sm text-foreground/80">
                             Your trusted platform for finding professional home services.

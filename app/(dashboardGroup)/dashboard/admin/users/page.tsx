@@ -22,7 +22,7 @@ const AdminUsersPage = async ({
                     <h1 className="text-3xl font-bold tracking-tight">
                         User Management
                     </h1>
-                    <p className="text-sm text-muted-foreground max-w-xl">
+                    <p className="text-foreground/80 max-w-2xl">
                         Manage customer accounts, technicians, and admin
                         users across your platform.
                     </p>
@@ -50,7 +50,7 @@ const AdminUsersPage = async ({
                     <h2 className="text-xl font-semibold">
                         All Users
                     </h2>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-foreground/80">
                         View and manage registered users.
                     </p>
                 </div>

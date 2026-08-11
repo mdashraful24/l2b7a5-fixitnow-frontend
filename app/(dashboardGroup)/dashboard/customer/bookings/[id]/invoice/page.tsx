@@ -166,8 +166,11 @@ export default async function InvoicePage({
                             <span>
                                 Payment Status
                             </span>
-                            <span className="font-medium text-green-600">
-                                {payment.status}
+                            <span className={`font-medium ${payment.status === "COMPLETED" ? "text-green-600" :
+                                    payment.status === "FAILED" ? "text-red-600" :
+                                        "text-yellow-600"
+                                }`}>
+                                {payment.status === "COMPLETED" ? "PAID" : payment.status}
                             </span>
                         </div>
                         <div className="flex justify-between">

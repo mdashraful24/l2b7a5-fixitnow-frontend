@@ -9,7 +9,7 @@ export function MiniStatCard({ title, value, color, icon: Icon, bgColor, iconBgC
                     {title}
                 </CardTitle>
                 <div className={`rounded-full p-1.5 ${iconBgColor}`}>
-                    <Icon className={`h-4 w-4 ${color}`} />
+                    <Icon className={`h-4 w-4 bg-transparent ${color}`} />
                 </div>
             </CardHeader>
             <CardContent className="-mt-4">

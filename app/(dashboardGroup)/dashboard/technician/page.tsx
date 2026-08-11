@@ -1,24 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import {
-    CalendarDays,
-    Clock3,
-    Star,
-    UserRound,
-    AlertCircle,
-    TrendingUp,
-    TrendingDown,
-    DollarSign,
-    Calendar,
-    CheckCircle,
-    XCircle,
-    Clock,
-} from "lucide-react";
 import { getMe } from "@/services/getMe";
 import { getTechnicianById } from "@/app/(publicGroup)/_actions/getTechnician";
 import { getTechnicianBookings } from "@/app/(dashboardGroup)/_actions/technician";
-import { buildBookingStatCards, statusBadge } from "@/lib/bookingConstants";
+import { bookingStatCardThemes, buildBookingStatCards } from "@/lib/bookingConstants";
 import ClientCharts from "./_components/dashboard/ClientCharts";
 import BookingsTable from "./_components/dashboard/BookingsTable";
 
@@ -74,7 +60,7 @@ export default async function TechnicianDashboardPage() {
         completed: bookings.filter((booking) => booking.status === "COMPLETED").length,
         cancelled: bookings.filter((booking) => booking.status === "CANCELLED").length,
         earnings: bookings
-            .filter((booking) => booking.status === "COMPLETED" || booking.status === "PAID")
+            .filter((booking) => booking.status === "COMPLETED" || booking.status === "IN_PROGRESS" || booking.status === "PAID")
             .reduce((total, booking) => total + (booking.totalAmount || 0), 0),
     };
 
@@ -84,16 +70,6 @@ export default async function TechnicianDashboardPage() {
     const weeklyTrend = getWeeklyTrend(bookings);
     const recentBookings = bookings.slice(0, 10);
     const statCards = buildBookingStatCards(stats);
-
-    // Calculate growth metrics
-    const previousMonthEarnings = getPreviousMonthEarnings(bookings);
-    const earningsGrowth = previousMonthEarnings > 0
-        ? ((stats.earnings - previousMonthEarnings) / previousMonthEarnings) * 100
-        : 0;
-
-    const completionRate = stats.total > 0
-        ? (stats.completed / stats.total) * 100
-        : 0;
 
     return (
         <div className="space-y-8">
@@ -129,67 +105,6 @@ export default async function TechnicianDashboardPage() {
                 ))}
             </div>
 
-            {/* Key Metrics Cards */}
-            {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <p className="text-sm font-medium text-muted-foreground">Total Earnings</p>
-                            <p className="text-2xl font-bold text-foreground">${stats.earnings.toFixed(2)}</p>
-                        </div>
-                        <div className="rounded-full bg-primary/10 p-3">
-                            <DollarSign className="h-6 w-6 text-primary" />
-                        </div>
-                    </div>
-                    <div className="mt-2 flex items-center gap-2">
-                        {earningsGrowth >= 0 ? (
-                            <TrendingUp className="h-4 w-4 text-green-500" />
-                        ) : (
-                            <TrendingDown className="h-4 w-4 text-red-500" />
-                        )}
-                        <span className={`text-sm font-medium ${earningsGrowth >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                            {Math.abs(earningsGrowth).toFixed(1)}%
-                        </span>
-                        <span className="text-xs text-muted-foreground">vs last month</span>
-                    </div>
-                </div>
-
-                <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <p className="text-sm font-medium text-muted-foreground">Completion Rate</p>
-                            <p className="text-2xl font-bold text-foreground">{completionRate.toFixed(1)}%</p>
-                        </div>
-                        <div className="rounded-full bg-green-500/10 p-3">
-                            <CheckCircle className="h-6 w-6 text-green-500" />
-                        </div>
-                    </div>
-                    <div className="mt-2">
-                        <div className="h-2 w-full rounded-full bg-muted">
-                            <div
-                                className="h-2 rounded-full bg-green-500"
-                                style={{ width: `${Math.min(completionRate, 100)}%` }}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <p className="text-sm font-medium text-muted-foreground">Active Bookings</p>
-                            <p className="text-2xl font-bold text-foreground">{stats.inProgress + stats.accepted}</p>
-                        </div>
-                        <div className="rounded-full bg-blue-500/10 p-3">
-                            <Clock className="h-6 w-6 text-blue-500" />
-                        </div>
-                    </div>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                        {stats.requested} pending requests
-                    </p>
-                </div>
-            </div> */}
-
             {/* Charts Section */}
             <ClientCharts
                 monthlyData={monthlyData}
@@ -223,7 +138,7 @@ function getMonthlyData(bookings: any[]) {
         const date = new Date(booking.scheduledAt);
         const monthIndex = date.getMonth();
         monthlyData[monthIndex].bookings += 1;
-        if (booking.status === 'COMPLETED' || booking.status === 'PAID') {
+        if (booking.status === 'COMPLETED' || booking.status === 'IN_PROGRESS' || booking.status === 'PAID') {
             monthlyData[monthIndex].earnings += booking.totalAmount || 0;
         }
     });
@@ -232,14 +147,36 @@ function getMonthlyData(bookings: any[]) {
 }
 
 function getStatusDistribution(bookings: any[]) {
-    const statuses = ['COMPLETED', 'IN_PROGRESS', 'REQUESTED', 'ACCEPTED', 'CANCELLED', 'DECLINED'];
-    const colors = ['#22c55e', '#3b82f6', '#eab308', '#8b5cf6', '#ef4444', '#6b7280'];
+    const statusColorMap: Record<string, string> = {};
 
-    return statuses.map((status, index) => ({
-        name: status.replace('_', ' '),
-        value: bookings.filter(b => b.status === status).length,
-        color: colors[index]
-    })).filter(item => item.value > 0);
+    // Map status keys to colors
+    bookingStatCardThemes.forEach(theme => {
+        const colorMatch = theme.color.match(/#[0-9a-fA-F]{6}/g);
+        if (colorMatch && colorMatch.length > 0) {
+            statusColorMap[theme.key.toUpperCase()] = colorMatch[0];
+        }
+    });
+
+    // Fallback colors if extraction fails
+    const fallbackColors: Record<string, string> = {
+        'COMPLETED': '#9CA3AF',
+        'IN_PROGRESS': '#22C55E',
+        'REQUESTED': '#F97316',
+        'ACCEPTED': '#3B82F6',
+        'CANCELLED': '#B91C1C',
+        'DECLINED': '#DC2626',
+        'PAID': '#9333EA',
+    };
+
+    const statuses = ['COMPLETED', 'IN_PROGRESS', 'REQUESTED', 'ACCEPTED', 'CANCELLED', 'DECLINED', 'PAID'];
+
+    return statuses
+        .map((status) => ({
+            name: status.replace('_', ' '),
+            value: bookings.filter(b => b.status === status).length,
+            color: statusColorMap[status] || fallbackColors[status] || '#6B7280'
+        }))
+        .filter(item => item.value > 0);
 }
 
 function getWeeklyTrend(bookings: any[]) {
@@ -253,20 +190,6 @@ function getWeeklyTrend(bookings: any[]) {
     });
 
     return weeklyData;
-}
-
-function getPreviousMonthEarnings(bookings: any[]) {
-    const now = new Date();
-    const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-    const currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-
-    return bookings
-        .filter(booking => {
-            const date = new Date(booking.scheduledAt);
-            return date >= lastMonth && date < currentMonth &&
-                (booking.status === 'COMPLETED' || booking.status === 'PAID');
-        })
-        .reduce((total, booking) => total + (booking.totalAmount || 0), 0);
 }
 
 

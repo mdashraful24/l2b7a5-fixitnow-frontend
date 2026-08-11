@@ -35,6 +35,7 @@ export default async function BookingDetailPage({
     const canEdit = booking.status === "REQUESTED" || booking.status === "ACCEPTED";
     const canReview = booking.status === "COMPLETED";
     const hasReview = booking.review !== null && booking.review !== undefined;
+    const canViewPayment = booking.payment && !["REQUESTED", "DECLINED", "ACCEPTED"].includes(booking.status as BookingStatus);
 
     const StatusIcon = status.icon;
 
@@ -45,7 +46,7 @@ export default async function BookingDetailPage({
                 <div>
                     <Link
                         href="/dashboard/customer/bookings"
-                        className="mb-2 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
+                        className="mb-2 inline-flex items-center gap-1.5 text-sm text-foreground/80 hover:text-primary transition-colors"
                     >
                         <ArrowLeft className="h-4 w-4" />
                         Back to Bookings
@@ -63,13 +64,13 @@ export default async function BookingDetailPage({
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 {/* Service Info */}
                 <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
-                    <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                    <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide">
                         <Wrench className="h-4 w-4" /> Service
                     </h2>
                     <h3 className="text-lg font-bold text-foreground">{booking.service?.title}</h3>
-                    <p className="mt-1 text-sm text-muted-foreground">{booking.service?.description}</p>
+                    <p className="mt-1 text-sm text-foreground/80">{booking.service?.description}</p>
                     <div className="mt-4 flex justify-between items-center gap-4 text-sm">
-                        <span className="text-muted-foreground">
+                        <span className="text-foreground/80">
                             <span className="font-medium text-foreground">Duration:</span> {booking.service?.duration} min
                         </span>
                         <span className="text-2xl font-bold text-primary dark:text-blue-500">${booking.totalAmount}</span>
@@ -78,7 +79,7 @@ export default async function BookingDetailPage({
 
                 {/* Technician Info */}
                 <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
-                    <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                    <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide">
                         <User className="h-4 w-4" /> Technician
                     </h2>
                     <div className="flex items-center gap-3">
@@ -87,14 +88,14 @@ export default async function BookingDetailPage({
                         </div>
                         <div>
                             <p className="font-semibold text-foreground">{booking.technician?.user?.name}</p>
-                            <p className="text-sm text-muted-foreground">{booking.technician?.user?.email}</p>
+                            <p className="text-sm text-foreground/80">{booking.technician?.user?.email}</p>
                             {booking.technician?.user?.phone && (
-                                <p className="text-sm text-muted-foreground">{booking.technician.user.phone}</p>
+                                <p className="text-sm text-foreground/80">{booking.technician.user.phone}</p>
                             )}
                         </div>
                     </div>
                     {booking.technician?.location && (
-                        <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+                        <div className="mt-4 flex items-center gap-2 text-sm text-foreground/80">
                             <MapPin className="h-4 w-4" />
                             <span>{booking.technician.location}</span>
                         </div>
@@ -103,7 +104,7 @@ export default async function BookingDetailPage({
 
                 {/* Schedule Info */}
                 <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
-                    <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                    <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide">
                         <CalendarDays className="h-4 w-4" /> Schedule
                     </h2>
                     <div className="space-y-3 text-sm">
@@ -122,7 +123,7 @@ export default async function BookingDetailPage({
                         </div>
                         {booking.availableSlot && (
                             <div className="rounded-lg bg-muted/30 dark:bg-muted/20 px-4 py-3">
-                                <p className="text-xs font-medium text-muted-foreground mb-1">Slot Window</p>
+                                <p className="text-xs font-medium text-foreground/80 mb-1">Slot Window</p>
                                 <p className="font-medium text-foreground">
                                     {booking.availableSlot.dayOfWeek} —{" "}
                                     {new Date(booking.availableSlot.startAt).toLocaleTimeString([], {
@@ -144,7 +145,7 @@ export default async function BookingDetailPage({
 
                 {/* Payment & Additional Info */}
                 <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
-                    <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                    <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide">
                         <FileText className="h-4 w-4" /> Payment & Info
                     </h2>
                     <div className="space-y-3 text-sm">
@@ -154,13 +155,13 @@ export default async function BookingDetailPage({
                         </div>
                         <div>
                             <p className="font-medium text-foreground">Notes</p>
-                            <p className="mt-1 text-muted-foreground">
+                            <p className="mt-1 text-foreground/80">
                                 {booking.notes || "No special instructions provided."}
                             </p>
                         </div>
                         <div>
                             <p className="font-medium text-foreground">Booking Created</p>
-                            <p className="mt-1 text-muted-foreground">
+                            <p className="mt-1 text-foreground/80">
                                 {new Date(booking.createdAt).toLocaleDateString("en-US", {
                                     year: "numeric", month: "long", day: "numeric"
                                 })}
@@ -168,7 +169,7 @@ export default async function BookingDetailPage({
                         </div>
                         <div>
                             <p className="font-medium text-foreground">Booking ID</p>
-                            <p className="mt-1 font-mono text-sm text-muted-foreground">{booking.id}</p>
+                            <p className="mt-1 font-mono text-sm text-foreground/80">{booking.id}</p>
                         </div>
                     </div>
                 </div>
@@ -189,7 +190,8 @@ export default async function BookingDetailPage({
                         />
                     </div>
                 )}
-                {booking.payment && (
+
+                {canViewPayment && (
                     <Link
                         href={`/dashboard/customer/bookings/${booking.id}/payment-details`}
                         className="inline-flex items-center gap-2 rounded-lg border bg-purple-100 text-purple-800 px-4 py-2.5 text-sm font-medium"

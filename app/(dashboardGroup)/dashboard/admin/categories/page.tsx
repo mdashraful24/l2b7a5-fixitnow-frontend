@@ -14,10 +14,10 @@ const AdminCategoriesPage = async ({
             {/* Header */}
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                    <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+                    <h1 className="text-2xl font-semibold tracking-tight text-foreground mb-1">
                         Categories Management
                     </h1>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-foreground/80">
                         Create and manage service categories for your platform.
                     </p>
                 </div>

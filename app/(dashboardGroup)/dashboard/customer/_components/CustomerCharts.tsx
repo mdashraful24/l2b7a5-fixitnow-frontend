@@ -17,15 +17,16 @@ import {
     Cell,
 } from 'recharts';
 
-interface AdminChartsProps {
-    monthlyData: Array<{ month: string; bookings: number; revenue: number }>;
+interface CustomerChartsProps {
+    monthlyData: Array<{ month: string; bookings: number; spent: number }>;
     statusDistribution: Array<{ name: string; value: number; color: string }>;
-    revenueData: Array<{ month: string; revenue: number }>;
+    weeklyTrend: Array<{ day: string; bookings: number }>;
     servicePopularity: Array<{ name: string; bookings: number }>;
 }
 
-// Custom label renderer with controlled text size
-const renderCustomLabel = ({ name, percent, cx, cy, midAngle, innerRadius, outerRadius }: any) => {
+const renderCustomLabel = (props: any) => {
+    const { name, percent, cx, cy, midAngle, innerRadius, outerRadius } = props;
+
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx + radius * Math.cos(-midAngle * Math.PI / 180);
     const y = cy + radius * Math.sin(-midAngle * Math.PI / 180);
@@ -43,30 +44,22 @@ const renderCustomLabel = ({ name, percent, cx, cy, midAngle, innerRadius, outer
                 fontFamily: 'inherit'
             }}
         >
-            {`${name} ${((percent ?? 0) * 100).toFixed(0)}%`}
+            {`${name} ${(percent * 100).toFixed(0)}%`}
         </text>
     );
 };
 
-// Custom tooltip formatter
-const formatCurrency = (value: any) => {
-    if (typeof value !== 'number') return value;
-    return `$${value.toFixed(2)}`;
-};
-
-export default function AdminCharts({
+export default function CustomerCharts({
     monthlyData,
     statusDistribution,
-    revenueData,
+    weeklyTrend,
     servicePopularity,
-}: AdminChartsProps) {
-    // Colors for bar charts
+}: CustomerChartsProps) {
     const barColors = ['#3b82f6', '#8b5cf6', '#22c55e', '#eab308', '#ef4444', '#06b6d4', '#f97316'];
 
-    // Check if there's data to display
     const hasMonthlyData = monthlyData.some(item => item.bookings > 0);
     const hasStatusData = statusDistribution.length > 0;
-    const hasRevenueData = revenueData.some(item => item.revenue > 0);
+    const hasWeeklyData = weeklyTrend.some(item => item.bookings > 0);
     const hasServiceData = servicePopularity.length > 0;
 
     return (
@@ -92,7 +85,7 @@ export default function AdminCharts({
                             </BarChart>
                         </ResponsiveContainer>
                     ) : (
-                        <div className="flex h-full items-center justify-center text-foreground/80 font-semibold">
+                        <div className="flex h-full items-center justify-center text-muted-foreground">
                             No booking data available
                         </div>
                     )}
@@ -121,54 +114,46 @@ export default function AdminCharts({
                                         <Cell key={`cell-${index}`} fill={entry.color} />
                                     ))}
                                 </Pie>
-                                {/* <Tooltip
-                                    contentStyle={{
-                                        backgroundColor: 'hsl(var(--background))',
-                                        border: '1px solid hsl(var(--border))'
-                                    }}
-                                    formatter={(value: any) => [`${value} bookings`, 'Count']}
-                                /> */}
                             </PieChart>
                         </ResponsiveContainer>
                     ) : (
-                        <div className="flex h-full items-center justify-center text-foreground/80 font-semibold">
+                        <div className="flex h-full items-center justify-center text-muted-foreground">
                             No status data available
                         </div>
                     )}
                 </div>
             </div>
 
-            {/* Line Chart - Revenue Trend */}
+            {/* Line Chart - Weekly Trend */}
             <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-                <h3 className="text-sm font-semibold text-foreground mb-4">Revenue Trend</h3>
+                <h3 className="text-sm font-semibold text-foreground mb-4">Weekly Booking Trend</h3>
                 <div className="h-64">
-                    {hasRevenueData ? (
+                    {hasWeeklyData ? (
                         <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={revenueData}>
+                            <LineChart data={weeklyTrend}>
                                 <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="month" />
+                                <XAxis dataKey="day" />
                                 <YAxis />
                                 <Tooltip
                                     contentStyle={{
                                         backgroundColor: 'hsl(var(--background))',
                                         border: '1px solid hsl(var(--border))'
                                     }}
-                                    formatter={formatCurrency}
                                 />
                                 <Legend />
                                 <Line
                                     type="monotone"
-                                    dataKey="revenue"
-                                    stroke="#22c55e"
-                                    name="Revenue"
+                                    dataKey="bookings"
+                                    stroke="#8b5cf6"
+                                    name="Bookings"
                                     strokeWidth={2}
-                                    dot={{ stroke: '#22c55e', strokeWidth: 2, r: 4 }}
+                                    dot={{ stroke: '#8b5cf6', strokeWidth: 2, r: 4 }}
                                 />
                             </LineChart>
                         </ResponsiveContainer>
                     ) : (
                         <div className="flex h-full items-center justify-center text-muted-foreground">
-                            No revenue data available
+                            No weekly data available
                         </div>
                     )}
                 </div>
@@ -176,7 +161,7 @@ export default function AdminCharts({
 
             {/* Bar Chart - Service Popularity */}
             <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-                <h3 className="text-sm font-semibold text-foreground mb-4">Popular Services</h3>
+                <h3 className="text-sm font-semibold text-foreground mb-4">Your Most Booked Services</h3>
                 <div className="h-64">
                     {hasServiceData ? (
                         <ResponsiveContainer width="100%" height="100%">
@@ -201,11 +186,7 @@ export default function AdminCharts({
                                     formatter={(value: any) => [`${value} bookings`, 'Bookings']}
                                 />
                                 <Legend />
-                                <Bar
-                                    dataKey="bookings"
-                                    name="Bookings"
-                                    fill="#8b5cf6"
-                                >
+                                <Bar dataKey="bookings" name="Bookings" fill="#8b5cf6">
                                     {servicePopularity.map((_entry, index) => (
                                         <Cell
                                             key={`cell-${index}`}

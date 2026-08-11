@@ -5,13 +5,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getAllBookings, getAllUsers } from "@/app/(dashboardGroup)/_actions/admin";
-import { statusBadges } from "@/lib/bookingConstants";
 import { getDashboardStats } from "@/lib/adminConstants";
 import { StatCard } from "./_components/dashboardStats/StatCard";
 import { MiniStatCard } from "./_components/dashboardStats/MiniStatCard";
 import AdminCharts from "./_components/dashboardStats/AdminCharts";
 import AdminBookingsDataTable from "./_components/dashboardStats/AdminBookingsDataTable";
 import { getAllServices } from "@/app/(publicGroup)/_actions/allServices";
+import { bookingStatCardThemes } from "@/lib/bookingConstants";
 
 export default async function AdminDashboardPage() {
     const stats = await getDashboardStats();
@@ -20,9 +20,10 @@ export default async function AdminDashboardPage() {
     const bookingsResult = await getAllBookings({});
     const allBookings = bookingsResult.data || [];
 
+    // Get only the 5 most recent bookings
     const recentBookings = allBookings
         .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-        .slice(0, 10);
+        .slice(0, 5);
 
     const usersResult = await getAllUsers({});
     const recentUsers = (usersResult.data || [])
@@ -67,7 +68,7 @@ export default async function AdminDashboardPage() {
                     trend={growthRate}
                     color="text-blue-500"
                     bgColor="bg-blue-50 dark:bg-blue-950/30"
-                    cardBgColor="bg-gradient-to-br from-gray-700 to-gray-900"
+                    cardBgColor="bg-gradient-to-br from-blue-700 to-blue-900"
                 />
                 <StatCard
                     title="Total Users"
@@ -76,7 +77,7 @@ export default async function AdminDashboardPage() {
                     description={`${users.activeUsers} active, ${users.bannedUsers} banned`}
                     color="text-purple-500"
                     bgColor="bg-purple-50 dark:bg-purple-950/30"
-                    cardBgColor="bg-gradient-to-br from-gray-700 to-gray-900"
+                    cardBgColor="bg-gradient-to-br from-blue-700 to-blue-900"
                 />
                 <StatCard
                     title="Total Revenue"
@@ -85,7 +86,7 @@ export default async function AdminDashboardPage() {
                     description={`${bookings.completedBookings} completed bookings`}
                     color="text-green-500"
                     bgColor="bg-green-50 dark:bg-green-950/30"
-                    cardBgColor="bg-gradient-to-br from-gray-700 to-gray-900"
+                    cardBgColor="bg-gradient-to-br from-blue-700 to-blue-900"
                 />
                 <StatCard
                     title="Avg. Rating"
@@ -94,7 +95,7 @@ export default async function AdminDashboardPage() {
                     description={`${users.totalTechnicians} technicians`}
                     color="text-yellow-500"
                     bgColor="bg-yellow-50 dark:bg-yellow-950/30"
-                    cardBgColor="bg-gradient-to-br from-gray-700 to-gray-900"
+                    cardBgColor="bg-gradient-to-br from-blue-700 to-blue-900"
                 />
                 <StatCard
                     title="Total Reviews"
@@ -103,7 +104,7 @@ export default async function AdminDashboardPage() {
                     description={`${users.totalTechnicians} technicians`}
                     color="text-red-500"
                     bgColor="bg-red-50 dark:bg-red-950/30"
-                    cardBgColor="bg-gradient-to-br from-gray-700 to-gray-900"
+                    cardBgColor="bg-gradient-to-br from-blue-700 to-blue-900"
                 />
             </div>
 
@@ -112,42 +113,42 @@ export default async function AdminDashboardPage() {
                 <MiniStatCard
                     title="Requested"
                     value={bookings.requestedBookings}
-                    color="bg-orange-500"
+                    color="text-black"
                     icon={Clock}
-                    iconBgColor="bg-orange-500"
-                    bgColor="bg-gradient-to-br from-orange-700 to-orange-800"
+                    iconBgColor="bg-orange-100"
+                    bgColor="bg-gradient-to-br from-blue-700 to-blue-900"
                 />
                 <MiniStatCard
                     title="In Progress"
                     value={bookings.inProgressBookings}
-                    color="bg-green-500"
+                    color="text-black"
                     icon={Loader2}
-                    iconBgColor="bg-green-500"
-                    bgColor="bg-gradient-to-br from-green-700 to-green-800"
+                    iconBgColor="bg-green-100"
+                    bgColor="bg-gradient-to-br from-blue-700 to-blue-900"
                 />
                 <MiniStatCard
                     title="Completed"
                     value={bookings.completedBookings}
-                    color="bg-gray-500"
+                    color="text-black"
                     icon={CheckCircle}
-                    iconBgColor="bg-gray-500"
-                    bgColor="bg-gradient-to-br from-gray-600 to-gray-700"
+                    iconBgColor="bg-blue-100"
+                    bgColor="bg-gradient-to-br from-blue-700 to-blue-900"
                 />
                 <MiniStatCard
                     title="Cancelled"
                     value={bookings.cancelledBookings}
-                    color="bg-red-500"
+                    color="text-black"
                     icon={XCircle}
-                    iconBgColor="bg-red-500"
-                    bgColor="bg-gradient-to-br from-red-700 to-red-800"
+                    iconBgColor="bg-red-100"
+                    bgColor="bg-gradient-to-br from-blue-700 to-blue-900"
                 />
                 <MiniStatCard
                     title="Categories"
                     value={totalCategories}
-                    color="bg-indigo-500"
+                    color="text-black"
                     icon={BookOpen}
-                    iconBgColor="bg-indigo-500"
-                    bgColor="bg-gradient-to-br from-indigo-700 to-indigo-800"
+                    iconBgColor="bg-indigo-100"
+                    bgColor="bg-gradient-to-br from-blue-700 to-blue-900"
                 />
             </div>
 
@@ -159,18 +160,18 @@ export default async function AdminDashboardPage() {
                 servicePopularity={servicePopularity}
             />
 
-            {/* Data Table Section */}
+            {/* Data Table Section - Showing only 5 most recent bookings */}
             <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
                 <div className="flex items-center justify-between gap-4 mb-4">
                     <div>
-                        <h2 className="text-lg font-semibold text-foreground">All Bookings</h2>
-                        <p className="text-sm text-muted-foreground">Complete history of all platform bookings</p>
+                        <h2 className="text-lg font-semibold text-foreground">Recent Bookings</h2>
+                        <p className="text-sm text-muted-foreground">Showing the 5 most recent bookings</p>
                     </div>
                     <Link href="/dashboard/admin/bookings" className="text-sm font-medium text-primary hover:underline">
-                        View all
+                        View all bookings
                     </Link>
                 </div>
-                <AdminBookingsDataTable bookings={recentBookings} />
+                <AdminBookingsDataTable bookings={recentBookings} compact={true} />
             </div>
 
             {/* Others Contents */}
@@ -270,14 +271,36 @@ function getMonthlyData(bookings: any[]) {
 }
 
 function getStatusDistribution(bookings: any[]) {
-    const statuses = ['COMPLETED', 'IN_PROGRESS', 'REQUESTED', 'ACCEPTED', 'CANCELLED', 'DECLINED', 'PAID'];
-    const colors = ['#22c55e', '#3b82f6', '#eab308', '#8b5cf6', '#ef4444', '#6b7280', '#06b6d4'];
+    const statusColorMap: Record<string, string> = {};
 
-    return statuses.map((status, index) => ({
-        name: status.replace('_', ' '),
-        value: bookings.filter((b: any) => b.status === status).length,
-        color: colors[index]
-    })).filter(item => item.value > 0);
+    // Map status keys to colors
+    bookingStatCardThemes.forEach(theme => {
+        const colorMatch = theme.color.match(/#[0-9a-fA-F]{6}/g);
+        if (colorMatch && colorMatch.length > 0) {
+            statusColorMap[theme.key.toUpperCase()] = colorMatch[0];
+        }
+    });
+
+    // Fallback colors if extraction fails
+    const fallbackColors: Record<string, string> = {
+        'COMPLETED': '#9CA3AF',
+        'IN_PROGRESS': '#22C55E',
+        'REQUESTED': '#F97316',
+        'ACCEPTED': '#3B82F6',
+        'CANCELLED': '#B91C1C',
+        'DECLINED': '#DC2626',
+        'PAID': '#9333EA',
+    };
+
+    const statuses = ['COMPLETED', 'IN_PROGRESS', 'REQUESTED', 'ACCEPTED', 'CANCELLED', 'DECLINED', 'PAID'];
+
+    return statuses
+        .map((status) => ({
+            name: status.replace('_', ' '),
+            value: bookings.filter(b => b.status === status).length,
+            color: statusColorMap[status] || fallbackColors[status] || '#6B7280'
+        }))
+        .filter(item => item.value > 0);
 }
 
 function getRevenueData(bookings: any[]) {
@@ -314,20 +337,6 @@ async function getServicePopularity() {
     } catch (error) {
         return [];
     }
-}
-
-function getPreviousMonthRevenue(bookings: any[]) {
-    const now = new Date();
-    const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-    const currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-
-    return bookings
-        .filter((booking: any) => {
-            const date = new Date(booking.createdAt);
-            return date >= lastMonth && date < currentMonth &&
-                (booking.status === 'COMPLETED' || booking.status === 'PAID');
-        })
-        .reduce((sum: number, booking: any) => sum + (booking.totalAmount || 0), 0);
 }
 
 

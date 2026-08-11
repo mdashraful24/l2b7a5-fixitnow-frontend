@@ -36,7 +36,7 @@ export function UserSearchBar() {
             <Input
                 defaultValue={searchParams.get("searchTerm") ? searchParams.get("searchTerm")?.toString() : ""}
                 onChange={(e) => { handleChange(e.target.value) }}
-                placeholder="Search news..."
+                placeholder="Search users..."
                 className="pl-9"
             />
         </div>
