@@ -21,7 +21,7 @@ const ContactPage = () => {
         {
             icon: MapPin,
             title: "Visit Us",
-            details: ["Dhaka, Bangladesh", "1234 Service Road, Dhaka"]
+            details: ["Dhaka, Bangladesh", "123 FixItNow Street, Dhaka"]
         },
         {
             icon: Mail,

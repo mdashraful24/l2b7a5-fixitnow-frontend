@@ -17,7 +17,10 @@ const PUBLIC_ROUTES = [
     "/technicians",
     "/technicians/[id]",
     "/all-categories",
-    "/contact"
+    "/contact",
+    "/about",
+    "/privacy-policy",
+    "/terms-of-service"
 ];
 
 // This function can be marked `async` if using `await` inside

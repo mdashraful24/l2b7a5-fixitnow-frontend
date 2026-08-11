@@ -173,7 +173,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
                             }`}
                     >
                         <CalendarCheck className="h-4 w-4" />
-                        {service.isAvailable ? "Book Now" : "Unavailable"}
+                        {service.isAvailable ? "View Details" : "Unavailable"}
                     </Link>
                 </div>
 

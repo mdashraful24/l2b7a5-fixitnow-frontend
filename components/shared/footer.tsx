@@ -68,15 +68,7 @@ const Footer = () => {
                         <ul className="space-y-3">
                             <li>
                                 <Link
-                                    href="/services"
-                                    className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
-                                >
-                                    Browse Services
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href="#"
+                                    href="/about"
                                     className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                                 >
                                     About Us
@@ -84,18 +76,18 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link
-                                    href="#"
+                                    href="/services"
                                     className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                                 >
-                                    Contact
+                                    All Services
                                 </Link>
                             </li>
                             <li>
                                 <Link
-                                    href="#"
+                                    href="/contact"
                                     className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                                 >
-                                    Blog
+                                    Contact
                                 </Link>
                             </li>
                         </ul>
@@ -117,7 +109,7 @@ const Footer = () => {
                             </li> */}
                             <li>
                                 <Link
-                                    href="#"
+                                    href="/privacy-policy"
                                     className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                                 >
                                     Privacy Policy
@@ -125,20 +117,20 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link
-                                    href="#"
+                                    href="/terms-of-service"
                                     className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                                 >
                                     Terms of Service
                                 </Link>
                             </li>
-                            <li>
+                            {/* <li>
                                 <Link
                                     href="#"
                                     className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                                 >
                                     Help Center
                                 </Link>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
 
@@ -207,7 +199,12 @@ const Footer = () => {
                         <p className="text-sm text-foreground/80">
                             &copy; {currentYear} FixItNow. All rights reserved.
                         </p>
-                        <div className="flex items-center gap-6">
+                        <p>
+                            Developed and maintained by <a href="https://ashraful-islam-ratul.netlify.app/" className="text-blue-500 hover:underline">
+                                Ashraful Islam Ratul.
+                            </a>
+                        </p>
+                        {/* <div className="flex items-center gap-6">
                             <Link
                                 href="#"
                                 className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
@@ -232,7 +229,7 @@ const Footer = () => {
                             >
                                 Sitemap
                             </Link>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

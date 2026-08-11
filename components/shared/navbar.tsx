@@ -53,6 +53,7 @@ export function Navbar({ user }: NavbarProps) {
     // Navigation items configuration
     const navItems = [
         { label: 'Home', icon: Home, href: '/' },
+        { label: 'About Us', icon: Home, href: '/about' },
         { label: 'Services', icon: Wrench, href: '/services' },
         { label: 'Categories', icon: List, href: '/all-categories' },
         { label: 'Contact', icon: Mail, href: '/contact' },
