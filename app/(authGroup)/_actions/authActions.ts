@@ -5,7 +5,7 @@ import { LoginState, RegisterState } from "@/lib/type";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { redirect } from "next/navigation";
 
-export const loginAction = async (redirectTo: string, prevState: LoginState, formData: FormData) => {
+export const loginAction = async (redirectTo: string, prevState: LoginState | null, formData: FormData) => {
     const email = formData.get("email");
     const password = formData.get("password");
 

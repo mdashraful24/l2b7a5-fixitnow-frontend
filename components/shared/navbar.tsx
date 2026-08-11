@@ -36,6 +36,7 @@ export function Navbar({ user }: NavbarProps) {
 
     // Check if current route is dashboard
     const isDashboardRoute = pathname.startsWith('/dashboard');
+    const isAuthRoute = pathname.startsWith('/auth');
     const isProfileRoute = pathname === '/profile';
 
     // Get dashboard href based on user role
@@ -131,9 +132,10 @@ export function Navbar({ user }: NavbarProps) {
                                     sideOffset={8}
                                     className="w-60 rounded-xl bg-background p-2 shadow-lg"
                                 >
-                                    {/* Show user info in mobile menu if logged in */}
-                                    {user?.success && (
+                                    {user?.success ? (
+                                        // Logged in user menu
                                         <>
+                                            {/* User info */}
                                             <div className="mb-2">
                                                 <div className="flex items-center gap-3 rounded-lg bg-secondary/50 p-2">
                                                     <div className="flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs">
@@ -204,28 +206,52 @@ export function Navbar({ user }: NavbarProps) {
                                                 <span>Logout</span>
                                             </DropdownMenuItem>
                                         </>
-                                    )}
-
-                                    {/* Show auth links if not logged in */}
-                                    {!user?.success && (
+                                    ) : (
+                                        // Not logged in - Show navigation links and auth links
                                         <>
+                                            {/* Navigation Links for guests */}
+                                            {allNavItems.map((item) => (
+                                                <DropdownMenuItem key={item.label} asChild>
+                                                    <Link
+                                                        href={item.href}
+                                                        className={`flex w-full items-center gap-3 rounded-lg px-2 py-2 ${pathname === item.href
+                                                            ? 'bg-primary text-primary-foreground'
+                                                            : 'hover:bg-accent'
+                                                            }`}
+                                                    >
+                                                        <item.icon className="size-4" />
+                                                        <span>{item.label}</span>
+                                                    </Link>
+                                                </DropdownMenuItem>
+                                            ))}
+
                                             <DropdownMenuSeparator />
+
+                                            {/* Login link */}
                                             <DropdownMenuItem asChild>
                                                 <Link
                                                     href="/auth/login"
-                                                    className="flex w-full items-center rounded-lg px-2 py-2 hover:bg-accent"
+                                                    className={`flex w-full items-center rounded-lg px-2 py-2 ${pathname === '/auth/login'
+                                                        ? 'bg-primary text-primary-foreground'
+                                                        : 'hover:bg-accent'
+                                                        }`}
                                                 >
                                                     Login
                                                 </Link>
                                             </DropdownMenuItem>
-                                            <DropdownMenuItem asChild>
+
+                                            {/* Register link */}
+                                            {/* <DropdownMenuItem asChild>
                                                 <Link
                                                     href="/auth/register"
-                                                    className="flex w-full items-center rounded-lg px-2 py-2 hover:bg-accent"
+                                                    className={`flex w-full items-center rounded-lg px-2 py-2 ${pathname === '/auth/register'
+                                                        ? 'bg-primary text-primary-foreground'
+                                                        : 'hover:bg-accent'
+                                                        }`}
                                                 >
                                                     Register
                                                 </Link>
-                                            </DropdownMenuItem>
+                                            </DropdownMenuItem> */}
                                         </>
                                     )}
                                 </DropdownMenuContent>
@@ -236,7 +262,7 @@ export function Navbar({ user }: NavbarProps) {
                     <ThemeToggle />
 
                     {/* User Avatar Dropdown - Always show on desktop, show on mobile only on dashboard routes */}
-                    {user.success && (
+                    {user?.success && (
                         <div className={isDashboardRoute ? 'block' : 'hidden md:block'}>
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
@@ -301,7 +327,7 @@ export function Navbar({ user }: NavbarProps) {
                                                 </DropdownMenuItem>
                                             ))}
 
-                                            {/* Always show logout button - removed the !isDashboardRoute condition */}
+                                            {/* Always show logout button */}
                                             <DropdownMenuItem
                                                 onClick={() => handleNavigation('logout')}
                                                 className="rounded-lg text-red-500 focus:text-red-500 px-3 py-2 cursor-pointer"
@@ -317,7 +343,7 @@ export function Navbar({ user }: NavbarProps) {
                     )}
 
                     {/* Auth buttons for desktop */}
-                    {!user.success && (
+                    {!user?.success && (
                         <div className="hidden md:flex gap-2">
                             <Button
                                 asChild
@@ -329,7 +355,7 @@ export function Navbar({ user }: NavbarProps) {
                                 <Link href="/auth/login">Login</Link>
                             </Button>
 
-                            <Button
+                            {/* <Button
                                 asChild
                                 variant={
                                     pathname === '/auth/register'
@@ -339,12 +365,12 @@ export function Navbar({ user }: NavbarProps) {
                                 size="sm"
                             >
                                 <Link href="/auth/register">Register</Link>
-                            </Button>
+                            </Button> */}
                         </div>
                     )}
 
-                    {/* Mobile auth buttons - shown as icons when menu icon is visible */}
-                    {!user.success && (
+                    {/* Mobile auth buttons - REMOVED the User icon completely */}
+                    {/* {!user?.success && !isAuthRoute && (
                         <div className="flex gap-1 md:hidden">
                             <Button
                                 asChild
@@ -357,7 +383,7 @@ export function Navbar({ user }: NavbarProps) {
                                 </Link>
                             </Button>
                         </div>
-                    )}
+                    )} */}
                 </div>
             </div>
         </nav>
