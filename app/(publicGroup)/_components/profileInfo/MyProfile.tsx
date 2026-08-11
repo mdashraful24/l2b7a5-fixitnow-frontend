@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { MyProfileProps } from "@/lib/type";
 import {
     Mail,
@@ -11,9 +12,12 @@ import {
     Shield,
     User as UserIcon,
     Calendar,
+    Pencil,
 } from "lucide-react";
+import Link from "next/link";
 import InfoCard from "./InfoCard";
 import InfoItem from "./InfoItem";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "radix-ui/tooltip";
 
 export default function MyProfile({ user }: MyProfileProps) {
     const initials = user.name
@@ -27,6 +31,22 @@ export default function MyProfile({ user }: MyProfileProps) {
     const isTechnician = user.role === "TECHNICIAN";
     const isAdmin = user.role === "ADMIN";
     const isCustomer = user.role === "CUSTOMER";
+
+    // Get the update profile URL based on user role
+    const getUpdateProfileUrl = () => {
+        if (isAdmin) return "/dashboard/admin/update-profile";
+        if (isTechnician) return "/dashboard/technician/update-profile";
+        if (isCustomer) return "/dashboard/customer/update-profile";
+        return "/profile/update"; // fallback
+    };
+
+    // Get role-specific note
+    const getUpdateNote = () => {
+        if (isAdmin) return "You'll be redirected to your admin dashboard to update your profile";
+        if (isTechnician) return "You'll be redirected to your technician dashboard to update your profile";
+        if (isCustomer) return "You'll be redirected to your customer dashboard to update your profile";
+        return "You'll be redirected to update your profile";
+    };
 
     return (
         <div className="bg-linear-to-br from-background via-background to-secondary/5">
@@ -46,32 +66,57 @@ export default function MyProfile({ user }: MyProfileProps) {
 
                     {/* User Info - Centered on mobile, left-aligned on larger screens */}
                     <div className="flex-1 text-center sm:text-left min-w-0">
-                        <h1 className="text-3xl font-bold wrap-break-word">
-                            {user.name}
-                        </h1>
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+                            <div>
+                                <h1 className="text-3xl font-bold wrap-break-word">
+                                    {user.name}
+                                </h1>
 
-                        <p className="mt-1 sm:mt-2 text-base break-all sm:break-normal">
-                            {user.email}
-                        </p>
+                                <p className="mt-1 sm:mt-2 text-base break-all sm:break-normal">
+                                    {user.email}
+                                </p>
 
-                        <div className="mt-3 flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                            <Badge
-                                variant="secondary"
-                                className="text-sm p-3"
+                                <div className="mt-3 flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                                    <Badge
+                                        variant="secondary"
+                                        className="text-sm p-3"
+                                    >
+                                        {user.role}
+                                    </Badge>
+                                    <Badge
+                                        variant={isActive ? "default" : "destructive"}
+                                        className="text-sm p-3"
+                                    >
+                                        {isActive ? "Active" : "Inactive"}
+                                    </Badge>
+                                </div>
+                            </div>
+
+                            {/* Edit Profile Button with Tooltip */}
+                            <TooltipProvider
+                                delayDuration={0}
+                                skipDelayDuration={100}
                             >
-                                {user.role}
-                            </Badge>
-                            <Badge
-                                variant={isActive ? "default" : "destructive"}
-                                className="text-sm p-3"
-                            >
-                                {isActive ? "Active" : "Inactive"}
-                            </Badge>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button asChild className="sm:ml-auto">
+                                            <Link href={getUpdateProfileUrl()}>
+                                                <Pencil className="mr-1 h-4 w-4" />
+                                                Edit Profile
+                                            </Link>
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent side="left" className="max-w-xs" sideOffset={5}>
+                                        <p>{getUpdateNote()}</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                         </div>
                     </div>
                 </div>
             </div>
 
+            {/* Rest of your component... */}
             {/* Content */}
             <main className="">
                 <div className="grid gap-6 lg:grid-cols-3">
@@ -237,12 +282,6 @@ export default function MyProfile({ user }: MyProfileProps) {
                         {/* Technician Stats - Only show for TECHNICIAN */}
                         {isTechnician && user.technicianProfile && (
                             <>
-                                {/* <InfoCard title="Total Reviews">
-                                    <p className="text-2xl font-bold">
-                                        {user.technicianProfile.totalReviews || 0}
-                                    </p>
-                                </InfoCard> */}
-
                                 {user.technicianProfile.location && (
                                     <InfoCard title="Service Area">
                                         <p className="text-sm sm:text-base">

@@ -655,3 +655,11 @@ export interface PaginationMeta {
     total: number;
     totalPages: number;
 }
+
+export interface IUpdateMe {
+    name?: string;
+    email?: string;
+    password?: string;
+    phone?: string;
+    address?: string;
+}

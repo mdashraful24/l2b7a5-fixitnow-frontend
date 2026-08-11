@@ -8,32 +8,79 @@ export const getMe = async () => {
     const accessToken = cookieStore.get("accessToken")?.value;
 
     if (!accessToken) {
-        // throw new Error("User not logged in");
+        return {
+            success: false,
+            message: "User not logged in!",
+        };
+    }
+
+    try {
+        const res = await fetch(
+            `${process.env.BACKEND_API_URL}/api/auth/me`,
+            {
+                headers: {
+                    cookie: `accessToken=${accessToken}`,
+                },
+                cache: "no-store",
+            }
+        );
+
+        return await res.json();
+    } catch (error) {
+        console.error("Get me error:", error);
 
         return {
             success: false,
-            message: "User not logged in!"
-        }
+            message: "Unable to load profile.",
+        };
     }
-
-    const res = await fetch(`${process.env.BACKEND_API_URL}/api/auth/me`, {
-        // method: "GET",
-        headers: {
-            // Authorization: accessToken as unknown as string
-            // Authorization: `${accessToken}`
-            // Authorization: `Bearer ${accessToken}`
-
-            cookie: `accessToken=${accessToken}`
-        },
-
-        cache: "force-cache",
-        next: {
-            revalidate: 60 * 60 * 24,
-            tags: ["my-profile"]
-        }
-    });
-
-    const result = await res.json();
-
-    return result;
 };
+
+
+
+
+
+
+
+
+
+
+// "use server";
+
+// import { cookies } from "next/headers";
+
+// export const getMe = async () => {
+//     const cookieStore = await cookies();
+
+//     const accessToken = cookieStore.get("accessToken")?.value;
+
+//     if (!accessToken) {
+//         // throw new Error("User not logged in");
+
+//         return {
+//             success: false,
+//             message: "User not logged in!"
+//         }
+//     }
+
+//     const res = await fetch(`${process.env.BACKEND_API_URL}/api/auth/me`, {
+//         // method: "GET",
+//         headers: {
+//             // Authorization: accessToken as unknown as string
+//             // Authorization: `${accessToken}`
+//             // Authorization: `Bearer ${accessToken}`
+
+//             cookie: `accessToken=${accessToken}`
+//         },
+
+//         cache: "force-cache",
+//         next: {
+//             revalidate: 60 * 60 * 24,
+//             tags: ["my-profile"]
+//         }
+//     });
+
+//     const result = await res.json();
+
+//     return result;
+// };

@@ -62,9 +62,9 @@ export function Navbar({ user }: NavbarProps) {
         ? [...navItems, { label: 'Dashboard', icon: LayoutDashboard, href: getDashboardHref() }]
         : navItems;
 
-    // Hide dashboard menu item when already inside dashboard
+    // For dashboard routes, show only profile (logout is handled separately)
     const visibleUserMenuItems = isDashboardRoute
-        ? userMenuItems.filter((item) => item.action !== 'dashboard')
+        ? userMenuItems.filter((item) => item.action === 'profile')
         : userMenuItems;
 
     // Handle navigation actions
@@ -90,10 +90,6 @@ export function Navbar({ user }: NavbarProps) {
         <nav className={`sticky top-0 z-50 border-b border-border ${isDashboardRoute ? 'bg-background' : 'bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80'}`}>
             <div className="lg:container mx-auto max-w-7xl flex items-center justify-between px-4 py-4">
                 {/* Logo */}
-                {/* <Link href="/" className="text-2xl font-bold text-primary dark:text-blue-400">
-                    FixItNow
-                </Link> */}
-
                 <Link className="brand" href="/" aria-label="FixItNow home">
                     <span className="brand-mark"><Wrench size={17} strokeWidth={2.5} /></span>
                     FixIt<span>Now</span>
@@ -194,18 +190,15 @@ export function Navbar({ user }: NavbarProps) {
                                                     </DropdownMenuItem>
                                                 ))}
 
-                                            {!isDashboardRoute && (
-                                                <>
-                                                    <DropdownMenuSeparator />
-                                                    <DropdownMenuItem
-                                                        onClick={() => handleNavigation('logout')}
-                                                        className="flex items-center gap-3 rounded-lg px-2 py-2 text-red-500 focus:text-red-500 cursor-pointer"
-                                                    >
-                                                        <LogOut className="size-4" />
-                                                        <span>Logout</span>
-                                                    </DropdownMenuItem>
-                                                </>
-                                            )}
+                                            {/* Always show logout in mobile menu */}
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem
+                                                onClick={() => handleNavigation('logout')}
+                                                className="flex items-center gap-3 rounded-lg px-2 py-2 text-red-500 focus:text-red-500 cursor-pointer"
+                                            >
+                                                <LogOut className="size-4" />
+                                                <span>Logout</span>
+                                            </DropdownMenuItem>
                                         </>
                                     )}
 
@@ -304,17 +297,14 @@ export function Navbar({ user }: NavbarProps) {
                                                 </DropdownMenuItem>
                                             ))}
 
-                                            {!isDashboardRoute && (
-                                                <>
-                                                    <DropdownMenuItem
-                                                        onClick={() => handleNavigation('logout')}
-                                                        className="rounded-lg text-red-500 focus:text-red-500 px-3 py-2 cursor-pointer"
-                                                    >
-                                                        <LogOut className="size-4" />
-                                                        <span>Logout</span>
-                                                    </DropdownMenuItem>
-                                                </>
-                                            )}
+                                            {/* Always show logout button - removed the !isDashboardRoute condition */}
+                                            <DropdownMenuItem
+                                                onClick={() => handleNavigation('logout')}
+                                                className="rounded-lg text-red-500 focus:text-red-500 px-3 py-2 cursor-pointer"
+                                            >
+                                                <LogOut className="size-4" />
+                                                <span>Logout</span>
+                                            </DropdownMenuItem>
                                         </div>
                                     </DropdownMenuLabel>
                                 </DropdownMenuContent>

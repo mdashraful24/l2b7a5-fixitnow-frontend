@@ -1,0 +1,115 @@
+'use client';
+
+import {
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ResponsiveContainer,
+    LineChart,
+    Line,
+    PieChart,
+    Pie,
+    Cell,
+} from 'recharts';
+
+interface ClientChartsProps {
+    monthlyData: Array<{ month: string; bookings: number; earnings: number }>;
+    statusDistribution: Array<{ name: string; value: number; color: string }>;
+    weeklyTrend: Array<{ day: string; bookings: number }>;
+}
+
+export default function ClientCharts({
+    monthlyData,
+    statusDistribution,
+    weeklyTrend
+}: ClientChartsProps) {
+    return (
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {/* Bar Chart - Monthly Bookings */}
+            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+                <h3 className="text-sm font-semibold text-foreground mb-4">Monthly Bookings</h3>
+                <div className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={monthlyData}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="month" />
+                            <YAxis />
+                            <Tooltip
+                                contentStyle={{
+                                    backgroundColor: 'hsl(var(--background))',
+                                    border: '1px solid hsl(var(--border))'
+                                }}
+                            />
+                            <Legend />
+                            <Bar dataKey="bookings" fill="#3b82f6" name="Bookings" />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+
+            {/* Pie Chart - Status Distribution */}
+            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+                <h3 className="text-sm font-semibold text-foreground mb-4">Booking Status Distribution</h3>
+                <div className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                            <Pie
+                                data={statusDistribution}
+                                cx="50%"
+                                cy="50%"
+                                labelLine={false}
+                                label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}
+                                outerRadius={80}
+                                fill="#8884d8"
+                                dataKey="value"
+                            >
+                                {statusDistribution.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={entry.color} />
+                                ))}
+                            </Pie>
+                            {/* <Tooltip
+                                contentStyle={{
+                                    backgroundColor: 'hsl(var(--background))',
+                                    border: '1px solid hsl(var(--border))'
+                                }}
+                            /> */}
+                        </PieChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+
+            {/* Line Chart - Weekly Trend */}
+            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm lg:col-span-2">
+                <h3 className="text-sm font-semibold text-foreground mb-4">Weekly Booking Trend</h3>
+                <div className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={weeklyTrend}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="day" />
+                            <YAxis />
+                            <Tooltip
+                                contentStyle={{
+                                    backgroundColor: 'hsl(var(--background))',
+                                    border: '1px solid hsl(var(--border))'
+                                }}
+                            />
+                            <Legend />
+                            <Line
+                                type="monotone"
+                                dataKey="bookings"
+                                stroke="#8b5cf6"
+                                name="Bookings"
+                                strokeWidth={2}
+                                dot={{ stroke: '#8b5cf6', strokeWidth: 2, r: 4 }}
+                            />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+        </div>
+    );
+}

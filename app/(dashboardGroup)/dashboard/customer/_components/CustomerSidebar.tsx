@@ -11,7 +11,7 @@ import { CustomerSidebarProps } from "@/lib/type";
 const navLinks = [
     { href: "/dashboard/customer", label: "Overview", icon: LayoutDashboard, exact: true },
     { href: "/dashboard/customer/bookings", label: "My Bookings", icon: CalendarDays, exact: false },
-    // { href: "/profile", label: "My Profile", icon: User, exact: true },
+    { href: "/dashboard/customer/update-profile", label: "Update Profile", icon: User, exact: true },
     { href: "/", label: "Home", icon: Home, exact: true },
 ];
 
@@ -63,7 +63,7 @@ export function CustomerSidebar({ user }: CustomerSidebarProps) {
                                 href={item.href}
                                 className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${isActive
                                         ? "bg-primary text-primary-foreground"
-                                        : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+                                        : "text-foreground/80 hover:bg-muted/50 hover:text-foreground"
                                     }`}
                             >
                                 <item.icon className="h-4 w-4 shrink-0" />
@@ -72,7 +72,7 @@ export function CustomerSidebar({ user }: CustomerSidebarProps) {
                         );
                     })}
                 </div>
-                <div className="border-t border-border p-2">
+                {/* <div className="border-t border-border p-2">
                     <button
                         onClick={handleLogout}
                         className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-500 transition-colors hover:bg-red-50 dark:hover:bg-red-950/30 cursor-pointer"
@@ -80,7 +80,7 @@ export function CustomerSidebar({ user }: CustomerSidebarProps) {
                         <LogOut className="h-4 w-4" />
                         Logout
                     </button>
-                </div>
+                </div> */}
             </nav>
         </div>
     );

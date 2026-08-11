@@ -157,14 +157,34 @@ export function ServiceCard({ service }: ServiceCardProps) {
                 </div>
 
                 {/* Action Buttons */}
-                {!isHomePage && (
+                <div className="mt-4 grid grid-cols-2 gap-2.5">
+                    <Link
+                        href={`/technicians/${service.technician.id}`}
+                        className="group/btn flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-card px-3 py-2 text-sm font-semibold text-gray-700 dark:text-foreground transition-all hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
+                    >
+                        <span>Technician Profile</span>
+                        {/* <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" /> */}
+                    </Link>
+                    <Link
+                        href={service.isAvailable ? bookingHref : "#"}
+                        className={`flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold transition-all ${service.isAvailable
+                            ? "bg-linear-to-r from-primary to-primary/80 text-white shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98]"
+                            : "cursor-not-allowed bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600"
+                            }`}
+                    >
+                        <CalendarCheck className="h-4 w-4" />
+                        {service.isAvailable ? "Book Now" : "Unavailable"}
+                    </Link>
+                </div>
+
+                {/* {!isHomePage && (
                     <div className="mt-4 grid grid-cols-2 gap-2.5">
                         <Link
                             href={`/technicians/${service.technician.id}`}
                             className="group/btn flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-card px-3 py-2 text-sm font-semibold text-gray-700 dark:text-foreground transition-all hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
                         >
                             <span>Technician Profile</span>
-                            {/* <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" /> */}
+                            <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
                         </Link>
                         <Link
                             href={service.isAvailable ? bookingHref : "#"}
@@ -177,7 +197,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
                             {service.isAvailable ? "Book Now" : "Unavailable"}
                         </Link>
                     </div>
-                )}
+                )} */}
 
                 {/* {isHomePage && (
                     <div className="mt-4">
