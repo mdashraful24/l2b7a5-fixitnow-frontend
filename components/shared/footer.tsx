@@ -84,12 +84,20 @@ const Footer = () => {
                             </li>
                             <li>
                                 <Link
+                                    href="/all-categories"
+                                    className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
+                                >
+                                    All Categories
+                                </Link>
+                            </li>
+                            {/* <li>
+                                <Link
                                     href="/contact"
                                     className="text-sm text-foreground/80 hover:text-blue-500 transition-colors"
                                 >
                                     Contact
                                 </Link>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
 
@@ -146,8 +154,8 @@ const Footer = () => {
                             </li>
                             <li className="flex items-center gap-3 text-sm text-foreground/80">
                                 <Phone className="h-5 w-5 text-primary dark:text-blue-500 shrink-0" />
-                                <a href="tel:+8801234567890" className="hover:text-blue-500 transition-colors">
-                                    +880 123 456 7890
+                                <a href="tel:+8801728473593" className="hover:text-blue-500 transition-colors">
+                                    +880 1728-473593
                                 </a>
                             </li>
                             <li className="flex items-center gap-3 text-sm text-foreground/80">
@@ -200,7 +208,7 @@ const Footer = () => {
                             &copy; {currentYear} FixItNow. All rights reserved.
                         </p>
                         <p>
-                            Developed and maintained by <a href="https://ashraful-islam-ratul.netlify.app/" className="text-blue-500 hover:underline">
+                            Developed and maintained by <a href="https://ashraful-islam-ratul.netlify.app/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
                                 Ashraful Islam Ratul.
                             </a>
                         </p>

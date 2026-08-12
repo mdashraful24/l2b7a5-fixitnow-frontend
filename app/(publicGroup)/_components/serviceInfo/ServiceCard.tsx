@@ -9,7 +9,8 @@ import {
     DollarSign,
     CalendarCheck,
     User,
-    House
+    House,
+    ArrowRight
 } from "lucide-react"
 import Image from "next/image";
 import Link from "next/link"
@@ -21,14 +22,13 @@ interface ServiceCardProps {
 
 export function ServiceCard({ service }: ServiceCardProps) {
     const pathname = usePathname();
+    const detailsHref = `/services/${service.id}`;
     const bookingHref = `/booking?serviceId=${service.id}`;
 
     // Check if we're on the home page
     const isHomePage = pathname === "/";
 
     const reviews = service.technician.reviews || [];
-
-    // console.log(service, "data")
 
     const totalReviews = reviews.length;
 
@@ -75,12 +75,6 @@ export function ServiceCard({ service }: ServiceCardProps) {
 
                 {/* Status badges */}
                 <div className="absolute top-3 right-3 flex flex-col gap-1.5">
-                    {/* {service.isAvailable && (
-                        <span className="flex items-center gap-1 rounded-full bg-green-500/90 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white shadow-lg shadow-green-500/30">
-                            <Sparkles className="h-3 w-3" />
-                            Available
-                        </span>
-                    )} */}
                     {Number(averageRating.toFixed(1)) >= 4.5 && (
                         <span className="flex items-center gap-1 rounded-full bg-yellow-500/90 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white shadow-lg shadow-yellow-500/30">
                             <Star className="h-3 w-3 fill-white" />
@@ -111,14 +105,9 @@ export function ServiceCard({ service }: ServiceCardProps) {
                         </span>
                         <div className="flex items-center gap-1">
                             <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
-
                             <span className={`text-sm font-semibold ${getRatingColor(averageRating)}`}>
                                 {averageRating.toFixed(1)}
                             </span>
-
-                            {/* <span className="text-xs text-gray-400 dark:text-gray-500">
-                                ({totalReviews} reviews)
-                            </span> */}
                         </div>
                     </div>
 
@@ -162,54 +151,19 @@ export function ServiceCard({ service }: ServiceCardProps) {
                         href={`/technicians/${service.technician.id}`}
                         className="group/btn flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-card px-3 py-2 text-sm font-semibold text-gray-700 dark:text-foreground transition-all hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
                     >
-                        <span>Technician Profile</span>
-                        {/* <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" /> */}
+                        <span>Technician</span>
+                        <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
                     </Link>
+
+                    {/* View Details Button - Always visible */}
                     <Link
-                        href={service.isAvailable ? bookingHref : "#"}
-                        className={`flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold transition-all ${service.isAvailable
-                            ? "bg-linear-to-r from-primary to-primary/80 text-white shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98]"
-                            : "cursor-not-allowed bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600"
-                            }`}
+                        href={detailsHref}
+                        className="flex items-center justify-center gap-2 rounded-xl bg-linear-to-r from-primary to-primary/80 px-3 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:shadow-xl hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98]"
                     >
                         <CalendarCheck className="h-4 w-4" />
-                        {service.isAvailable ? "View Details" : "Unavailable"}
+                        View Details
                     </Link>
                 </div>
-
-                {/* {!isHomePage && (
-                    <div className="mt-4 grid grid-cols-2 gap-2.5">
-                        <Link
-                            href={`/technicians/${service.technician.id}`}
-                            className="group/btn flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-card px-3 py-2 text-sm font-semibold text-gray-700 dark:text-foreground transition-all hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
-                        >
-                            <span>Technician Profile</span>
-                            <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
-                        </Link>
-                        <Link
-                            href={service.isAvailable ? bookingHref : "#"}
-                            className={`flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold transition-all ${service.isAvailable
-                                ? "bg-linear-to-r from-primary to-primary/80 text-white shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98]"
-                                : "cursor-not-allowed bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600"
-                                }`}
-                        >
-                            <CalendarCheck className="h-4 w-4" />
-                            {service.isAvailable ? "Book Now" : "Unavailable"}
-                        </Link>
-                    </div>
-                )} */}
-
-                {/* {isHomePage && (
-                    <div className="mt-4">
-                        <Link
-                            href={`/services/${service.id}`}
-                            className="flex items-center justify-center gap-2 rounded-xl border-2 border-primary/20 bg-primary/5 px-4 py-2.5 text-sm font-semibold text-primary transition-all hover:bg-primary/10 hover:border-primary/40"
-                        >
-                            <span>View Details</span>
-                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                        </Link>
-                    </div>
-                )} */}
             </div>
 
             {/* Decorative corner accent */}

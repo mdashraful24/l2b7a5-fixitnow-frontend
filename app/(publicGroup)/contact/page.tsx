@@ -26,12 +26,12 @@ const ContactPage = () => {
         {
             icon: Mail,
             title: "Email Us",
-            details: ["support@fixitnow.com", "info@fixitnow.com"]
+            details: ["info@fixitnow.com", "support@fixitnow.com"]
         },
         {
             icon: Phone,
             title: "Call Us",
-            details: ["+880 1234-567890", "+880 9876-543210"]
+            details: ["+880 1728-473593", "+880 1728-473594"]
         },
         {
             icon: Clock,
@@ -87,8 +87,8 @@ const ContactPage = () => {
                     {/* Social Media & Contact Form */}
                     <div className="space-y-6">
                         <div className="bg-background dark:bg-muted border border-border rounded-2xl p-6 shadow-sm">
-                            <h2 className="text-xl font-bold text-foreground mb-4">Connect With Us</h2>
-                            <p className="text-sm text-muted-foreground mb-4">
+                            <h2 className="text-xl font-bold text-foreground mb-2">Connect With Us</h2>
+                            <p className="text-foreground/80 mb-5">
                                 Follow us on social media for updates, tips, and special offers.
                             </p>
                             <div className="flex gap-3 mb-6">
@@ -115,7 +115,7 @@ const ContactPage = () => {
 
                         <div className="bg-background dark:bg-muted border border-border rounded-2xl p-6 shadow-sm">
                             <h2 className="text-2xl font-bold text-foreground mb-2">Send Us a Message</h2>
-                            <p className="text-sm text-muted-foreground mb-6">
+                            <p className="text-foreground/80 mb-6">
                                 Fill in the form below and we&apos;ll get back to you within 24 hours.
                             </p>
 

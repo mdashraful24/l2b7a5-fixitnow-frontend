@@ -94,7 +94,7 @@ export function HeroSection() {
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_minmax(430px,.9fr)] items-center gap-8 lg:gap-[7vw] container mx-auto px-4 min-h-[calc(62vh-4rem)] pt-14">
                 {/* Left column */}
                 <div className="max-w-xl">
-                    <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.08em] text-blue-500">
+                    <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.08em] text-blue-600">
                         <span className="h-1.75 w-1.75 rounded-full bg-blue-500" />
                         {slide.eyebrow}
                     </div>

@@ -169,7 +169,7 @@ const TermsOfServicePage = () => {
             <section className="pt-12 pb-4">
                 <div className="container mx-auto px-4 max-w-5xl">
                     {/* Introduction */}
-                    <div className="bg-blue-50 rounded-2xl p-6 md:p-8 mb-10">
+                    <div className="bg-blue-50 dark:bg-muted rounded-2xl p-6 md:p-8 mb-10">
                         <div className="flex items-start gap-4">
                             <BookOpen className="h-6 w-6 text-blue-600 shrink-0 mt-1" />
                             <div>
@@ -206,8 +206,8 @@ const TermsOfServicePage = () => {
                                             <ul className="space-y-2">
                                                 {section.content.map((item, itemIndex) => (
                                                     <li key={itemIndex} className="flex items-start gap-3">
-                                                        <CheckCircle className="h-4 w-4 text-blue-600 flex-shrink-0 mt-1" />
-                                                        <span className="text-sm text-foreground/80">{item}</span>
+                                                        <CheckCircle className="h-4 w-4 text-blue-600 shrink-0 mt-1" />
+                                                        <span className="text-[1rem] text-foreground/80">{item}</span>
                                                     </li>
                                                 ))}
                                             </ul>
@@ -222,13 +222,13 @@ const TermsOfServicePage = () => {
                     <div className="mt-10 grid md:grid-cols-2 gap-6">
                         <Card className="border-0 shadow-sm">
                             <CardHeader>
-                                <CardTitle className="text-lg flex items-center gap-2">
+                                <CardTitle className="text-xl flex items-center gap-2">
                                     <Shield className="h-5 w-5 text-blue-600" />
                                     Governing Law
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-sm text-foreground/80">
+                                <p className="-mt-3 text-[1rem] text-foreground/80">
                                     These terms are governed by the laws of the jurisdiction
                                     where FixItNow operates. Any disputes shall be resolved
                                     in accordance with applicable laws.
@@ -238,13 +238,13 @@ const TermsOfServicePage = () => {
 
                         <Card className="border-0 shadow-sm">
                             <CardHeader>
-                                <CardTitle className="text-lg flex items-center gap-2">
+                                <CardTitle className="text-xl flex items-center gap-2">
                                     <Clock className="h-5 w-5 text-blue-600" />
                                     Modifications
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-sm text-foreground/80">
+                                <p className="-mt-3 text-[1rem] text-foreground/80">
                                     We reserve the right to modify these terms at any time.
                                     Changes will be effective upon posting. Your continued
                                     use of the platform constitutes acceptance of changes.
@@ -259,21 +259,25 @@ const TermsOfServicePage = () => {
                         <p className="text-blue-100 mb-4">
                             If you have any questions about these Terms of Service, please contact us:
                         </p>
-                        <div className="grid grid-cols-1 md:grid-cols-3 place-items-center gap-4">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
                             <div className="flex items-center gap-3 text-blue-100">
                                 <Mail className="h-5 w-5" />
                                 <span>info@fixitnow.com</span>
                             </div>
                             <div className="flex items-center gap-3 text-blue-100">
                                 <Phone className="h-5 w-5" />
-                                <span>+880 1234-567890</span>
+                                <span>+880 1728-473593</span>
+                            </div>
+                            <div className="flex items-center gap-3 text-blue-100">
+                                <MapPin className="h-5 w-5" />
+                                <span>123 FixItNow Street, Dhaka, Bangladesh</span>
                             </div>
 
-                            <Link href="/contact" className="mt-4 inline-block">
-                                <Button variant="outline" className="text-black border-white hover:text-blue-600 cursor-pointer">
+                            {/* <Link href="/contact" className="mt-4 inline-block">
+                                <Button variant="outline" className="text-black bg-white border-white hover:text-blue-600 cursor-pointer">
                                     Contact Support
                                 </Button>
-                            </Link>
+                            </Link> */}
                         </div>
                     </div>
 

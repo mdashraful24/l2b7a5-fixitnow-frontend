@@ -56,7 +56,8 @@ export function Navbar({ user }: NavbarProps) {
         { label: 'About Us', icon: Home, href: '/about' },
         { label: 'Services', icon: Wrench, href: '/services' },
         { label: 'Categories', icon: List, href: '/all-categories' },
-        { label: 'Contact', icon: Mail, href: '/contact' },
+        // Conditionally add Contact based on user login status
+        ...(user?.success ? [{ label: 'Contact', icon: Mail, href: '/contact' }] : []),
     ];
 
     // Add Dashboard link if user is logged in
@@ -241,7 +242,7 @@ export function Navbar({ user }: NavbarProps) {
                                                 </Link>
                                             </DropdownMenuItem>
 
-                                            {/* Register link */}
+                                            {/* Register link - commented out */}
                                             {/* <DropdownMenuItem asChild>
                                                 <Link
                                                     href="/auth/register"
@@ -356,6 +357,7 @@ export function Navbar({ user }: NavbarProps) {
                                 <Link href="/auth/login">Login</Link>
                             </Button>
 
+                            {/* Register button - commented out */}
                             {/* <Button
                                 asChild
                                 variant={

@@ -63,7 +63,7 @@ const FAQSection = () => {
     }, []);
 
     return (
-        <section className="pb-20 bg-background transition-colors duration-300">
+        <section className="pb-24 bg-background transition-colors duration-300">
             <div className="container mx-auto px-4">
                 <div className="text-center max-w-3xl mx-auto mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">

@@ -71,7 +71,7 @@ export function TechnicianSidebar({ user }: TechnicianSidebarProps) {
                                 href={item.href}
                                 className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${isActive
                                         ? "bg-primary text-primary-foreground"
-                                        : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+                                        : "text-foreground/80 hover:bg-muted/50 hover:text-foreground"
                                     }`}
                             >
                                 <item.icon className="h-4 w-4 shrink-0" />

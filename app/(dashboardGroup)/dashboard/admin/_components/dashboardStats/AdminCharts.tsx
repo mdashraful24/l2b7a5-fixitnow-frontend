@@ -112,7 +112,7 @@ export default function AdminCharts({
                                     cy="50%"
                                     labelLine={false}
                                     label={renderCustomLabel}
-                                    outerRadius={120}
+                                    outerRadius={125}
                                     fill="#8884d8"
                                     dataKey="value"
                                     nameKey="name"

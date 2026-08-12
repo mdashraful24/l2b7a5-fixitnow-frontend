@@ -14,10 +14,10 @@ const AUTH_ROUTES = [
 const PUBLIC_ROUTES = [
     "/",
     "/services",
+    "/services/[id]",
     "/technicians",
     "/technicians/[id]",
     "/all-categories",
-    "/contact",
     "/about",
     "/privacy-policy",
     "/terms-of-service"

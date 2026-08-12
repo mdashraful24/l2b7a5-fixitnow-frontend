@@ -9,7 +9,9 @@ import {
     Mail,
     Database,
     CheckCircle,
-    AlertCircle
+    AlertCircle,
+    Phone,
+    MapPin
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -178,7 +180,7 @@ const PrivacyPolicyPage = () => {
                                                 {section.content.map((item, itemIndex) => (
                                                     <li key={itemIndex} className="flex items-start gap-3">
                                                         <CheckCircle className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
-                                                        <span className="text-foreground/80">{item}</span>
+                                                        <span className="text-[1rem] text-foreground/80">{item}</span>
                                                     </li>
                                                 ))}
                                             </ul>
@@ -210,10 +212,19 @@ const PrivacyPolicyPage = () => {
                             If you have any questions about this Privacy Policy or our data practices,
                             please contact us:
                         </p>
-                        <div className="space-y-2 text-blue-100">
-                            <p>📧 privacy@fixitnow.com</p>
-                            <p>📞 +1 (555) 123-4567</p>
-                            <p>📍 123 Service Street, City, State</p>
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
+                            <div className="flex items-center gap-3 text-blue-100">
+                                <Mail className="h-5 w-5" />
+                                <span>info@fixitnow.com</span>
+                            </div>
+                            <div className="flex items-center gap-3 text-blue-100">
+                                <Phone className="h-5 w-5" />
+                                <span>+880 1728-473593</span>
+                            </div>
+                            <div className="flex items-center gap-3 text-blue-100">
+                                <MapPin className="h-5 w-5" />
+                                <span>123 FixItNow Street, Dhaka, Bangladesh</span>
+                            </div>
                         </div>
                     </div>
 
