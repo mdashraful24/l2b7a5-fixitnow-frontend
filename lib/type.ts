@@ -701,3 +701,7 @@ export interface PaginationProps {
     itemsPerPage: number;
     itemLabel?: string;
 }
+
+export type UserRoleByGoogle = {
+    role: "CUSTOMER" | "TECHNICIAN";
+}

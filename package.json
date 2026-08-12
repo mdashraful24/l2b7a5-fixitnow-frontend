@@ -11,6 +11,7 @@
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
     "@radix-ui/react-scroll-area": "^1.2.18",
+    "@react-oauth/google": "^0.13.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.4.0",
