@@ -36,7 +36,7 @@ export function TechnicianBookingActions({ bookingId, currentStatus, compact = f
                 toast.error(result.message || "Unable to update booking status");
             }
         } catch (error) {
-            console.error("Error updating booking:", error);
+            // console.error("Error updating booking:", error);
             toast.error("An error occurred while updating the booking");
         } finally {
             // Clear loading state

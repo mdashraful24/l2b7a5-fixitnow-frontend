@@ -34,7 +34,7 @@ export async function getAllPublicCategories(params?: GetAllCategoriesParams) {
         });
 
         if (!response.ok) {
-            console.error(`API Error: ${response.status} ${response.statusText}`);
+            // console.error(`API Error: ${response.status} ${response.statusText}`);
             throw new Error(`Failed to fetch categories: ${response.status}`);
         }
 
@@ -54,7 +54,7 @@ export async function getAllPublicCategories(params?: GetAllCategoriesParams) {
                 }
             };
         } else {
-            console.error('Unexpected API response structure:', result);
+            // console.error('Unexpected API response structure:', result);
             return {
                 data: [],
                 meta: {
@@ -65,7 +65,7 @@ export async function getAllPublicCategories(params?: GetAllCategoriesParams) {
             };
         }
     } catch (error) {
-        console.error('Error fetching categories:', error);
+        // console.error('Error fetching categories:', error);
         return {
             data: [],
             meta: {

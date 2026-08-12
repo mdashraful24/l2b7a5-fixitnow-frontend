@@ -149,7 +149,7 @@ export const createContact = async (
             error: result.error
         };
     } catch (error) {
-        console.error("Contact submission error:", error);
+        // console.error("Contact submission error:", error);
         return {
             success: false,
             message: "Something went wrong. Please try again later.",

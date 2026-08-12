@@ -98,7 +98,7 @@ export function EditBookingModal({ booking }: EditBookingModalProps) {
                 setSlotChanged(false);
             }
         } catch (error) {
-            console.error("Error fetching slots:", error);
+            // console.error("Error fetching slots:", error);
             setAvailableSlots([]);
             setHasAvailableSlots(false);
             setSelectedSlotId("");
@@ -124,7 +124,7 @@ export function EditBookingModal({ booking }: EditBookingModalProps) {
                 setScheduledAt(localDateTime.toISOString().slice(0, 16));
             }
         } catch (error) {
-            console.error("Error fetching slot details:", error);
+            // console.error("Error fetching slot details:", error);
         }
     };
 

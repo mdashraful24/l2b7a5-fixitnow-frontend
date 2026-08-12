@@ -259,7 +259,7 @@ export const createReview = async (prevState: IReview, formData: FormData) => {
 
         return result;
     } catch (error) {
-        console.error("Error creating review:", error);
+        // console.error("Error creating review:", error);
         return { success: false, message: "Failed to create review" };
     }
 };
@@ -325,7 +325,7 @@ export const updateReview = async (reviewId: string, prevState: IReview, formDat
 
         return result;
     } catch (error) {
-        console.error("Error updating review:", error);
+        // console.error("Error updating review:", error);
         return { success: false, message: "Failed to update review" };
     }
 };

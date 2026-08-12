@@ -18,6 +18,9 @@ The application works with the companion **FixItNow Backend** and implements sec
 * Backend API: https://fixitnow-blush.vercel.app
 * API Documentation: https://documenter.getpostman.com/view/54687734/2sBY4LQMTR
 * Integration Guide: [API_INTEGRATION.md](./API_INTEGRATION.md)
+* Admin Credentials:
+  - Email: admin@fixitnow.com
+  - Password: admin123
 
 ---
 
@@ -432,6 +435,15 @@ NEXT_PUBLIC_TIME_INTERVAL_MINUTES=30
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
 STRIPE_SECRET_KEY=your_stripe_secret_key
 STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
+
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_public_google_client_id
+
+NEXT_PUBLIC_ADMIN_EMAIL=your_admin_email
+NEXT_PUBLIC_ADMIN_PASSWORD=your_admin_password
+NEXT_PUBLIC_TECHNICIAN_EMAIL=your_technician_email
+NEXT_PUBLIC_TECHNICIAN_PASSWORD=your_technician_password
+NEXT_PUBLIC_CUSTOMER_EMAIL=your_customer_email
+NEXT_PUBLIC_CUSTOMER_PASSWORD=your_customer_password
 ```
 
 ### Run Development Server

@@ -150,7 +150,7 @@ export function BookingForm({ service, onSlotChange, onTimeChange }: BookingForm
             }
         } catch (error) {
             toast.error("An error occurred while creating the booking.");
-            console.error("Booking error:", error);
+            // console.error("Booking error:", error);
         } finally {
             setSubmitting(false);
         }

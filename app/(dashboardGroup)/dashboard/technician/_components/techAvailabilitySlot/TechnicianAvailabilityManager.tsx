@@ -112,7 +112,7 @@ export function TechnicianAvailabilityManager({
             }
         } catch (error) {
             toast.error("An error occurred while creating the slot");
-            console.error(error);
+            // console.error(error);
         } finally {
             setCreating(false);
         }

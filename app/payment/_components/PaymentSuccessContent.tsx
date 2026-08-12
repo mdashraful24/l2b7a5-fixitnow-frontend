@@ -63,7 +63,7 @@ export function PaymentSuccessClient() {
                     );
                 }
             } catch (error) {
-                console.error(error);
+                // console.error(error);
                 setError("Something went wrong while confirming payment.");
             } finally {
                 setLoading(false);

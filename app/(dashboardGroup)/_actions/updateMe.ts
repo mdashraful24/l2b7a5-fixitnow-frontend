@@ -38,7 +38,7 @@ export const updateMe = async (payload: IUpdateMe) => {
 
         return result;
     } catch (error) {
-        console.error("Update profile error:", error);
+        // console.error("Update profile error:", error);
 
         return {
             success: false,

@@ -70,7 +70,7 @@ export function CustomerProfileForm({
                 result.message || "Unable to update profile"
             );
         } catch (error) {
-            console.error("Update profile error:", error);
+            // console.error("Update profile error:", error);
 
             toast.error(
                 "Something went wrong. Please try again."

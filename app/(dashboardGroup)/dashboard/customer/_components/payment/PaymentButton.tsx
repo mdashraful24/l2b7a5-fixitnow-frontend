@@ -30,7 +30,7 @@ export function PaymentButton({ bookingId, amount, status }: PaymentButtonProps)
                 toast.error(result.message || "Failed to initiate payment");
             }
         } catch (error) {
-            console.error("Payment error:", error);
+            // console.error("Payment error:", error);
             toast.error("An error occurred while initiating payment");
         } finally {
             setLoading(false);

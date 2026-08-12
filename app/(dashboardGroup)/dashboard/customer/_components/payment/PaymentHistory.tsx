@@ -54,7 +54,7 @@ export function PaymentHistory() {
                 setPayments(result.data);
             }
         } catch (error) {
-            console.error("Error fetching payments:", error);
+            // console.error("Error fetching payments:", error);
         } finally {
             setLoading(false);
         }

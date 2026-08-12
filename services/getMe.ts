@@ -27,7 +27,7 @@ export const getMe = async () => {
 
         return await res.json();
     } catch (error) {
-        console.error("Get me error:", error);
+        // console.error("Get me error:", error);
 
         return {
             success: false,
