@@ -65,8 +65,8 @@ export default async function CustomerDashboardPage({
 
             {/* Stats Grid */}
             <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
-                {statCards.map((item) => (
-                    <div key={item.label} className={`${item.color} rounded-xl px-5 py-3 text-white shadow-lg transition-transform hover:scale-[1.02]`}>
+                {statCards.map((item) => ( // ${item.color}
+                    <div key={item.label} className={`bg-linear-to-br from-blue-700 to-blue-900 rounded-xl px-5 py-3 text-white shadow-lg transition-transform hover:scale-[1.02]`}>
                         <div className="flex items-center gap-2 mb-2">
                             <item.icon className={`h-5 w-5 ${item.iconColor}`} />
                             <p className="text-sm text-white/90">{item.label}</p>
@@ -74,17 +74,17 @@ export default async function CustomerDashboardPage({
                         <p className="text-2xl font-bold">{item.value}</p>
                     </div>
                 ))}
-                <div className="rounded-2xl border border-border bg-card px-5 py-3 shadow-sm">
+                <div className="rounded-2xl border border-border bg-linear-to-br from-red-700 to-red-900 px-5 py-3 shadow-sm">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm font-medium text-muted-foreground">Total Spent</p>
-                            <p className="text-2xl font-bold text-foreground">${stats.earnings.toFixed(2)}</p>
+                            <p className="text-sm font-medium text-white/90 mb-1">Total Spent</p>
+                            <p className="text-2xl font-bold text-white">${stats.earnings.toFixed(2)}</p>
                         </div>
-                        <div className="rounded-full bg-primary/10 p-3">
-                            <CalendarDays className="h-6 w-6 text-primary" />
+                        <div className="rounded-full bg-red-100 p-2">
+                            <CalendarDays className="h-5 w-5 text-red-700" />
                         </div>
                     </div>
-                    <p className="mt-2 text-sm text-muted-foreground">
+                    <p className="mt-2 text-sm text-white/90">
                         {stats.completed} completed bookings
                     </p>
                 </div>

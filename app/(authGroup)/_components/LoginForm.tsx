@@ -19,6 +19,9 @@ import {
     Users,
     Eye,
     EyeOff,
+    Mail,
+    Lock,
+    Sparkles
 } from "lucide-react";
 import { GoogleLogin } from "@react-oauth/google";
 import { UserRoleByGoogle } from "@/lib/type";
@@ -39,6 +42,7 @@ const LoginForm = () => {
     const [isGoogleLogin, setIsGoogleLogin] = useState(false);
     const [isPending, startTransition] = useTransition();
     const [showPassword, setShowPassword] = useState(false);
+    const [focusedField, setFocusedField] = useState<string | null>(null);
 
     // Google login role
     const [googleRole, setGoogleRole] =
@@ -51,23 +55,33 @@ const LoginForm = () => {
             password: process.env.NEXT_PUBLIC_ADMIN_PASSWORD,
             label: "Admin",
             icon: Shield,
-            color: "bg-purple-600 hover:bg-purple-700",
+            color: "from-purple-600 to-purple-700",
+            hoverColor: "hover:from-purple-700 hover:to-purple-800",
+            bgColor: "bg-purple-50 dark:bg-purple-950/20",
+            borderColor: "border-purple-200 dark:border-purple-800",
+            textColor: "text-purple-600 dark:text-purple-400",
         },
-
         technician: {
             email: process.env.NEXT_PUBLIC_TECHNICIAN_EMAIL,
             password: process.env.NEXT_PUBLIC_TECHNICIAN_PASSWORD,
             label: "Technician",
             icon: Wrench,
-            color: "bg-blue-600 hover:bg-blue-700",
+            color: "from-blue-600 to-blue-700",
+            hoverColor: "hover:from-blue-700 hover:to-blue-800",
+            bgColor: "bg-blue-50 dark:bg-blue-950/20",
+            borderColor: "border-blue-200 dark:border-blue-800",
+            textColor: "text-blue-600 dark:text-blue-400",
         },
-
         customer: {
             email: process.env.NEXT_PUBLIC_CUSTOMER_EMAIL,
             password: process.env.NEXT_PUBLIC_CUSTOMER_PASSWORD,
             label: "Customer",
             icon: Users,
-            color: "bg-green-600 hover:bg-green-700",
+            color: "from-green-600 to-green-700",
+            hoverColor: "hover:from-green-700 hover:to-green-800",
+            bgColor: "bg-green-50 dark:bg-green-950/20",
+            borderColor: "border-green-200 dark:border-green-800",
+            textColor: "text-green-600 dark:text-green-400",
         },
     };
 
@@ -125,7 +139,6 @@ const LoginForm = () => {
                     return;
                 }
 
-                // Show success toast
                 toast.success(
                     result.message || "Google login successful"
                 );
@@ -136,7 +149,6 @@ const LoginForm = () => {
                     return;
                 }
 
-                // Redirect based on role
                 const role = result.role || googleRole;
                 if (role === "CUSTOMER") {
                     router.push("/dashboard/customer");
@@ -149,11 +161,10 @@ const LoginForm = () => {
                     router.push("/dashboard");
                 }
 
-                // Refresh the page to update the session
                 router.refresh();
             });
         } catch (error) {
-            console.error("Google login error:", error);
+            // console.error("Google login error:", error);
             toast.error("Google login failed. Please try again.");
             setIsGoogleLogin(false);
         }
@@ -211,42 +222,34 @@ const LoginForm = () => {
             });
         } catch (error) {
             setIsQuickLogin(false);
-
-            toast.error(
-                "Login failed. Please try again."
-            );
-
-            console.error(
-                "Quick login error:",
-                error
-            );
+            toast.error("Login failed. Please try again.");
+            // console.error("Quick login error:", error);
         }
     };
 
-    // Loading state
     const isLoggingIn =
         isPending ||
         pending ||
         isQuickLogin ||
         isGoogleLogin;
 
-    // Password visibility
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
     return (
-        <div className="space-y-6">
-            {/* Quick Login */}
-            <div className="space-y-3">
-                <p className="text-sm text-foreground/80 text-center">
-                    Quick Login (Demo)
-                </p>
+        <div className="space-y-8">
+            {/* Quick Login Section */}
+            <div className="space-y-4">
+                <div className="flex items-center gap-2 justify-center">
+                    <Sparkles className="size-4 text-yellow-500" />
+                    <p className="text-sm font-medium text-foreground/70">
+                        Quick Access
+                    </p>
+                </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                    {Object.entries(
-                        demoCredentials
-                    ).map(([role, creds]) => {
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {Object.entries(demoCredentials).map(([role, creds]) => {
                         const Icon = creds.icon;
 
                         return (
@@ -259,10 +262,9 @@ const LoginForm = () => {
                                     )
                                 }
                                 disabled={isLoggingIn}
-                                className={`${creds.color} text-white w-full flex items-center gap-2`}
+                                className={`bg-linear-to-r ${creds.color} ${creds.hoverColor} text-white w-full flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] border-0`}
                             >
                                 <Icon className="size-4" />
-
                                 <span>
                                     {creds.label}
                                 </span>
@@ -272,107 +274,125 @@ const LoginForm = () => {
                 </div>
             </div>
 
+            {/* Divider */}
+            <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t border-foreground/10" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-4 text-foreground/70">
+                        Or continue with
+                    </span>
+                </div>
+            </div>
+
             {/* Google Login */}
-            <Card className="p-5">
-                <div className="text-center space-y-1">
-                    <p className="text-[1rem] font-medium">
-                        Continue with Google
-                    </p>
+            <Card className="p-6 border-2 border-foreground/5 bg-linear-to-br from-background to-foreground/5">
+                <div className="space-y-4">
+                    <div className="text-center space-y-1">
+                        <p className="text-sm font-medium">
+                            Google Authentication
+                        </p>
+                        <p className="text-xs text-foreground/70">
+                            Select your account type
+                        </p>
+                    </div>
 
-                    <p className="text-sm text-foreground/90">
-                        Choose your account type
-                    </p>
-                </div>
+                    {/* Role Selection */}
+                    <div className="grid grid-cols-2 gap-2">
+                        {[
+                            { role: "CUSTOMER", label: "Customer", icon: Users, color: "green" },
+                            { role: "TECHNICIAN", label: "Technician", icon: Wrench, color: "blue" },
+                        ].map(({ role, label, icon: Icon, color }) => (
+                            <Button
+                                key={role}
+                                type="button"
+                                variant={googleRole === role ? "default" : "outline"}
+                                className={`transition-all duration-300 ${googleRole === role
+                                    ? `bg-${color}-600 hover:bg-${color}-700 text-white shadow-md`
+                                    : `hover:border-${color}-500 hover:text-${color}-600 hover:bg-${color}-50 dark:hover:bg-${color}-950/20`
+                                    }`}
+                                disabled={isLoggingIn}
+                                onClick={() => setGoogleRole(role as GoogleRole)}
+                            >
+                                <Icon className="size-4 mr-2" />
+                                {label}
+                            </Button>
+                        ))}
+                    </div>
 
-                {/* Role Selection */}
-                <div className="grid grid-cols-2 gap-2">
-                    <Button
-                        type="button"
-                        variant={googleRole === "CUSTOMER" ? "default" : "outline"}
-                        className={
-                            googleRole === "CUSTOMER"
-                                ? "bg-green-600 hover:bg-green-700 text-white"
-                                : "hover:border-green-500 hover:text-green-600"
-                        }
-                        disabled={isLoggingIn}
-                        onClick={() => setGoogleRole("CUSTOMER")}
-                    >
-                        <Users className="size-4 mr-2" />
-                        Customer
-                    </Button>
+                    {/* Google Login Button */}
+                    <div className="flex justify-center w-full">
+                        {isGoogleLogin ? (
+                            <Button
+                                type="button"
+                                variant="outline"
+                                disabled
+                                className="w-full"
+                            >
+                                <div className="size-4 mr-2 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                                Signing in with Google...
+                            </Button>
+                        ) : (
+                            <div className="w-full relative">
+                                {isLoggingIn ? (
+                                    // Show disabled state when any login is in progress
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        disabled
+                                        className="w-full opacity-50 cursor-not-allowed"
+                                    >
+                                        <div className="size-4 mr-2 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                                        {pending || isPending ? "Logging in..." : "Please wait..."}
+                                    </Button>
+                                ) : (
+                                    <GoogleLogin
+                                        onSuccess={(
+                                            credentialResponse
+                                        ) => {
+                                            if (
+                                                !credentialResponse.credential
+                                            ) {
+                                                toast.error(
+                                                    "Google ID token not received"
+                                                );
+                                                return;
+                                            }
 
-                    <Button
-                        type="button"
-                        variant={googleRole === "TECHNICIAN" ? "default" : "outline"}
-                        className={
-                            googleRole === "TECHNICIAN"
-                                ? "bg-blue-600 hover:bg-blue-700 text-white"
-                                : "hover:border-blue-500 hover:text-blue-600"
-                        }
-                        disabled={isLoggingIn}
-                        onClick={() => setGoogleRole("TECHNICIAN")}
-                    >
-                        <Wrench className="size-4 mr-2" />
-                        Technician
-                    </Button>
-                </div>
-
-                {/* Google Login Button */}
-                <div className="flex justify-center w-full">
-                    {isGoogleLogin ? (
-                        <Button
-                            type="button"
-                            variant="outline"
-                            disabled
-                            className="w-full"
-                        >
-                            <div className="size-4 mr-2 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-                            Signing in with Google...
-                        </Button>
-                    ) : (
-                        <GoogleLogin
-                            onSuccess={(
-                                credentialResponse
-                            ) => {
-                                if (
-                                    !credentialResponse.credential
-                                ) {
-                                    toast.error(
-                                        "Google ID token not received"
-                                    );
-                                    return;
-                                }
-
-                                handleGoogleLoginSuccess(
-                                    credentialResponse.credential
-                                );
-                            }}
-                            onError={() => {
-                                setIsGoogleLogin(false);
-                                toast.error(
-                                    "Google login failed. Please try again."
-                                );
-                            }}
-                            useOneTap={false}
-                            theme="outline"
-                            size="large"
-                            width="100%"
-                            text="continue_with"
-                            shape="pill"
-                            logo_alignment="center"
-                        />
-                    )}
+                                            handleGoogleLoginSuccess(
+                                                credentialResponse.credential
+                                            );
+                                        }}
+                                        onError={() => {
+                                            setIsGoogleLogin(false);
+                                            toast.error(
+                                                "Google login failed. Please try again."
+                                            );
+                                        }}
+                                        useOneTap={false}
+                                        theme="outline"
+                                        size="large"
+                                        width="100%"
+                                        text="continue_with"
+                                        shape="pill"
+                                        logo_alignment="center"
+                                    />
+                                )}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </Card>
 
             {/* Divider */}
             <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
+                    <span className="w-full border-t border-foreground/10" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-foreground/80">
-                        Or login with email
+                    <span className="bg-background px-4 text-foreground/70">
+                        Or use email
                     </span>
                 </div>
             </div>
@@ -382,64 +402,85 @@ const LoginForm = () => {
                 action={action}
                 className="space-y-4"
             >
-                <Card className="p-5 space-y-4">
-                    {/* Email */}
-                    <Input
-                        name="email"
-                        type="email"
-                        placeholder="Enter your email"
-                        required
-                        disabled={isLoggingIn}
-                    />
+                <Card className="p-6 border-2 border-foreground/5 bg-linear-to-br from-background to-foreground/5">
+                    <div className="space-y-4">
+                        {/* Email */}
+                        <div className="relative">
+                            <Mail className={`absolute left-3 top-1/2 -translate-y-1/2 size-4 transition-colors duration-300 ${focusedField === "email"
+                                ? "text-primary"
+                                : "text-foreground/40"
+                                }`} />
+                            <Input
+                                name="email"
+                                type="email"
+                                placeholder="Enter your email"
+                                required
+                                disabled={isLoggingIn}
+                                onFocus={() => setFocusedField("email")}
+                                onBlur={() => setFocusedField(null)}
+                                className="pl-10 transition-all duration-300 focus:shadow-md"
+                            />
+                        </div>
 
-                    {/* Password */}
-                    <div className="relative">
-                        <Input
-                            name="password"
-                            type={
-                                showPassword
-                                    ? "text"
-                                    : "password"
-                            }
-                            placeholder="Enter your password"
-                            required
+                        {/* Password */}
+                        <div className="relative">
+                            <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 size-4 transition-colors duration-300 ${focusedField === "password"
+                                ? "text-primary"
+                                : "text-foreground/40"
+                                }`} />
+                            <Input
+                                name="password"
+                                type={
+                                    showPassword
+                                        ? "text"
+                                        : "password"
+                                }
+                                placeholder="Enter your password"
+                                required
+                                disabled={isLoggingIn}
+                                onFocus={() => setFocusedField("password")}
+                                onBlur={() => setFocusedField(null)}
+                                className="pl-10 pr-10 transition-all duration-300 focus:shadow-md"
+                            />
+                            <button
+                                type="button"
+                                onClick={
+                                    togglePasswordVisibility
+                                }
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/40 hover:text-foreground/80 transition-colors duration-300"
+                                tabIndex={-1}
+                                aria-label={
+                                    showPassword
+                                        ? "Hide password"
+                                        : "Show password"
+                                }
+                            >
+                                {showPassword ? (
+                                    <EyeOff className="size-4" />
+                                ) : (
+                                    <Eye className="size-4" />
+                                )}
+                            </button>
+                        </div>
+
+                        {/* Login Button */}
+                        <Button
+                            type="submit"
                             disabled={isLoggingIn}
-                            className="pr-10"
-                        />
-                        <button
-                            type="button"
-                            onClick={
-                                togglePasswordVisibility
-                            }
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/50 hover:text-foreground/80 transition-colors"
-                            tabIndex={-1}
-                            aria-label={
-                                showPassword
-                                    ? "Hide password"
-                                    : "Show password"
-                            }
+                            className="w-full bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
                         >
-                            {showPassword ? (
-                                <EyeOff className="size-4" />
+                            {isLoggingIn ? (
+                                <>
+                                    <div className="size-4 mr-2 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                                    Logging in...
+                                </>
                             ) : (
-                                <Eye className="size-4" />
+                                "Sign In"
                             )}
-                        </button>
+                        </Button>
                     </div>
-
-                    {/* Login */}
-                    <Button
-                        type="submit"
-                        disabled={isLoggingIn}
-                        className="w-full"
-                    >
-                        {isLoggingIn
-                            ? "Logging in..."
-                            : "Login"}
-                    </Button>
                 </Card>
             </form>
-
         </div>
     );
 };

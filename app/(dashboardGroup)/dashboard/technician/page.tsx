@@ -94,8 +94,8 @@ export default async function TechnicianDashboardPage() {
 
             {/* Stats Cards */}
             <div className="grid grid-cols-2 gap-4 xl:grid-cols-5">
-                {statCards.map((item) => (
-                    <div key={item.label} className={`${item.color} rounded-xl px-5 py-3 text-white shadow-lg transition-transform hover:scale-[1.02]`}>
+                {statCards.map((item) => ( // ${item.color} 
+                    <div key={item.label} className={`bg-linear-to-br from-blue-700 to-blue-900 rounded-xl px-5 py-3 text-white shadow-lg transition-transform hover:scale-[1.02]`}>
                         <div className="flex items-center gap-2 mb-2">
                             <item.icon className={`h-5 w-5 ${item.iconColor}`} />
                             <p className="text-sm text-white/90">{item.label}</p>

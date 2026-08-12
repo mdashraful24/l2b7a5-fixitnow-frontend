@@ -4,12 +4,14 @@ import {
     Check,
     Clock3,
     HeartHandshake,
+    Home,
     ShieldCheck,
     Sparkles,
     Users,
     WalletCards,
     Wrench,
 } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 
 const values = [
@@ -60,6 +62,9 @@ const servicePoints = [
     'Secure online payments',
 ]
 
+// Toggle this to false to hide the image
+const SHOW_IMAGE = true;
+
 export default function AboutUsPage() {
     return (
         <main className="min-h-screen overflow-hidden bg-background text-foreground">
@@ -74,7 +79,7 @@ export default function AboutUsPage() {
                         About FixItNow
                     </p>
 
-                    <h1 className="max-w-3xl text-pretty text-5xl font-semibold leading-[1.02] tracking-[-0.055em] sm:text-6xl lg:text-7xl">
+                    <h1 className="max-w-3xl text-pretty text-5xl font-semibold leading-[1.02] tracking-[-0.055em]">
                         Your home deserves the right help.
                     </h1>
 
@@ -104,7 +109,7 @@ export default function AboutUsPage() {
                     <div className="mt-9 flex flex-wrap gap-3">
                         <Link
                             href="/services"
-                            className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-3 text-sm font-semibold text-brand-foreground transition-transform hover:-translate-y-0.5 hover:text-blue-600"
+                            className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-3 text-sm font-semibold text-brand-foreground transition-transform hover:-translate-y-0.5 hover:shadow-lg"
                         >
                             Explore Services
                             <ArrowRight
@@ -115,41 +120,71 @@ export default function AboutUsPage() {
 
                         <Link
                             href="/auth/register"
-                            className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-semibold transition-colors hover:bg-blue-700 bg-blue-600 text-white"
+                            className="inline-flex items-center gap-2 rounded-full bg-linear-to-r from-blue-600 to-blue-700 px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/25"
                         >
                             Join FixItNow
                         </Link>
                     </div>
                 </div>
 
-                {/* Hero visual */}
-                <div className="relative min-h-105 overflow-hidden rounded-[2rem] bg-primary p-8 text-primary-foreground sm:min-h-125 lg:p-10">
-                    <div className="absolute inset-x-8 top-8 h-px bg-primary-foreground/20" />
+                {/* Hero visual with image */}
+                <div className={`relative min-h-72 lg:min-h-100 ${SHOW_IMAGE ? 'overflow-hidden border-2 border-blue-600 rounded-3xl bg-linear-to-br from-blue-600 to-purple-600 p-8 text-white lg:p-10' : ''}`}>
+                    {/* Background Image */}
+                    {SHOW_IMAGE && (
+                        <div className="absolute inset-0">
+                            {/* Decorative elements */}
+                            < div className="absolute -right-10 -top-10 size-64 rounded-full border border-white/10" />
+                            <div className="absolute -bottom-20 -right-10 size-80 rounded-full bg-white/10" />
+                            <div className="absolute -left-20 -top-20 size-96 rounded-full bg-blue-400/20 blur-3xl" />
 
-                    <div className="absolute -right-10 -top-10 size-64 rounded-full border border-primary-foreground/10" />
-                    <div className="absolute -bottom-20 -right-10 size-80 rounded-full bg-brand/90" />
+                            <Image
+                                src="/images/hero-bg.jpg"
+                                alt="FixItNow Background Image"
+                                fill
+                                className="object-cover"
+                                priority
+                            />
+                            <div className="absolute inset-0 bg-linear-to-br from-blue-600/80 to-purple-600/80" />
 
-                    <div className="absolute left-8 top-24 z-10 flex size-20 items-center justify-center rounded-2xl border border-primary-foreground/20 bg-primary/60 backdrop-blur-sm sm:left-10">
-                        <Wrench className="size-9 text-brand" />
-                    </div>
+                            <div className="absolute left-8 top-10 z-10 flex size-20 items-center justify-center rounded-2xl border border-white/20 bg-white/10 backdrop-blur-sm sm:left-10">
+                                <Wrench className="size-9 text-white" />
+                            </div>
 
-                    <div className="absolute bottom-10 left-8 z-10 max-w-sm sm:left-10">
-                        <p className="text-sm font-medium text-primary-foreground/60">
-                            The FixItNow promise
-                        </p>
+                            <div className="absolute bottom-10 left-8 z-10 max-w-sm sm:left-10">
+                                <p className="text-sm font-medium text-white/60">
+                                    The FixItNow promise
+                                </p>
 
-                        <p className="mt-3 text-3xl font-medium leading-tight tracking-tight">
-                            Reliable home services, without the hassle.
-                        </p>
-                    </div>
+                                <p className="mt-3 text-3xl font-medium leading-tight tracking-tight">
+                                    Reliable home services, without the hassle.
+                                </p>
+                            </div>
 
-                    <div className="absolute right-8 top-24 z-10 flex size-28 rotate-6 items-center justify-center rounded-full border border-primary-foreground/30 bg-primary/50 text-center text-xs font-semibold uppercase tracking-widest backdrop-blur-sm">
-                        Home
-                        <br />
-                        help
-                        <br />
-                        made easy
-                    </div>
+                            <div className="absolute right-8 top-10 z-10 flex size-28 rotate-6 items-center justify-center rounded-full border border-white/30 bg-white/10 text-center text-xs font-semibold uppercase tracking-widest backdrop-blur-sm">
+                                Home
+                                <br />
+                                help
+                                <br />
+                                made easy
+                            </div>
+                        </div>
+                    )}
+
+                    {SHOW_IMAGE && (
+                        <>
+                            {/* Feature Image */}
+                            <div className="absolute inset-0">
+                                <Image
+                                    src="https://res.cloudinary.com/dycylbjm1/image/upload/v1786527011/fixitnow-brand-3_lk01d8.png"
+                                    alt="FixItNow icon"
+                                    fill
+                                    unoptimized
+                                    priority
+                                    className="object-cover"
+                                />
+                            </div>
+                        </>
+                    )}
                 </div>
             </section>
 
@@ -224,18 +259,18 @@ export default function AboutUsPage() {
                             key={title}
                             className="bg-background p-6 transition-colors hover:bg-secondary/50"
                         >
-                            <div className="flex size-8 items-center justify-center rounded-xl bg-blue-100 p-1 text-blue-600">
+                            <div className="flex size-10 items-center justify-center rounded-xl bg-blue-100 p-1 text-blue-600">
                                 <Icon
                                     className="size-5"
                                     aria-hidden="true"
                                 />
                             </div>
 
-                            <h3 className="mt-5 text-lg font-semibold tracking-tight">
+                            <h3 className="mt-5 text-xl font-semibold tracking-tight">
                                 {title}
                             </h3>
 
-                            <p className="mt-3 text-sm leading-7 text-foreground/80">
+                            <p className="mt-3 leading-7 text-foreground/80">
                                 {copy}
                             </p>
                         </article>
@@ -265,7 +300,7 @@ export default function AboutUsPage() {
                             ({ icon: Icon, title, copy }) => (
                                 <article
                                     key={title}
-                                    className="bg-background p-6"
+                                    className="bg-background p-6 transition-colors hover:bg-secondary/50"
                                 >
                                     <div className="flex size-10 items-center justify-center rounded-xl bg-blue-100 p-2 text-blue-600">
                                         <Icon
@@ -352,35 +387,39 @@ export default function AboutUsPage() {
             {/* Mission */}
             <section
                 id="mission"
-                className="mx-6 mb-6 overflow-hidden rounded-[2rem] bg-brand pt-8 text-brand-foreground"
+                className="px-4"
             >
-                <div className="container mx-auto flex flex-col items-start justify-between gap-8 md:flex-row md:items-end px-4">
-                    <div>
-                        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-foreground/80">
-                            Our mission
-                        </p>
+                <div
+                    className="container mx-auto mb-6 overflow-hidden rounded-[2rem] bg-linear-to-br from-brand to-blue-600 p-8 text-brand-foreground"
+                >
+                    <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-end">
+                        <div>
+                            <p className="text-sm font-semibold uppercase tracking-[0.18em]">
+                                Our mission
+                            </p>
 
-                        <h2 className="mt-4 text-pretty text-4xl font-semibold leading-tight tracking-[-0.04em]">
-                            Make home services simple, reliable, and accessible.
-                        </h2>
+                            <h2 className="mt-4 text-pretty text-4xl font-semibold leading-tight tracking-[-0.04em]">
+                                Make home services simple, reliable, and accessible.
+                            </h2>
 
-                        <p className="mt-3 text-base leading-7 text-foreground/75">
-                            FixItNow is building a better way for customers and
-                            technicians to connect, work together, and get
-                            things done.
-                        </p>
+                            <p className="mt-3 max-w-2xl leading-7">
+                                FixItNow is building a better way for customers and
+                                technicians to connect, work together, and get
+                                things done.
+                            </p>
+                        </div>
+
+                        <Link
+                            href="/services"
+                            className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-semibold text-blue-600 transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                        >
+                            Get started
+                            <ArrowRight
+                                className="size-4"
+                                aria-hidden="true"
+                            />
+                        </Link>
                     </div>
-
-                    <Link
-                        href="/services"
-                        className="inline-flex items-center gap-2 rounded-full bg-brand-foreground px-5 py-3 text-sm font-semibold text-brand transition-transform hover:-translate-y-0.5 hover:text-blue-600"
-                    >
-                        Get started
-                        <ArrowRight
-                            className="size-4"
-                            aria-hidden="true"
-                        />
-                    </Link>
                 </div>
             </section>
         </main>

@@ -75,8 +75,8 @@ export default async function TechnicianBookingsPage({
                 {statCards.map((item) => {
                     const Icon = item.icon;
 
-                    return (
-                        <div key={item.key} className={`rounded-2xl border border-border bg-card p-5 shadow-sm ${item.color}`}>
+                    return ( // ${item.color}
+                        <div key={item.key} className={`rounded-2xl border border-border bg-card p-5 shadow-sm bg-linear-to-br from-blue-700 to-blue-900 `}>
                             <div className="flex items-center gap-2">
                                 <Icon className={`h-5 w-5 ${item.iconColor}`} />
                                 <p className="text-sm font-semibold text-white">{item.label}</p>
