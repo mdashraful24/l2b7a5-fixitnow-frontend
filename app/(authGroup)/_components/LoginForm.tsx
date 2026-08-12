@@ -48,6 +48,9 @@ const LoginForm = () => {
     const [googleRole, setGoogleRole] =
         useState<GoogleRole>("CUSTOMER");
 
+    // Track which quick login role is being used
+    const [activeQuickRole, setActiveQuickRole] = useState<string | null>(null);
+
     // Demo credentials
     const demoCredentials = {
         admin: {
@@ -90,6 +93,7 @@ const LoginForm = () => {
         setIsQuickLogin(false);
         setIsGoogleLogin(false);
         setShowPassword(false);
+        setActiveQuickRole(null);
     }, []);
 
     // Handle normal login state
@@ -109,19 +113,13 @@ const LoginForm = () => {
     const handleGoogleLoginSuccess = async (
         credential: string
     ) => {
-        if (
-            isPending ||
-            pending ||
-            isQuickLogin ||
-            isGoogleLogin
-        ) {
+        if (isGoogleLogin || isQuickLogin || isPending || pending) {
             return;
         }
 
         setIsGoogleLogin(true);
 
         try {
-            // Use startTransition for server action
             startTransition(async () => {
                 const result = await googleLoginAction(
                     credential,
@@ -143,7 +141,6 @@ const LoginForm = () => {
                     result.message || "Google login successful"
                 );
 
-                // Handle redirect based on role
                 if (redirectTo && redirectTo.startsWith("/") && !redirectTo.startsWith("//")) {
                     router.push(redirectTo);
                     return;
@@ -157,14 +154,12 @@ const LoginForm = () => {
                 } else if (role === "ADMIN") {
                     router.push("/dashboard/admin");
                 } else {
-                    // Fallback
                     router.push("/dashboard");
                 }
 
                 router.refresh();
             });
         } catch (error) {
-            // console.error("Google login error:", error);
             toast.error("Google login failed. Please try again.");
             setIsGoogleLogin(false);
         }
@@ -174,30 +169,18 @@ const LoginForm = () => {
     const handleQuickLogin = async (
         role: keyof typeof demoCredentials
     ) => {
-        if (
-            isPending ||
-            pending ||
-            isQuickLogin ||
-            isGoogleLogin
-        ) {
+        if (isQuickLogin || isGoogleLogin || isPending || pending) {
             return;
         }
 
         setIsQuickLogin(true);
+        setActiveQuickRole(role);
 
         const credentials = demoCredentials[role];
 
         const formData = new FormData();
-
-        formData.append(
-            "email",
-            credentials.email || ""
-        );
-
-        formData.append(
-            "password",
-            credentials.password || ""
-        );
+        formData.append("email", credentials.email || "");
+        formData.append("password", credentials.password || "");
 
         try {
             startTransition(async () => {
@@ -208,30 +191,22 @@ const LoginForm = () => {
                 );
 
                 setIsQuickLogin(false);
+                setActiveQuickRole(null);
 
                 if (result?.success) {
-                    toast.success(
-                        `Logged in as ${credentials.label}`
-                    );
+                    toast.success(`Logged in as ${credentials.label}`);
                 } else {
-                    toast.error(
-                        result?.message ||
-                        "Quick login failed"
-                    );
+                    toast.error(result?.message || "Quick login failed");
                 }
             });
         } catch (error) {
             setIsQuickLogin(false);
+            setActiveQuickRole(null);
             toast.error("Login failed. Please try again.");
-            // console.error("Quick login error:", error);
         }
     };
 
-    const isLoggingIn =
-        isPending ||
-        pending ||
-        isQuickLogin ||
-        isGoogleLogin;
+    const isLoggingIn = isPending || pending;
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -251,6 +226,7 @@ const LoginForm = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {Object.entries(demoCredentials).map(([role, creds]) => {
                         const Icon = creds.icon;
+                        const isThisRoleLoading = isQuickLogin && activeQuickRole === role;
 
                         return (
                             <Button
@@ -261,13 +237,20 @@ const LoginForm = () => {
                                         role as keyof typeof demoCredentials
                                     )
                                 }
-                                disabled={isLoggingIn}
+                                disabled={isGoogleLogin || isLoggingIn || (isQuickLogin && activeQuickRole !== role)}
                                 className={`bg-linear-to-r ${creds.color} ${creds.hoverColor} text-white w-full flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] border-0`}
                             >
-                                <Icon className="size-4" />
-                                <span>
-                                    {creds.label}
-                                </span>
+                                {isThisRoleLoading ? (
+                                    <>
+                                        <div className="size-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                                        <span>Logging in...</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Icon className="size-4" />
+                                        <span>{creds.label}</span>
+                                    </>
+                                )}
                             </Button>
                         );
                     })}
@@ -312,7 +295,7 @@ const LoginForm = () => {
                                     ? `bg-${color}-600 hover:bg-${color}-700 text-white shadow-md`
                                     : `hover:border-${color}-500 hover:text-${color}-600 hover:bg-${color}-50 dark:hover:bg-${color}-950/20`
                                     }`}
-                                disabled={isLoggingIn}
+                                disabled={isGoogleLogin || isQuickLogin || isLoggingIn}
                                 onClick={() => setGoogleRole(role as GoogleRole)}
                             >
                                 <Icon className="size-4 mr-2" />
@@ -331,12 +314,11 @@ const LoginForm = () => {
                                 className="w-full"
                             >
                                 <div className="size-4 mr-2 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-                                Signing in with Google...
+                                {isGoogleLogin ? "Google login in progress..." : "Please wait..."}
                             </Button>
                         ) : (
                             <div className="w-full relative">
-                                {isLoggingIn ? (
-                                    // Show disabled state when any login is in progress
+                                {isQuickLogin || isLoggingIn ? (
                                     <Button
                                         type="button"
                                         variant="outline"
@@ -344,31 +326,20 @@ const LoginForm = () => {
                                         className="w-full opacity-50 cursor-not-allowed"
                                     >
                                         <div className="size-4 mr-2 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-                                        {pending || isPending ? "Logging in..." : "Please wait..."}
+                                        {isQuickLogin ? "Quick login in progress..." : "Please wait..."}
                                     </Button>
                                 ) : (
                                     <GoogleLogin
-                                        onSuccess={(
-                                            credentialResponse
-                                        ) => {
-                                            if (
-                                                !credentialResponse.credential
-                                            ) {
-                                                toast.error(
-                                                    "Google ID token not received"
-                                                );
+                                        onSuccess={(credentialResponse) => {
+                                            if (!credentialResponse.credential) {
+                                                toast.error("Google ID token not received");
                                                 return;
                                             }
-
-                                            handleGoogleLoginSuccess(
-                                                credentialResponse.credential
-                                            );
+                                            handleGoogleLoginSuccess(credentialResponse.credential);
                                         }}
                                         onError={() => {
                                             setIsGoogleLogin(false);
-                                            toast.error(
-                                                "Google login failed. Please try again."
-                                            );
+                                            toast.error("Google login failed. Please try again.");
                                         }}
                                         useOneTap={false}
                                         theme="outline"
@@ -398,10 +369,7 @@ const LoginForm = () => {
             </div>
 
             {/* Email / Password Login */}
-            <form
-                action={action}
-                className="space-y-4"
-            >
+            <form action={action} className="space-y-4">
                 <Card className="p-6 border-2 border-foreground/5 bg-linear-to-br from-background to-foreground/5">
                     <div className="space-y-4">
                         {/* Email */}
@@ -415,7 +383,7 @@ const LoginForm = () => {
                                 type="email"
                                 placeholder="Enter your email"
                                 required
-                                disabled={isLoggingIn}
+                                disabled={isLoggingIn || isQuickLogin || isGoogleLogin}
                                 onFocus={() => setFocusedField("email")}
                                 onBlur={() => setFocusedField(null)}
                                 className="pl-10 transition-all duration-300 focus:shadow-md"
@@ -430,43 +398,29 @@ const LoginForm = () => {
                                 }`} />
                             <Input
                                 name="password"
-                                type={
-                                    showPassword
-                                        ? "text"
-                                        : "password"
-                                }
+                                type={showPassword ? "text" : "password"}
                                 placeholder="Enter your password"
                                 required
-                                disabled={isLoggingIn}
+                                disabled={isLoggingIn || isQuickLogin || isGoogleLogin}
                                 onFocus={() => setFocusedField("password")}
                                 onBlur={() => setFocusedField(null)}
                                 className="pl-10 pr-10 transition-all duration-300 focus:shadow-md"
                             />
                             <button
                                 type="button"
-                                onClick={
-                                    togglePasswordVisibility
-                                }
+                                onClick={togglePasswordVisibility}
                                 className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/40 hover:text-foreground/80 transition-colors duration-300"
                                 tabIndex={-1}
-                                aria-label={
-                                    showPassword
-                                        ? "Hide password"
-                                        : "Show password"
-                                }
+                                aria-label={showPassword ? "Hide password" : "Show password"}
                             >
-                                {showPassword ? (
-                                    <EyeOff className="size-4" />
-                                ) : (
-                                    <Eye className="size-4" />
-                                )}
+                                {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
                             </button>
                         </div>
 
                         {/* Login Button */}
                         <Button
                             type="submit"
-                            disabled={isLoggingIn}
+                            disabled={isLoggingIn || isQuickLogin || isGoogleLogin}
                             className="w-full bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
                         >
                             {isLoggingIn ? (
