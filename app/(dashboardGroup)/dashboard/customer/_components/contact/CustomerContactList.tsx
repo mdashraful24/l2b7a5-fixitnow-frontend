@@ -329,11 +329,14 @@ const CustomerContactList = ({ initialData }: CustomerContactListProps) => {
                                     <TableCell className="text-right pr-5">
                                         <Button
                                             size="sm"
+                                            variant="default"
                                             onClick={() => handleViewContact(contact)}
-                                            className="cursor-pointer"
+                                            className="group relative"
                                         >
                                             <Eye className="h-4 w-4" />
-                                            {/* View */}
+                                            <span className="absolute right-10 top-1/2 -translate-y-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                                                View Details
+                                            </span>
                                         </Button>
                                     </TableCell>
                                 </TableRow>
