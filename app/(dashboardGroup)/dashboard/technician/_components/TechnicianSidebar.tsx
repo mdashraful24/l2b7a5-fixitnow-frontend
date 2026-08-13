@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, CalendarDays, User, Home, LogOut, Clock3, User2 } from "lucide-react";
+import { LayoutDashboard, CalendarDays, User, Home, LogOut, Clock3, User2, Mail } from "lucide-react";
 import { toast } from "sonner";
 import { logOut } from "@/services/logout";
 
@@ -20,6 +20,7 @@ const navLinks = [
     { href: "/dashboard/technician/availability", label: "Availability", icon: Clock3, exact: false },
     { href: "/dashboard/technician/services", label: "Services", icon: Clock3, exact: false },
     { href: "/dashboard/technician/updated-profile", label: "Edit Profile", icon: User, exact: false },
+    { href: "/dashboard/technician/contacts", label: "Support", icon: Mail, exact: false },
     // { href: "/profile", label: "Profile", icon: User2, exact: true },
     { href: "/", label: "Home", icon: Home, exact: true },
 ];

@@ -12,6 +12,7 @@ import AdminCharts from "./_components/dashboardStats/AdminCharts";
 import AdminBookingsDataTable from "./_components/dashboardStats/AdminBookingsDataTable";
 import { getAllServices } from "@/app/(publicGroup)/_actions/allServices";
 import { bookingStatCardThemes } from "@/lib/bookingConstants";
+import ContactCountBadge from "./_components/contacts/ContactCountBadge";
 
 export default async function AdminDashboardPage() {
     const stats = await getDashboardStats();
@@ -109,7 +110,7 @@ export default async function AdminDashboardPage() {
             </div>
 
             {/* Bookings Related */}
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
                 <MiniStatCard
                     title="Requested"
                     value={bookings.requestedBookings}
@@ -150,6 +151,7 @@ export default async function AdminDashboardPage() {
                     iconBgColor="bg-indigo-100"
                     bgColor="bg-gradient-to-br from-blue-700 to-blue-900"
                 />
+                <ContactCountBadge />
             </div>
 
             {/* Charts Section */}

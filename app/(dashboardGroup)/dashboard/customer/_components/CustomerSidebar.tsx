@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, CalendarDays, User, LogOut, Home } from "lucide-react";
+import { LayoutDashboard, CalendarDays, User, LogOut, Home, MessageCircle } from "lucide-react";
 import { logOut } from "@/services/logout";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -12,6 +12,7 @@ const navLinks = [
     { href: "/dashboard/customer", label: "Overview", icon: LayoutDashboard, exact: true },
     { href: "/dashboard/customer/bookings", label: "My Bookings", icon: CalendarDays, exact: false },
     { href: "/dashboard/customer/update-profile", label: "Update Profile", icon: User, exact: true },
+    { href: "/dashboard/customer/contacts", label: "Support", icon: MessageCircle, exact: true },
     { href: "/", label: "Home", icon: Home, exact: true },
 ];
 

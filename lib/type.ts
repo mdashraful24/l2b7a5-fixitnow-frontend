@@ -669,7 +669,7 @@ export interface ICreateContact {
     email: string;
     subject: string;
     message: string;
-};
+}
 
 export interface IContact {
     id: string;
@@ -677,8 +677,25 @@ export interface IContact {
     email: string;
     subject: string;
     message: string;
+    reply?: string | null;
+    repliedAt?: string | null;
+    userId: string;
+    repliedById?: string | null;
     createdAt: string;
     updatedAt: string;
+    user?: {
+        id: string;
+        name: string;
+        email: string;
+        role: string;
+        phone?: string;
+        address?: string;
+    };
+    repliedBy?: {
+        id: string;
+        name: string;
+        email: string;
+    };
 }
 
 export interface IContactResponse {
@@ -692,6 +709,10 @@ export interface IContactSingleResponse {
     success: boolean;
     message: string;
     data: IContact | null;
+}
+
+export interface IReplyContact {
+    reply: string;
 }
 
 export interface PaginationProps {

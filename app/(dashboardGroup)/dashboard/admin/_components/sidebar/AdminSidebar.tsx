@@ -13,7 +13,7 @@ const navLinks = [
     { href: "/dashboard/admin/users", label: "Users", icon: Users, exact: false },
     { href: "/dashboard/admin/bookings", label: "Bookings", icon: CalendarDays, exact: false },
     { href: "/dashboard/admin/categories", label: "Categories", icon: CalendarDays, exact: false },
-    { href: "/dashboard/admin/contacts", label: "Contacts Us", icon: CalendarDays, exact: true },
+    { href: "/dashboard/admin/contacts", label: "Messages", icon: CalendarDays, exact: true },
     { href: "/dashboard/admin/update-profile", label: "Update Profile", icon: User, exact: true },
     { href: "/", label: "Home", icon: Home, exact: true },
 ];

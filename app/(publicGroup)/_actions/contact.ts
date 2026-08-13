@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import { IContactResponse, IContactSingleResponse, ICreateContact } from "@/lib/type";
+import { IContactResponse, IContactSingleResponse, ICreateContact, IReplyContact } from "@/lib/type";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -45,12 +45,12 @@ export const getContacts = async (params?: {
     if (params?.sortBy) queryParams.append('sortBy', params.sortBy);
     if (params?.sortOrder) queryParams.append('sortOrder', params.sortOrder);
 
-    const url = `${process.env.BACKEND_API_URL}/api/contact?${queryParams.toString()}`;
+    const url = `${process.env.BACKEND_API_URL}/api/contacts?${queryParams.toString()}`;
 
     const res = await fetch(url, {
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${accessToken}`,
+            cookie: `accessToken = ${accessToken}`,
         },
         next: {
             tags: ['contacts']
@@ -59,9 +59,7 @@ export const getContacts = async (params?: {
 
     const result = await res.json();
 
-    // Ensure the response matches our expected format
     if (result.success && result.meta) {
-        // If backend uses totalPage instead of totalPages, map it
         if (result.meta.totalPage !== undefined && result.meta.totalPages === undefined) {
             result.meta.totalPages = result.meta.totalPage;
         }
@@ -83,13 +81,13 @@ export const getSingleContact = async (id: string): Promise<IContactSingleRespon
         };
     }
 
-    const res = await fetch(`${process.env.BACKEND_API_URL}/api/contact/${id}`, {
+    const res = await fetch(`${process.env.BACKEND_API_URL}/api/contacts/${id}`, {
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${accessToken}`,
+            cookie: `accessToken = ${accessToken}`,
         },
         next: {
-            tags: ['contact', id]
+            tags: [`contact-${id}`]
         }
     });
 
@@ -97,19 +95,54 @@ export const getSingleContact = async (id: string): Promise<IContactSingleRespon
     return result;
 };
 
+// Create contact
 export const createContact = async (
     prevState: ContactResponse | null,
     formData: FormData
 ): Promise<ContactResponse> => {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+
+    if (!accessToken) {
+        return { success: false, message: "Not authenticated" };
+    }
+
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
     const subject = formData.get("subject") as string;
     const message = formData.get("message") as string;
 
-    if (!name?.trim() || !email?.trim() || !message?.trim()) {
+    // Validate required fields
+    if (!name?.trim()) {
         return {
             success: false,
-            message: "Please fill in all required fields.",
+            message: "Please enter your name.",
+            error: "Validation error"
+        };
+    }
+
+    if (!email?.trim()) {
+        return {
+            success: false,
+            message: "Please enter your email address.",
+            error: "Validation error"
+        };
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+        return {
+            success: false,
+            message: "Please enter a valid email address.",
+            error: "Validation error"
+        };
+    }
+
+    if (!message?.trim()) {
+        return {
+            success: false,
+            message: "Please enter your message.",
             error: "Validation error"
         };
     }
@@ -122,12 +155,13 @@ export const createContact = async (
     };
 
     try {
-        const res = await fetch(`${process.env.BACKEND_API_URL}/api/contact`, {
+        const res = await fetch(`${process.env.BACKEND_API_URL}/api/contacts`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                cookie: `accessToken = ${accessToken}`,
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
         });
 
         const result = await res.json();
@@ -136,6 +170,9 @@ export const createContact = async (
             revalidateTag("contacts", {
                 expire: 0
             });
+            revalidateTag("my-contacts", {
+                expire: 0
+            })
             return {
                 success: true,
                 message: "Thank you! We'll get back to you within 24 hours.",
@@ -149,11 +186,131 @@ export const createContact = async (
             error: result.error
         };
     } catch (error) {
-        // console.error("Contact submission error:", error);
+        console.error("Contact submission error:", error);
         return {
             success: false,
             message: "Something went wrong. Please try again later.",
             error: String(error)
         };
     }
+};
+
+// Reply to contact (admin only)
+export const replyContact = async (
+    contactId: string,
+    replyData: IReplyContact
+): Promise<ContactResponse> => {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+
+    if (!accessToken) {
+        return {
+            success: false,
+            message: "Not authenticated",
+            error: "Authentication required"
+        };
+    }
+
+    if (!replyData.reply?.trim()) {
+        return {
+            success: false,
+            message: "Reply cannot be empty",
+            error: "Validation error"
+        };
+    }
+
+    try {
+        const res = await fetch(`${process.env.BACKEND_API_URL}/api/contacts/${contactId}/reply`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                cookie: `accessToken = ${accessToken}`,
+            },
+            body: JSON.stringify(replyData)
+        });
+
+        const result = await res.json();
+
+        if (result.success) {
+            revalidateTag("contacts", {
+                expire: 0
+            });
+            revalidateTag(`contact-${contactId}`, {
+                expire: 0
+            });
+            return {
+                success: true,
+                message: "Reply sent successfully",
+                data: result.data
+            };
+        }
+
+        return {
+            success: false,
+            message: result.message || "Failed to send reply",
+            error: result.error
+        };
+    } catch (error) {
+        return {
+            success: false,
+            message: "Something went wrong. Please try again later.",
+            error: String(error)
+        };
+    }
+};
+
+// Get user's own contacts (authenticated users only)
+export const getMyContacts = async (params?: {
+    page?: number;
+    limit?: number;
+    searchTerm?: string;
+    sortBy?: string;
+    sortOrder?: 'asc' | 'desc';
+}): Promise<IContactResponse> => {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+
+    if (!accessToken) {
+        return {
+            success: false,
+            message: "Not authenticated",
+            data: [],
+            meta: {
+                page: 1,
+                limit: 10,
+                total: 0,
+                totalPages: 0
+            }
+        };
+    }
+
+    const queryParams = new URLSearchParams();
+
+    if (params?.page) queryParams.append('page', String(params.page));
+    if (params?.limit) queryParams.append('limit', String(params.limit));
+    if (params?.searchTerm) queryParams.append('searchTerm', params.searchTerm);
+    if (params?.sortBy) queryParams.append('sortBy', params.sortBy);
+    if (params?.sortOrder) queryParams.append('sortOrder', params.sortOrder);
+
+    const url = `${process.env.BACKEND_API_URL}/api/contacts/my-contacts?${queryParams.toString()}`;
+
+    const res = await fetch(url, {
+        headers: {
+            "Content-Type": "application/json",
+            cookie: `accessToken = ${accessToken}`,
+        },
+        next: {
+            tags: ['my-contacts']
+        }
+    });
+
+    const result = await res.json();
+
+    if (result.success && result.meta) {
+        if (result.meta.totalPage !== undefined && result.meta.totalPages === undefined) {
+            result.meta.totalPages = result.meta.totalPage;
+        }
+    }
+
+    return result;
 };
