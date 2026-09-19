@@ -373,69 +373,71 @@ const LoginForm = () => {
                                 </p>
                             </div>
 
-                        <div className="space-y-6">
-                            {/* Email */}
-                            <div className="relative">
-                                <Mail className={`absolute left-3 top-1/2 -translate-y-1/2 size-4 transition-colors duration-300 ${focusedField === "email"
-                                    ? "text-primary"
-                                    : "text-foreground/40"
-                                    }`} />
-                                <Input
-                                    name="email"
-                                    type="email"
-                                    placeholder="Enter your email"
-                                    required
-                                    disabled={isLoggingIn || isQuickLogin || isGoogleLogin}
-                                    onFocus={() => setFocusedField("email")}
-                                    onBlur={() => setFocusedField(null)}
-                                    className="pl-10 transition-all duration-300 focus:shadow-md"
-                                />
-                            </div>
+                            <div className="space-y-6">
+                                {/* Email */}
+                                <div className="relative">
+                                    <Mail className={`absolute left-3 top-1/2 -translate-y-1/2 size-4 transition-colors duration-300 ${focusedField === "email"
+                                        ? "text-primary"
+                                        : "text-foreground/40"
+                                        }`} />
+                                    <Input
+                                        name="email"
+                                        type="email"
+                                        placeholder="Enter your email"
+                                        required
+                                        disabled={isLoggingIn || isQuickLogin || isGoogleLogin}
+                                        onFocus={() => setFocusedField("email")}
+                                        onBlur={() => setFocusedField(null)}
+                                        className="pl-10 transition-all duration-300 focus:shadow-md"
+                                        autoComplete='off'
+                                    />
+                                </div>
 
-                            {/* Password */}
-                            <div className="relative">
-                                <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 size-4 transition-colors duration-300 ${focusedField === "password"
-                                    ? "text-primary"
-                                    : "text-foreground/40"
-                                    }`} />
-                                <Input
-                                    name="password"
-                                    type={showPassword ? "text" : "password"}
-                                    placeholder="Enter your password"
-                                    required
+                                {/* Password */}
+                                <div className="relative">
+                                    <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 size-4 transition-colors duration-300 ${focusedField === "password"
+                                        ? "text-primary"
+                                        : "text-foreground/40"
+                                        }`} />
+                                    <Input
+                                        name="password"
+                                        type={showPassword ? "text" : "password"}
+                                        placeholder="Enter your password"
+                                        required
+                                        disabled={isLoggingIn || isQuickLogin || isGoogleLogin}
+                                        onFocus={() => setFocusedField("password")}
+                                        onBlur={() => setFocusedField(null)}
+                                        className="pl-10 pr-10 transition-all duration-300 focus:shadow-md"
+                                        autoComplete='off'
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={togglePasswordVisibility}
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/40 hover:text-foreground/80 transition-colors duration-300"
+                                        tabIndex={-1}
+                                        aria-label={showPassword ? "Hide password" : "Show password"}
+                                    >
+                                        {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                                    </button>
+                                </div>
+
+                                {/* Login Button */}
+                                <Button
+                                    type="submit"
                                     disabled={isLoggingIn || isQuickLogin || isGoogleLogin}
-                                    onFocus={() => setFocusedField("password")}
-                                    onBlur={() => setFocusedField(null)}
-                                    className="pl-10 pr-10 transition-all duration-300 focus:shadow-md"
-                                />
-                                <button
-                                    type="button"
-                                    onClick={togglePasswordVisibility}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/40 hover:text-foreground/80 transition-colors duration-300"
-                                    tabIndex={-1}
-                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                    size="lg"
+                                    className="w-full bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
                                 >
-                                    {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
-                                </button>
+                                    {isLoggingIn ? (
+                                        <>
+                                            <div className="size-4 mr-2 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                                            Logging in...
+                                        </>
+                                    ) : (
+                                        "Sign In"
+                                    )}
+                                </Button>
                             </div>
-
-                            {/* Login Button */}
-                            <Button
-                                type="submit"
-                                disabled={isLoggingIn || isQuickLogin || isGoogleLogin}
-                                size="lg"
-                                className="w-full bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
-                            >
-                                {isLoggingIn ? (
-                                    <>
-                                        <div className="size-4 mr-2 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                                        Logging in...
-                                    </>
-                                ) : (
-                                    "Sign In"
-                                )}
-                            </Button>
-                        </div>
                         </div>
                     </Card>
                 </form>
