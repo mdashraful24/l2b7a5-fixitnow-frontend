@@ -20,7 +20,7 @@ const CategoriesContent = async () => {
             {meta.total > 6 && (
                 <Link
                     href="/all-categories"
-                    className="mt-6 flex w-fit items-center gap-2 font-semibold text-primary transition-colors hover:text-primary/80 ml-auto"
+                    className="mt-6 flex w-fit items-center gap-2 font-semibold text-blue-500 transition-colors ml-auto"
                 >
                     View All Categories
                     <ArrowRight className="h-4 w-4" />
