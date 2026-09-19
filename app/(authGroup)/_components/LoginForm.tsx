@@ -53,11 +53,11 @@ const LoginForm = () => {
 
     // Demo credentials
     const demoCredentials = {
-        admin: {
-            email: process.env.NEXT_PUBLIC_ADMIN_EMAIL,
-            password: process.env.NEXT_PUBLIC_ADMIN_PASSWORD,
-            label: "Admin",
-            icon: Shield,
+        customer: {
+            email: process.env.NEXT_PUBLIC_CUSTOMER_EMAIL,
+            password: process.env.NEXT_PUBLIC_CUSTOMER_PASSWORD,
+            label: "Customer",
+            icon: Users,
         },
         technician: {
             email: process.env.NEXT_PUBLIC_TECHNICIAN_EMAIL,
@@ -65,11 +65,11 @@ const LoginForm = () => {
             label: "Technician",
             icon: Wrench,
         },
-        customer: {
-            email: process.env.NEXT_PUBLIC_CUSTOMER_EMAIL,
-            password: process.env.NEXT_PUBLIC_CUSTOMER_PASSWORD,
-            label: "Customer",
-            icon: Users,
+        admin: {
+            email: process.env.NEXT_PUBLIC_ADMIN_EMAIL,
+            password: process.env.NEXT_PUBLIC_ADMIN_PASSWORD,
+            label: "Admin",
+            icon: Shield,
         },
     };
 
@@ -198,12 +198,12 @@ const LoginForm = () => {
     };
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-10">
             {/* Quick Login Section */}
-            <div className="mx-auto max-w-xl space-y-4">
+            <div className="mx-auto max-w-lg space-y-4">
                 <div className="flex items-center gap-2 justify-center">
                     <Sparkles className="size-4 text-yellow-500" />
-                    <p className="text-sm font-medium text-foreground/70">
+                    <p className="text-base font-medium">
                         Quick Access
                     </p>
                 </div>
@@ -225,7 +225,7 @@ const LoginForm = () => {
                                     )
                                 }
                                 disabled={isGoogleLogin || isLoggingIn || (isQuickLogin && activeQuickRole !== role)}
-                                className={`w-full flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] ${isActive
+                                className={`w-full flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 transform ${isActive
                                     ? "bg-primary hover:bg-primary/90 text-white border-0"
                                     : "bg-background border border-primary text-primary dark:text-blue-300 hover:bg-primary hover:text-white dark:hover:text-white"
                                     }`}
@@ -262,18 +262,18 @@ const LoginForm = () => {
 
                 {/* Google Login */}
                 <Card className="w-full h-full p-6 border-2 border-foreground/5 bg-linear-to-br from-background to-foreground/5">
-                    <div className="flex h-full flex-col justify-center space-y-6">
+                    <div className="flex h-full flex-col justify-center space-y-8">
                         <div className="text-center space-y-1">
                             <p className="text-base font-medium">
                                 Google Authentication
                             </p>
                             <p className="text-sm text-foreground/80">
-                                Select your account type
+                                Select your account type and sign in with Google. If you don&apos;t have a Google account, you can create one for free.
                             </p>
                         </div>
 
                         {/* Role Selection */}
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="grid grid-cols-2 gap-5">
                             {[
                                 { role: "CUSTOMER", label: "Customer", icon: Users },
                                 { role: "TECHNICIAN", label: "Technician", icon: Wrench },
@@ -281,6 +281,7 @@ const LoginForm = () => {
                                 <Button
                                     key={role}
                                     type="button"
+                                    size="lg"
                                     variant={googleRole === role ? "default" : "outline"}
                                     className={`transition-all duration-300 ${googleRole === role
                                         ? "bg-primary hover:bg-primary/90 text-white shadow-md"
@@ -289,7 +290,7 @@ const LoginForm = () => {
                                     disabled={isGoogleLogin || isQuickLogin || isLoggingIn}
                                     onClick={() => setGoogleRole(role as GoogleRole)}
                                 >
-                                    <Icon className="size-4 mr-2" />
+                                    <Icon className="size-4 mr-1" />
                                     {label}
                                 </Button>
                             ))}
@@ -372,7 +373,7 @@ const LoginForm = () => {
                                 </p>
                             </div>
 
-                        <div className="space-y-4">
+                        <div className="space-y-6">
                             {/* Email */}
                             <div className="relative">
                                 <Mail className={`absolute left-3 top-1/2 -translate-y-1/2 size-4 transition-colors duration-300 ${focusedField === "email"
@@ -422,6 +423,7 @@ const LoginForm = () => {
                             <Button
                                 type="submit"
                                 disabled={isLoggingIn || isQuickLogin || isGoogleLogin}
+                                size="lg"
                                 className="w-full bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
                             >
                                 {isLoggingIn ? (
