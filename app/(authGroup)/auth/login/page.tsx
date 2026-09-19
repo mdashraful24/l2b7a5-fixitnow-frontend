@@ -2,8 +2,8 @@ import LoginForm from "../../_components/LoginForm";
 
 export default function LoginPage() {
     return (
-        <div className="flex min-h-[90vh] items-center justify-center container mx-auto px-4 py-8">
-            <div className="w-full max-w-110">
+        <div className="flex min-h-[85vh] items-center justify-center container mx-auto px-4 pt-8">
+            <div className="w-full max-w-lg lg:max-w-4xl">
                 <div className="space-y-8">
                     {/* Header Section */}
                     <div className="text-center space-y-3">
@@ -31,16 +31,16 @@ export default function LoginPage() {
                             Don&apos;t have an account?{" "}
                             <a
                                 href="/auth/register"
-                                className="text-blue-500 font-semibold hover:underline transition-all duration-300 hover:text-blue-600"
+                                className="text-blue-500 font-semibold hover:underline"
                             >
                                 Create one
                             </a>
                         </p>
                         <p className="text-xs text-foreground/70">
                             By signing in, you agree to our{" "}
-                            <a href="/terms-of-service" className="hover:text-blue-500 hover:underline">Terms</a>{" "}
+                            <a href="/terms-of-service" className="text-blue-500 font-medium hover:underline">Terms</a>{" "}
                             and{" "}
-                            <a href="/privacy-policy" className="hover:text-blue-500 hover:underline">Privacy Policy</a>
+                            <a href="/privacy-policy" className="text-blue-500 font-medium hover:underline">Privacy Policy</a>
                         </p>
                     </div>
                 </div>
