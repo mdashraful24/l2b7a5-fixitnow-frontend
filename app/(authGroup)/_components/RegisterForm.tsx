@@ -21,7 +21,7 @@ const RegisterForm = () => {
 
     return (
         <form action={action} className='space-y-4'>
-            <Card className='p-5 space-y-2'>
+            <Card className='bg-linear-to-br from-background to-foreground/5 p-5 space-y-2'>
                 <Input name='name' type='text' placeholder='Enter your full name' />
                 <Input name='email' type='email' placeholder='Enter your email' />
                 <Input name='password' type='password' placeholder='Enter your password' />

@@ -16,7 +16,7 @@ export default function LoginPage() {
                             <h1 className="text-3xl font-bold bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
                                 Welcome Back!
                             </h1>
-                            <p className="text-foreground/60 text-sm">
+                            <p className="text-foreground/80 text-base">
                                 Sign in to your account to continue
                             </p>
                         </div>
@@ -26,7 +26,7 @@ export default function LoginPage() {
                     <LoginForm />
 
                     {/* Footer Links */}
-                    <div className="text-center space-y-2">
+                    <div className="text-center space-y-5">
                         <p className="text-sm text-foreground/80">
                             Don&apos;t have an account?{" "}
                             <a

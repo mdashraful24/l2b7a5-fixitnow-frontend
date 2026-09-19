@@ -264,10 +264,10 @@ const LoginForm = () => {
                 <Card className="w-full h-full p-6 border-2 border-foreground/5 bg-linear-to-br from-background to-foreground/5">
                     <div className="flex h-full flex-col justify-center space-y-6">
                         <div className="text-center space-y-1">
-                            <p className="text-sm font-medium">
+                            <p className="text-base font-medium">
                                 Google Authentication
                             </p>
-                            <p className="text-xs text-foreground/70">
+                            <p className="text-sm text-foreground/80">
                                 Select your account type
                             </p>
                         </div>
@@ -364,10 +364,10 @@ const LoginForm = () => {
                     <Card className="flex h-full w-full p-6 border-2 border-foreground/5 bg-linear-to-br from-background to-foreground/5">
                         <div className="flex w-full flex-col justify-center space-y-4">
                             <div className="text-center space-y-1">
-                                <p className="text-sm font-medium">
+                                <p className="text-base font-medium">
                                     Email / Password Authentication
                                 </p>
-                                <p className="text-xs text-foreground/70">
+                                <p className="text-sm text-foreground/80">
                                     Enter your credentials to sign in
                                 </p>
                             </div>
