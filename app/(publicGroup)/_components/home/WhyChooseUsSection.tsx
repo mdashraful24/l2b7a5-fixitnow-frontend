@@ -39,7 +39,7 @@ const WhyChooseUsSection = () => {
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8">
                 {features.map((feature, index) => {
                     const Icon = feature.icon;
                     return (
