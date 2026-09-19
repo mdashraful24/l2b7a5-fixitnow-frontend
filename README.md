@@ -341,33 +341,41 @@ This project satisfies the assignment requirements:
 ### Runtime Dependencies
 
 ```bash
-next
-react
-react-dom
-zod
-sonner
-lucide-react
 @phosphor-icons/react
-next-themes
+@radix-ui/react-scroll-area
+@react-oauth/google
 class-variance-authority
 clsx
-tailwind-merge
-radix-ui
+date-fns
+embla-carousel-autoplay
+embla-carousel-react
 jsonwebtoken
+lucide-react
+next
+next-themes
+radix-ui
+react
+react-dom
+recharts
+shadcn
+sonner
+tailwind-merge
+tw-animate-css
+zod
 ```
 
 ### Development Dependencies
 
 ```bash
-typescript
-eslint
-eslint-config-next
-tailwindcss
 @tailwindcss/postcss
+@types/jsonwebtoken
 @types/node
 @types/react
 @types/react-dom
-@types/jsonwebtoken
+eslint
+eslint-config-next
+tailwindcss
+typescript
 ```
 
 ---
