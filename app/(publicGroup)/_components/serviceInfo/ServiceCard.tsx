@@ -89,7 +89,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
                         <DollarSign className="h-3.5 w-3.5 text-emerald-400" />
                         <span className="text-sm font-bold">{service.price}</span>
                         {service.hourlyRate && (
-                            <span className="text-xs text-gray-400 dark:text-gray-500">/hr</span>
+                            <span className="text-xs text-gray-200">/hr</span>
                         )}
                     </div>
                 </div>
@@ -133,13 +133,13 @@ export function ServiceCard({ service }: ServiceCardProps) {
                             <span className="text-sm font-semibold text-gray-800 dark:text-foreground">
                                 {service.technician.user.name}
                             </span>
-                            <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-muted-foreground">
+                            <div className="flex items-center gap-1 text-xs text-foreground/80">
                                 <MapPin className="h-3 w-3" />
                                 <span>{service.technician.location}</span>
                             </div>
                         </div>
                     </div>
-                    <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-muted-foreground">
+                    <div className="flex items-center gap-1 text-sm text-foreground/80">
                         <Clock className="h-3.5 w-3.5" />
                         <span className="font-medium text-gray-700 dark:text-foreground/80">{service.duration} min</span>
                     </div>
