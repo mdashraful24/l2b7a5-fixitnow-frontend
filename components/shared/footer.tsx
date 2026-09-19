@@ -204,10 +204,10 @@ const Footer = () => {
                 {/* Bottom Bar */}
                 <div className="border-t border-border py-6">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                        <p className="text-sm text-foreground/80">
+                        <p className="text-sm text-foreground/90">
                             &copy; {currentYear} FixItNow. All rights reserved.
                         </p>
-                        <p>
+                        <p className="text-sm">
                             Developed and maintained by <a href="https://ashraful-islam-ratul.netlify.app/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
                                 Ashraful Islam Ratul.
                             </a>

@@ -2,7 +2,7 @@ import RegisterForm from "../../_components/RegisterForm"
 
 export default function RegisterPage() {
     return (
-        <div className="flex min-h-[90vh] items-center justify-center container mx-auto px-4 py-8">
+        <div className="flex min-h-[85vh] items-center justify-center container mx-auto px-4 pt-8">
             <div className="w-full max-w-110">
                 <div className="space-y-8">
                     {/* Header Section */}
@@ -31,7 +31,7 @@ export default function RegisterPage() {
                             Already have an account?{" "}
                             <a
                                 href="/auth/login"
-                                className="text-blue-600 font-semibold hover:underline transition-all duration-300 hover:text-blue-500"
+                                className="text-blue-500 font-semibold hover:underline"
                             >
                                 Login here
                             </a>
