@@ -100,7 +100,7 @@ export default async function CustomerDashboardPage({
 
             {/* Status Tabs */}
             <div>
-                <div className="flex flex-wrap gap-2 border-b border-border pb-4">
+                {/* <div className="flex flex-wrap gap-2 border-b border-border pb-4">
                     {statusTabs.map((tab) => {
                         const isActive = activeStatus === tab.value;
                         return (
@@ -117,7 +117,7 @@ export default async function CustomerDashboardPage({
                             </Link>
                         );
                     })}
-                </div>
+                </div> */}
 
                 {/* Bookings List */}
                 {/* <div className="mt-6 space-y-4">

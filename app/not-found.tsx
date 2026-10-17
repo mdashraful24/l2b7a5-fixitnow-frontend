@@ -41,7 +41,7 @@ export default function NotFound() {
             {/* Animated background elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-20 right-10 w-72 h-72 bg-blue-200/10 dark:bg-blue-500/5 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-20 left-10 w-72 h-72 bg-purple-200/10 dark:bg-purple-500/5 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-20 left-10 w-72 h-72 bg-blue-200/10 dark:bg-blue-500/5 rounded-full blur-3xl"></div>
             </div>
 
             {/* Content */}
@@ -50,7 +50,7 @@ export default function NotFound() {
                     {/* Text content */}
                     <div className="space-y-4">
                         <div className="space-y-2">
-                            <h1 className="text-6xl md:text-7xl font-bold bg-clip-text text-transparent bg-linear-to-r from-slate-900 via-purple-600 to-slate-900 dark:from-white dark:via-purple-400 dark:to-white">
+                            <h1 className="text-6xl md:text-7xl font-bold bg-clip-text text-transparent bg-linear-to-r from-slate-900 via-blue-600 to-slate-900 dark:from-white dark:via-blue-400 dark:to-white">
                                 404
                             </h1>
                             <p className="text-xl md:text-2xl font-semibold text-slate-700 dark:text-slate-200">
@@ -68,7 +68,7 @@ export default function NotFound() {
                         <Link href="/">
                             <Button
                                 size="lg"
-                                className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 gap-2 cursor-pointer"
+                                className="bg-linear-to-r from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 gap-2 cursor-pointer"
                             >
                                 <Home className="w-5 h-5" />
                                 Back to Home
