@@ -309,7 +309,7 @@ const LoginForm = () => {
                                     {isGoogleLogin ? "Google login in progress..." : "Please wait..."}
                                 </Button>
                             ) : (
-                                <div className="w-full relative">
+                                <div className="flex justify-center w-full relative">
                                     {isQuickLogin || isLoggingIn ? (
                                         <Button
                                             type="button"

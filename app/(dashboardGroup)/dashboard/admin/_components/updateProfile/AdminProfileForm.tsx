@@ -31,6 +31,9 @@ export function AdminProfileForm({
 
     const [isSaving, setIsSaving] = useState(false);
 
+    const [confirmPassword, setConfirmPassword] =
+        useState("");
+
     const handleChange = (
         name: keyof IUpdateMe,
         value: string
@@ -49,6 +52,18 @@ export function AdminProfileForm({
         setIsSaving(true);
         setFieldErrors({});
 
+        if (
+            (formState.password || confirmPassword) &&
+            formState.password !== confirmPassword
+        ) {
+            setFieldErrors({
+                confirmPassword: "Passwords do not match",
+            });
+            setIsSaving(false);
+            toast.error("Passwords do not match");
+            return;
+        }
+
         try {
             const result = await updateMe(formState);
 
@@ -57,7 +72,7 @@ export function AdminProfileForm({
                     result.message || "Profile updated successfully"
                 );
 
-                router.push("/profile");
+                router.push("/dashboard/admin/profile");
 
                 return;
             }
@@ -102,19 +117,15 @@ export function AdminProfileForm({
                 <Field
                     label="Full Name"
                     error={fieldErrors.name}
+                    hint="Can't be changed"
                     icon={
                         <User className="h-4 w-4" />
                     }
                 >
                     <input
                         value={formState.name ?? ""}
-                        onChange={(event) =>
-                            handleChange(
-                                "name",
-                                event.target.value
-                            )
-                        }
-                        className="w-full rounded-lg border border-input bg-background px-4 py-3 pl-10 text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+                        readOnly
+                        className="w-full cursor-default rounded-lg border border-input bg-muted/50 px-4 py-3 pl-10 text-foreground outline-none transition read-only:focus:ring-0"
                         placeholder="Admin Name"
                     />
                 </Field>
@@ -122,6 +133,7 @@ export function AdminProfileForm({
                 <Field
                     label="Email"
                     error={fieldErrors.email}
+                    hint="Can't be changed"
                     icon={
                         <Mail className="h-4 w-4" />
                     }
@@ -129,17 +141,13 @@ export function AdminProfileForm({
                     <input
                         type="email"
                         value={formState.email ?? ""}
-                        onChange={(event) =>
-                            handleChange(
-                                "email",
-                                event.target.value
-                            )
-                        }
-                        className="w-full rounded-lg border border-input bg-background px-4 py-3 pl-10 text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+                        readOnly
+                        className="w-full cursor-default rounded-lg border border-input bg-muted/50 px-4 py-3 pl-10 text-foreground outline-none transition read-only:focus:ring-0"
                         placeholder="admin@example.com"
                     />
                 </Field>
 
+                {/* Password && Confirm Password field - temporarily disabled
                 <Field
                     label="Password"
                     error={fieldErrors.password}
@@ -161,6 +169,28 @@ export function AdminProfileForm({
                         className="w-full rounded-lg border border-input bg-background px-4 py-3 pl-10 text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                     />
                 </Field>
+
+                <Field
+                    label="Confirm Password"
+                    error={fieldErrors.confirmPassword}
+                    hint="Re-enter new password"
+                    icon={
+                        <Lock className="h-4 w-4" />
+                    }
+                >
+                    <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(event) =>
+                            setConfirmPassword(
+                                event.target.value
+                            )
+                        }
+                        placeholder="Re-enter new password"
+                        className="w-full rounded-lg border border-input bg-background px-4 py-3 pl-10 text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+                    />
+                </Field>
+                */}
 
                 <Field
                     label="Phone Number"
@@ -209,12 +239,13 @@ export function AdminProfileForm({
             <div className="flex items-center justify-end gap-3 border-t border-border pt-4">
                 <button
                     type="button"
-                    onClick={() =>
+                    onClick={() => {
                         setFormState({
                             ...initialValues,
                             password: "",
-                        })
-                    }
+                        });
+                        setConfirmPassword("");
+                    }}
                     disabled={isSaving}
                     className="cursor-pointer rounded-lg border border-input bg-background px-4 py-2.5 text-sm font-semibold text-foreground transition hover:bg-muted/50 disabled:cursor-not-allowed disabled:opacity-60"
                 >

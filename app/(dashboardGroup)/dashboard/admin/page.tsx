@@ -62,6 +62,15 @@ export default async function AdminDashboardPage() {
             {/* Main stats cards */}
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
                 <StatCard
+                    title="Total Revenue"
+                    value={`$${totalRevenue.toLocaleString()}`}
+                    icon={DollarSign}
+                    description={`${bookings.completedBookings} completed bookings`}
+                    color="text-green-500"
+                    bgColor="bg-green-50 dark:bg-green-950/30"
+                    cardBgColor="bg-gradient-to-br from-blue-700 to-blue-900"
+                />
+                <StatCard
                     title="Total Bookings"
                     value={bookings.totalBookings}
                     icon={Briefcase}
@@ -78,15 +87,6 @@ export default async function AdminDashboardPage() {
                     description={`${users.activeUsers} active, ${users.bannedUsers} banned`}
                     color="text-purple-500"
                     bgColor="bg-purple-50 dark:bg-purple-950/30"
-                    cardBgColor="bg-gradient-to-br from-blue-700 to-blue-900"
-                />
-                <StatCard
-                    title="Total Revenue"
-                    value={`$${totalRevenue.toLocaleString()}`}
-                    icon={DollarSign}
-                    description={`${bookings.completedBookings} completed bookings`}
-                    color="text-green-500"
-                    bgColor="bg-green-50 dark:bg-green-950/30"
                     cardBgColor="bg-gradient-to-br from-blue-700 to-blue-900"
                 />
                 <StatCard

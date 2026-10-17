@@ -37,7 +37,6 @@ export function Navbar({ user }: NavbarProps) {
     // Check if current route is dashboard
     const isDashboardRoute = pathname.startsWith('/dashboard');
     const isAuthRoute = pathname.startsWith('/auth');
-    const isProfileRoute = pathname === '/profile';
 
     // Get dashboard href based on user role
     const getDashboardHref = () => {
@@ -49,6 +48,16 @@ export function Navbar({ user }: NavbarProps) {
         if (role === 'admin') return '/dashboard/admin';
         return '/dashboard';
     };
+
+    // Get profile href based on user role
+    const getProfileHref = () => {
+        if (!user?.data?.role) return '/dashboard';
+
+        const role = user.data.role.toLowerCase();
+        return `/dashboard/${role}/profile`;
+    };
+
+    const profileHref = getProfileHref();
 
     // Navigation items configuration
     const navItems = [
@@ -73,7 +82,7 @@ export function Navbar({ user }: NavbarProps) {
     // Handle navigation actions
     const handleNavigation = async (action: string) => {
         if (action === 'profile') {
-            router.push('/profile');
+            router.push(getProfileHref());
             return;
         }
 
@@ -173,8 +182,8 @@ export function Navbar({ user }: NavbarProps) {
                                             {/* Profile link with active state and icon */}
                                             <DropdownMenuItem asChild>
                                                 <Link
-                                                    href="/profile"
-                                                    className={`flex w-full items-center gap-3 rounded-lg px-2 py-2 ${pathname === '/profile'
+                                                    href={profileHref}
+                                                    className={`flex w-full items-center gap-3 rounded-lg px-2 py-2 ${pathname === profileHref
                                                         ? 'bg-primary text-primary-foreground'
                                                         : 'hover:bg-accent'
                                                         }`}
@@ -185,7 +194,7 @@ export function Navbar({ user }: NavbarProps) {
                                             </DropdownMenuItem>
 
                                             {/* Mobile User Actions */}
-                                            {visibleUserMenuItems
+                                            {/* {visibleUserMenuItems
                                                 .filter((item) => item.action !== 'profile')
                                                 .map((item) => (
                                                     <DropdownMenuItem
@@ -196,7 +205,7 @@ export function Navbar({ user }: NavbarProps) {
                                                         <item.icon className="size-4" />
                                                         <span>{item.label}</span>
                                                     </DropdownMenuItem>
-                                                ))}
+                                                ))} */}
 
                                             {/* Always show logout in mobile menu */}
                                             <DropdownMenuSeparator />
@@ -307,11 +316,11 @@ export function Navbar({ user }: NavbarProps) {
 
                                         {/* Menu Items */}
                                         <div className="py-2.5">
-                                            {visibleUserMenuItems.map((item) => (
+                                            {/* {visibleUserMenuItems.map((item) => (
                                                 <DropdownMenuItem
                                                     key={item.label}
                                                     asChild
-                                                    className={`rounded-lg text-accent-foreground ${item.action === 'profile' && pathname === '/profile'
+                                                    className={`rounded-lg text-accent-foreground ${item.action === 'profile' && pathname === profileHref
                                                         ? 'bg-primary/10'
                                                         : ''
                                                         }`}
@@ -322,12 +331,12 @@ export function Navbar({ user }: NavbarProps) {
                                                     >
                                                         <item.icon className="size-4" />
                                                         <span>{item.label}</span>
-                                                        {item.action === 'profile' && pathname === '/profile' && (
+                                                        {item.action === 'profile' && pathname === profileHref && (
                                                             <span className="ml-auto text-xs text-primary">Active</span>
                                                         )}
                                                     </button>
                                                 </DropdownMenuItem>
-                                            ))}
+                                            ))} */}
 
                                             {/* Always show logout button */}
                                             <DropdownMenuItem

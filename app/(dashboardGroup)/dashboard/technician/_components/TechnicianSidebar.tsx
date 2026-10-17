@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, CalendarDays, User, Home, LogOut, Clock3, User2, Mail } from "lucide-react";
+import { LayoutDashboard, CalendarDays, User, Home, LogOut, Clock3, User2, Mail, type LucideIcon } from "lucide-react";
 import { toast } from "sonner";
 import { logOut } from "@/services/logout";
 
@@ -14,13 +14,21 @@ interface TechnicianSidebarProps {
     };
 }
 
-const navLinks = [
+type NavItem = {
+    href: string;
+    label: string;
+    icon: LucideIcon;
+    exact: boolean;
+    altHrefs?: string[];
+};
+
+const navLinks: NavItem[] = [
     { href: "/dashboard/technician", label: "Overview", icon: LayoutDashboard, exact: true },
     { href: "/dashboard/technician/bookings", label: "Bookings", icon: CalendarDays, exact: false },
     { href: "/dashboard/technician/availability", label: "Availability", icon: Clock3, exact: false },
     { href: "/dashboard/technician/services", label: "Services", icon: Clock3, exact: false },
-    { href: "/dashboard/technician/updated-profile", label: "Edit Profile", icon: User, exact: false },
     { href: "/dashboard/technician/contacts", label: "Support", icon: Mail, exact: false },
+    { href: "/dashboard/technician/profile", label: "My Profile", icon: User, exact: true, altHrefs: ["/dashboard/technician/updated-profile"] },
     // { href: "/profile", label: "Profile", icon: User2, exact: true },
     { href: "/", label: "Home", icon: Home, exact: true },
 ];
@@ -63,7 +71,7 @@ export function TechnicianSidebar({ user }: TechnicianSidebarProps) {
                 <div className="space-y-0.5 p-2">
                     {navLinks.map((item) => {
                         const isActive = item.exact
-                            ? pathname === item.href
+                            ? pathname === item.href || (item.altHrefs?.includes(pathname) ?? false)
                             : pathname.startsWith(item.href);
 
                         return (

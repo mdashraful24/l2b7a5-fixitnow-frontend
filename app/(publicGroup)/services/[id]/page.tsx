@@ -89,14 +89,14 @@ export default async function ServiceDetailsPage({
                         {/* Left */}
                         <div className="min-w-0">
                             {/* Image */}
-                            <div className="group relative h-72 overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 shadow-sm sm:h-96 lg:h-150 dark:border-border dark:bg-muted">
+                            <div className="group relative h-72 sm:h-96 lg:h-140 overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 shadow-sm dark:border-border dark:bg-muted">
                                 {service.serviceImage ? (
                                     <Image
                                         src={service.serviceImage}
                                         alt={service.title}
                                         fill
                                         priority
-                                        className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                                        className="transition-transform duration-700 group-hover:scale-[1.02]"
                                         unoptimized
                                     />
                                 ) : (

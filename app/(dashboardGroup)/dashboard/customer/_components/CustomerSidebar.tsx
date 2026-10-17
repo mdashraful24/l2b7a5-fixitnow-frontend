@@ -2,17 +2,25 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, CalendarDays, User, LogOut, Home, MessageCircle } from "lucide-react";
+import { LayoutDashboard, CalendarDays, User, LogOut, Home, MessageCircle, type LucideIcon } from "lucide-react";
 import { logOut } from "@/services/logout";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { CustomerSidebarProps } from "@/lib/type";
 
-const navLinks = [
+type NavItem = {
+    href: string;
+    label: string;
+    icon: LucideIcon;
+    exact: boolean;
+    altHrefs?: string[];
+};
+
+const navLinks: NavItem[] = [
     { href: "/dashboard/customer", label: "Overview", icon: LayoutDashboard, exact: true },
     { href: "/dashboard/customer/bookings", label: "My Bookings", icon: CalendarDays, exact: false },
-    { href: "/dashboard/customer/update-profile", label: "Update Profile", icon: User, exact: true },
     { href: "/dashboard/customer/contacts", label: "Support", icon: MessageCircle, exact: true },
+    { href: "/dashboard/customer/profile", label: "My Profile", icon: User, exact: true, altHrefs: ["/dashboard/customer/update-profile"] },
     { href: "/", label: "Home", icon: Home, exact: true },
 ];
 
@@ -56,7 +64,7 @@ export function CustomerSidebar({ user }: CustomerSidebarProps) {
                 <div className="p-2 space-y-0.5">
                     {navLinks.map((item) => {
                         const isActive = item.exact
-                            ? pathname === item.href
+                            ? pathname === item.href || (item.altHrefs?.includes(pathname) ?? false)
                             : pathname.startsWith(item.href);
                         return (
                             <Link

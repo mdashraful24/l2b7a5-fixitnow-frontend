@@ -113,7 +113,7 @@ export default async function TechnicianDashboardPage() {
             />
 
             {/* Data Table Section */}
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            {/* <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
                 <div className="flex items-center justify-between gap-4 mb-4">
                     <div>
                         <h2 className="text-lg font-semibold text-foreground">Recent Bookings</h2>
@@ -124,7 +124,7 @@ export default async function TechnicianDashboardPage() {
                     </Link>
                 </div>
                 <BookingsTable bookings={recentBookings} />
-            </div>
+            </div> */}
         </div>
     );
 }

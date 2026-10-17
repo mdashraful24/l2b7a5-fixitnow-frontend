@@ -35,9 +35,9 @@ export default function MyProfile({ user }: MyProfileProps) {
     // Get the update profile URL based on user role
     const getUpdateProfileUrl = () => {
         if (isAdmin) return "/dashboard/admin/update-profile";
-        if (isTechnician) return "/dashboard/technician/update-profile";
+        if (isTechnician) return "/dashboard/technician/updated-profile";
         if (isCustomer) return "/dashboard/customer/update-profile";
-        return "/profile/update"; // fallback
+        return "/dashboard"; // fallback
     };
 
     // Get role-specific note
@@ -106,9 +106,9 @@ export default function MyProfile({ user }: MyProfileProps) {
                                             </Link>
                                         </Button>
                                     </TooltipTrigger>
-                                    <TooltipContent side="left" className="max-w-xs" sideOffset={5}>
+                                    {/* <TooltipContent side="left" className="max-w-xs" sideOffset={5}>
                                         <p>{getUpdateNote()}</p>
-                                    </TooltipContent>
+                                    </TooltipContent> */}
                                 </Tooltip>
                             </TooltipProvider>
                         </div>

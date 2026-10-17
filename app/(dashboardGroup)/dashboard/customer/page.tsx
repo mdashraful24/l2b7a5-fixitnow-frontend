@@ -120,7 +120,7 @@ export default async function CustomerDashboardPage({
                 </div>
 
                 {/* Bookings List */}
-                <div className="mt-6 space-y-4">
+                {/* <div className="mt-6 space-y-4">
                     {bookings.length === 0 ? (
                         <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card py-16 text-center">
                             <CalendarDays className="h-12 w-12 text-muted-foreground" />
@@ -146,7 +146,7 @@ export default async function CustomerDashboardPage({
                             />
                         ))
                     )}
-                </div>
+                </div> */}
             </div>
         </div>
     );

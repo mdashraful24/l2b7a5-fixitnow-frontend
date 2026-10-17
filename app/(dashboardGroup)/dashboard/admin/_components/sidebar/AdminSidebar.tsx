@@ -2,19 +2,27 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, CalendarDays, User, LogOut, Home, Users } from "lucide-react";
+import { LayoutDashboard, CalendarDays, User, LogOut, Home, Users, type LucideIcon } from "lucide-react";
 import { logOut } from "@/services/logout";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { AdminSidebarProps } from "@/lib/type";
 
-const navLinks = [
+type NavItem = {
+    href: string;
+    label: string;
+    icon: LucideIcon;
+    exact: boolean;
+    altHrefs?: string[];
+};
+
+const navLinks: NavItem[] = [
     { href: "/dashboard/admin", label: "Overview", icon: LayoutDashboard, exact: true },
     { href: "/dashboard/admin/users", label: "Users", icon: Users, exact: false },
     { href: "/dashboard/admin/bookings", label: "Bookings", icon: CalendarDays, exact: false },
     { href: "/dashboard/admin/categories", label: "Categories", icon: CalendarDays, exact: false },
     { href: "/dashboard/admin/contacts", label: "Messages", icon: CalendarDays, exact: true },
-    { href: "/dashboard/admin/update-profile", label: "Update Profile", icon: User, exact: true },
+    { href: "/dashboard/admin/profile", label: "My Profile", icon: User, exact: true, altHrefs: ["/dashboard/admin/update-profile"] },
     { href: "/", label: "Home", icon: Home, exact: true },
 ];
 
@@ -58,7 +66,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
                 <div className="p-2 space-y-0.5">
                     {navLinks.map((item) => {
                         const isActive = item.exact
-                            ? pathname === item.href
+                            ? pathname === item.href || (item.altHrefs?.includes(pathname) ?? false)
                             : pathname.startsWith(item.href);
                         return (
                             <Link
