@@ -2,6 +2,11 @@
   "name": "l2b7-assignment-05",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "bun@1.4.2",
+  "trustedDependencies": [
+    "sharp",
+    "unrs-resolver"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",

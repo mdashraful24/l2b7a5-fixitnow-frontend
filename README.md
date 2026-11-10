@@ -414,14 +414,13 @@ The frontend consumes backend APIs for:
 
 ### Prerequisites
 
-* Node.js 18+
-* npm, pnpm, or yarn
+* Bun 1.4+
 * Running FixItNow backend
 
 ### Installation
 
 ```bash
-npm install
+bun install
 ```
 
 ### Environment Variables
@@ -457,7 +456,7 @@ NEXT_PUBLIC_CUSTOMER_PASSWORD=your_customer_password
 ### Run Development Server
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 Open:
@@ -469,14 +468,14 @@ http://localhost:3000
 ### Production Build
 
 ```bash
-npm run build
-npm run start
+bun run build
+bun run start
 ```
 
 ### Lint
 
 ```bash
-npm run lint
+bun run lint
 ```
 
 ---
