@@ -12,7 +12,7 @@ const AuthLayout = async ({
     const user = await getMe();
 
     return (
-        <div>
+        <div className="public-shell contents">
             <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
                 <Navbar user={user} />
                 {children}

@@ -79,7 +79,7 @@ export default function AboutUsPage() {
                         About FixItNow
                     </p>
 
-                    <h1 className="max-w-3xl text-pretty text-5xl font-semibold leading-[1.02] tracking-[-0.055em]">
+                    <h1 className="max-w-3xl text-pretty text-3xl font-semibold leading-[1.02] tracking-[-0.055em] sm:text-4xl lg:text-5xl">
                         Your home deserves the right help.
                     </h1>
 

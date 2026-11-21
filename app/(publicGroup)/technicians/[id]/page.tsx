@@ -19,7 +19,7 @@ export default async function TechnicianByIdPage({
     const technician = response.data;
 
     return (
-        <div className="lg:container mx-auto max-w-7xl px-4 py-10">
+        <div className="container mx-auto px-4 py-10">
             <Suspense fallback={<TechnicianProfileSkeleton />}>
                 <TechnicianProfile technician={technician} />
             </Suspense>

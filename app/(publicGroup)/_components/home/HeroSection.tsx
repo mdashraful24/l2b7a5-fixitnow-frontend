@@ -91,14 +91,14 @@ export function HeroSection() {
     return (
         <section className="relative isolate min-h-[65vh] overflow-hidden text-foreground">
             {/* Hero content */}
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_minmax(430px,.9fr)] items-center gap-8 lg:gap-[7vw] container mx-auto px-4 min-h-[calc(62vh-4rem)] pt-14">
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_minmax(360px,.85fr)] xl:grid-cols-[1fr_minmax(430px,.9fr)] items-center gap-8 lg:gap-[5vw] xl:gap-[7vw] container mx-auto px-4 min-h-[calc(62vh-4rem)] pt-14">
                 {/* Left column */}
                 <div className="max-w-xl">
                     <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.08em] text-blue-600">
                         <span className="h-1.75 w-1.75 rounded-full bg-blue-500" />
                         {slide.eyebrow}
                     </div>
-                    <h1 className="max-w-162.5 mt-4 mb-4.5 text-6xl font-extrabold tracking-tight">
+                    <h1 className="max-w-162.5 mt-4 mb-4.5 text-4xl font-extrabold tracking-tight sm:text-5xl xl:text-6xl">
                         {slide.title}
                     </h1>
                     <p className="max-w-2xl text-[17px] leading-[1.55] text-foreground">

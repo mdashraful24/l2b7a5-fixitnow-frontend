@@ -11,7 +11,7 @@ const PublicLayout = async ({
     const user = await getMe();
 
     return (
-        <div>
+        <div className="public-shell contents">
             <Navbar user={user} />
             {children}
             <Footer />
