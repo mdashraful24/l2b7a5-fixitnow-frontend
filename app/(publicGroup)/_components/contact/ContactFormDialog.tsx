@@ -242,7 +242,7 @@ const ContactFormDialog = ({
                     {trigger}
                 </DialogTrigger>
             )}
-            <DialogContent className={cn("sm:max-w-125 max-h-[90vh] overflow-y-auto", className)}>
+            <DialogContent className={cn("sm:max-w-125 max-h-[90vh] overflow-y-auto no-scrollbar", className)}>
                 <DialogHeader>
                     <DialogTitle className="text-2xl font-bold">
                         Send Us a Message
