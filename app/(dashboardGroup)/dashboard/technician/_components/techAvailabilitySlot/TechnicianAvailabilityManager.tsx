@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import {
@@ -49,6 +49,17 @@ export function TechnicianAvailabilityManager({
         endAt: "",
         isAvailable: true,
     });
+
+    useEffect(() => {
+        if (!isModalOpen) return;
+
+        const originalOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+
+        return () => {
+            document.body.style.overflow = originalOverflow;
+        };
+    }, [isModalOpen]);
 
     // Sort slots by creation date (newest first)
     const sortedSlots = useMemo(
@@ -110,9 +121,8 @@ export function TechnicianAvailabilityManager({
             } else {
                 toast.error(result.message || "Unable to create slot");
             }
-        } catch (error) {
+        } catch {
             toast.error("An error occurred while creating the slot");
-            // console.error(error);
         } finally {
             setCreating(false);
         }
@@ -150,15 +160,15 @@ export function TechnicianAvailabilityManager({
             {/* Modal Overlay */}
             {isModalOpen && (
                 <div
-                    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm transition-opacity"
+                    className="fixed inset-0 z-100 flex h-dvh w-full items-center justify-center overflow-y-auto bg-black/60 p-3 backdrop-blur-md transition-opacity sm:p-4"
                     onClick={closeModal}
                 >
                     <div
-                        className="relative w-full max-w-3xl bg-card rounded-2xl shadow-2xl border border-border overflow-hidden transition-transform"
+                        className="relative flex max-h-[calc(100dvh-1.5rem)] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl transition-transform sm:max-h-[90vh]"
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* Modal Header */}
-                        <div className="px-6 py-5 border-b border-border bg-linear-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-950/20 dark:to-indigo-950/20">
+                        <div className="shrink-0 border-b border-border bg-linear-to-r from-blue-50/50 to-indigo-50/50 px-4 py-4 dark:from-blue-950/20 dark:to-indigo-950/20 sm:px-6 sm:py-5">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
@@ -180,8 +190,9 @@ export function TechnicianAvailabilityManager({
                         </div>
 
                         {/* Modal Body */}
-                        <form onSubmit={handleCreate} className="p-6">
-                            <div className="rounded-2xl border border-border/70 bg-muted/20 p-4">
+                        <form onSubmit={handleCreate} className="flex min-h-0 flex-1 flex-col">
+                            <div className="min-h-0 flex-1 overflow-y-auto no-scrollbar p-4 sm:p-6">
+                                <div className="rounded-2xl border border-border/70 bg-muted/20 p-4">
                                 <div className="mb-4 flex items-start justify-between gap-3">
                                     <div>
                                         <p className="text-sm font-semibold text-foreground">New availability window</p>
@@ -249,9 +260,10 @@ export function TechnicianAvailabilityManager({
                                     </div>
                                 </div>
                             </div>
+                            </div>
 
                             {/* Modal Footer */}
-                            <div className="mt-6 flex justify-end gap-3">
+                            <div className="shrink-0 border-t border-border/70 bg-card px-4 py-4 sm:px-6 flex justify-end gap-3">
                                 <button
                                     type="button"
                                     onClick={closeModal}

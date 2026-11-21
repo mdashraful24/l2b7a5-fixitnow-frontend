@@ -64,10 +64,12 @@ export default async function TechnicianBookingsPage({
                     <h1 className="mt-1 text-2xl font-bold text-foreground">Incoming booking requests</h1>
                     <p className="mt-1 text-sm text-foreground/80">Accept, decline, start, and complete assigned jobs from one place.</p>
                 </div>
-                <Link href="/dashboard/technician/availability" className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90">
-                    <CalendarDays className="h-4 w-4" />
-                    Adjust schedule
-                </Link>
+                <div className="max-w-72">
+                    <Link href="/dashboard/technician/availability" className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90">
+                        <CalendarDays className="h-4 w-4" />
+                        Adjust schedule
+                    </Link>
+                </div>
             </div>
 
             {/* Stats Cards - keep as is */}
@@ -88,7 +90,7 @@ export default async function TechnicianBookingsPage({
             </div>
 
             {/* Tabs - keep as is but preserve page param */}
-            <div className="flex flex-wrap gap-2 border-b border-border pb-4">
+            <div className="flex flex-wrap justify-center md:justify-start gap-2 border-b border-border pb-4">
                 {statusTabs.map((tab) => {
                     const isActive = activeStatus === tab.value;
                     const href = tab.value === "ALL"

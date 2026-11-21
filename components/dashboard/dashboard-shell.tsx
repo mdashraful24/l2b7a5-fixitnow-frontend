@@ -20,11 +20,13 @@ import {
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { logOut } from "@/services/logout";
 import {
     dashboardNav,
     dashboardQuickLinks,
+    dashboardRoleLabel,
     type DashboardRole,
 } from "./dashboard-nav";
 
@@ -64,6 +66,7 @@ export function DashboardShell({ role, user, children }: DashboardShellProps) {
         () => theme ?? "system",
         getServerTheme,
     );
+    const [open, setOpen] = useState(false);
     const [collapsed, setCollapsed] = useState(false);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
     const userMenuRef = useRef<HTMLDivElement>(null);
@@ -121,8 +124,8 @@ export function DashboardShell({ role, user, children }: DashboardShellProps) {
             aria-expanded={userMenuOpen}
             aria-haspopup="menu"
             className={`flex w-full items-center rounded-lg text-left transition-colors hover:bg-card ${isCollapsed
-                    ? "justify-center p-1"
-                    : "gap-3 bg-card p-3"
+                ? "justify-center p-1"
+                : "gap-3 bg-card p-3"
                 }`}
         >
             <Avatar className="size-9 shrink-0">
@@ -154,8 +157,8 @@ export function DashboardShell({ role, user, children }: DashboardShellProps) {
         <div className="flex h-full flex-col bg-muted/30">
             <div
                 className={`flex h-16 shrink-0 items-center border-b border-border/70 ${isCollapsed
-                        ? "justify-center px-2"
-                        : "gap-2 px-3"
+                    ? "justify-center px-2 -mr-3"
+                    : "gap-2 px-5"
                     }`}
             >
                 <Tooltip>
@@ -165,7 +168,7 @@ export function DashboardShell({ role, user, children }: DashboardShellProps) {
                             size="icon"
                             onClick={onToggle}
                             aria-label="Toggle dashboard navigation"
-                            className="shrink-0 text-muted-foreground hover:text-foreground"
+                            className="hidden md:block shrink-0 text-muted-foreground hover:text-foreground"
                         >
                             <Menu className="size-5" />
                         </Button>
@@ -199,8 +202,8 @@ export function DashboardShell({ role, user, children }: DashboardShellProps) {
                                         href={item.href}
                                         onClick={onNavigate}
                                         className={`flex items-center rounded-full text-sm font-medium transition-colors ${isCollapsed
-                                                ? "justify-center px-0 py-2.5"
-                                                : "gap-3 px-3 py-2.5"
+                                            ? "justify-center px-0 py-2.5"
+                                            : "gap-3 px-3 py-2.5"
                                             } ${active
                                                 ? "bg-primary/10 text-primary dark:bg-primary/15"
                                                 : "text-muted-foreground hover:bg-card hover:text-foreground"
@@ -235,8 +238,8 @@ export function DashboardShell({ role, user, children }: DashboardShellProps) {
                     role="menu"
                     aria-hidden={!userMenuOpen}
                     className={`absolute bottom-full left-2 z-100 mb-2 w-67 origin-bottom transition-all duration-200 ease-out ${userMenuOpen
-                            ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
-                            : "pointer-events-none translate-y-2 scale-95 opacity-0"
+                        ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
+                        : "pointer-events-none translate-y-2 scale-95 opacity-0"
                         }`}
                 >
                     <div className="rounded-xl border border-border bg-popover p-2 shadow-xl backdrop-blur">
@@ -336,8 +339,8 @@ export function DashboardShell({ role, user, children }: DashboardShellProps) {
                                             setUserMenuOpen(false);
                                         }}
                                         className={`flex flex-col items-center gap-1 rounded-lg px-1 py-2 text-[11px] font-medium transition-colors ${active
-                                                ? "bg-primary/10 text-primary"
-                                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                            ? "bg-primary/10 text-primary"
+                                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
                                             }`}
                                     >
                                         <Icon className="size-4" />
@@ -375,7 +378,7 @@ export function DashboardShell({ role, user, children }: DashboardShellProps) {
     return (
         <div className="flex min-h-screen bg-background">
             <aside
-                className={`relative z-50 shrink-0 border-r border-border/70 bg-muted/30 ${collapsed ? "w-19" : "w-66"
+                className={`relative z-50 hidden shrink-0 border-r border-border/70 bg-muted/30 md:block ${collapsed ? "w-19" : "w-66"
                     }`}
             >
                 <div className="sticky top-0 z-50 h-screen">
@@ -384,6 +387,30 @@ export function DashboardShell({ role, user, children }: DashboardShellProps) {
             </aside>
 
             <div className="min-w-0 flex-1">
+                <div className="sticky top-0 z-40 flex h-14 items-center justify-between gap-3 border-b border-border/70 bg-background/90 px-4 backdrop-blur md:hidden">
+                    <div className="flex min-w-0 items-center gap-2">
+                        <span className="brand-mark">
+                            <Wrench size={17} strokeWidth={2.5} />
+                        </span>
+                        <div className="min-w-0">
+                            <p className="truncate font-bold text-foreground">FixIt<span className="text-[#425eff]">Now</span></p>
+                            <p className="truncate text-xs text-muted-foreground">{dashboardRoleLabel[role]}</p>
+                        </div>
+                    </div>
+
+                    <Sheet open={open} onOpenChange={setOpen}>
+                        <SheetTrigger asChild>
+                            <Button variant="outline" size="icon" aria-label="Open dashboard navigation">
+                                <Menu className="size-4" />
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent side="left" className="w-75 p-0 sm:max-w-75">
+                            <SheetTitle className="sr-only">Dashboard navigation</SheetTitle>
+                            {sidebar(false, () => setOpen(false), () => setOpen(false))}
+                        </SheetContent>
+                    </Sheet>
+                </div>
+
                 <div className="mx-auto w-full max-w-[1600px] px-4 py-6 sm:px-6 md:py-8 lg:px-8">
                     <main className="space-y-6">{children}</main>
                 </div>

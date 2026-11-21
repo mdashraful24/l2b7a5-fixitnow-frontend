@@ -121,8 +121,8 @@ export const TestimonialsCarousel = ({
                 })}
             </CarouselContent>
 
-            <CarouselPrevious className="hidden lg:flex size-10 border-border bg-card text-foreground hover:border-primary hover:bg-primary hover:text-primary-foreground" />
-            <CarouselNext className="hidden lg:flex size-10 border-border bg-card text-foreground hover:border-primary hover:bg-primary hover:text-primary-foreground" />
+            {/* <CarouselPrevious className="hidden lg:flex size-10 border-border bg-card text-foreground hover:border-primary hover:bg-primary hover:text-primary-foreground" />
+            <CarouselNext className="hidden lg:flex size-10 border-border bg-card text-foreground hover:border-primary hover:bg-primary hover:text-primary-foreground" /> */}
         </Carousel>
     );
 };
