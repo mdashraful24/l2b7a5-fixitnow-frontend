@@ -1,8 +1,19 @@
 import type { NextConfig } from "next";
 
+const backendUrl = (
+  process.env.BACKEND_URL?.trim() || "http://localhost:5000"
+).replace(/\/+$/, "");
+
 const nextConfig: NextConfig = {
-  /* config options here */
   cacheComponents: true,
+  async rewrites() {
+    return [
+      {
+        source: "/api/v1/:path*",
+        destination: `${backendUrl}/api/v1/:path*`,
+      },
+    ];
+  },
 
   // Enable server actions with larger body size for webhooks
   experimental: {
