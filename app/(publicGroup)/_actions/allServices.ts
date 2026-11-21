@@ -1,5 +1,13 @@
 "use server";
 
+const SORT_MAPPINGS: Record<string, { sortBy: string; sortOrder: string }> = {
+    newest: { sortBy: "createdAt", sortOrder: "desc" },
+    "price-low": { sortBy: "price", sortOrder: "asc" },
+    "price-high": { sortBy: "price", sortOrder: "desc" },
+    duration: { sortBy: "duration", sortOrder: "asc" },
+    title: { sortBy: "title", sortOrder: "asc" }
+};
+
 export const getAllServices = async ({
     query
 }: {
@@ -19,6 +27,14 @@ export const getAllServices = async ({
     if (query?.rating) params.set("rating", query.rating as string);
     if (query?.page) params.set("page", query.page as string);
     if (query?.limit) params.set("limit", query.limit as string);
+
+    const sort = typeof query?.sort === "string" ? query.sort : "";
+    const sortMapping = SORT_MAPPINGS[sort];
+
+    if (sortMapping) {
+        params.set("sortBy", sortMapping.sortBy);
+        params.set("sortOrder", sortMapping.sortOrder);
+    }
 
     const res = await fetch(`${process.env.BACKEND_API_URL}/api/services?${params}`, {
         next: {

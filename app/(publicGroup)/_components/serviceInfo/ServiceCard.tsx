@@ -1,173 +1,143 @@
 "use client";
 
-import { IService } from "@/lib/type"
+import { IService } from "@/lib/type";
 import {
-    Wrench,
-    Star,
-    MapPin,
+    ArrowRight,
+    CalendarCheck,
     Clock,
     DollarSign,
-    CalendarCheck,
-    User,
     House,
-    ArrowRight
-} from "lucide-react"
+    MapPin,
+    Star,
+    User,
+    Wrench
+} from "lucide-react";
 import Image from "next/image";
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import Link from "next/link";
 
 interface ServiceCardProps {
     service: IService;
 }
 
 export function ServiceCard({ service }: ServiceCardProps) {
-    const pathname = usePathname();
     const detailsHref = `/services/${service.id}`;
-    const bookingHref = `/booking?serviceId=${service.id}`;
-
-    // Check if we're on the home page
-    const isHomePage = pathname === "/";
-
-    const reviews = service.technician.reviews || [];
-
-    const totalReviews = reviews.length;
-
-    const averageRating =
-        totalReviews > 0
-            ? reviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews
-            : 0;
-
-    const getRatingColor = (rating: number) => {
-        if (rating >= 4.5) return "text-green-600 dark:text-green-400";
-        if (rating >= 4) return "text-blue-600 dark:text-blue-400";
-        if (rating >= 3) return "text-yellow-600 dark:text-yellow-400";
-        return "text-orange-600 dark:text-orange-400";
-    };
+    const reviews = service.technician?.reviews || [];
+    const reviewAverage = reviews.length
+        ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
+        : 0;
+    const rating = reviewAverage || service.technician?.rating || 0;
+    const reviewCount = service.technician?.totalReviews || reviews.length;
 
     return (
-        <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/80 bg-white dark:bg-card shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 hover:border-primary/30 dark:hover:border-primary/30">
-            {/* Gradient overlay on hover */}
-            <div className="absolute inset-0 bg-linear-to-tr from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-            {/* Header image area with gradient */}
-            <div className="relative h-48 bg-linear-to-br from-primary/15 via-primary/5 to-transparent overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="relative">
-                        {service.serviceImage ? (
-                            <Image
-                                src={service.serviceImage}
-                                unoptimized
-                                alt={service.title}
-                                width={500}
-                                height={500}
-                                className="h-full w-full object-cover"
-                            />
-                        ) : (
-                            <div className="flex h-26 w-26 items-center justify-center rounded-3xl bg-linear-to-br from-primary/20 via-primary/10 to-transparent text-primary shadow-inner transition-transform duration-300 group-hover:scale-110">
-                                <div className="relative">
-                                    <House className="h-14 w-14" />
-                                    <Wrench className="absolute -bottom-1 -right-3 h-7 w-7 rounded-full bg-background p-1" />
-                                </div>
+        <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/80 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl">
+            <Link
+                href={detailsHref}
+                aria-label={`View ${service.title}`}
+                className="relative block aspect-[16/10] overflow-hidden bg-muted"
+            >
+                {service.serviceImage ? (
+                    <Image
+                        src={service.serviceImage}
+                        alt={service.title}
+                        fill
+                        unoptimized
+                        sizes="(min-width: 1280px) 33vw, (min-width: 640px) 50vw, 100vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                ) : (
+                    <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-primary/15 via-primary/5 to-transparent">
+                        <div className="flex size-20 items-center justify-center rounded-3xl bg-background/80 text-primary shadow-inner transition-transform duration-300 group-hover:scale-110">
+                            <div className="relative">
+                                <House className="size-10" />
+                                <Wrench className="absolute -right-2 -bottom-1 size-6 rounded-full bg-background p-0.5" />
                             </div>
-                        )}
+                        </div>
                     </div>
-                </div>
+                )}
 
-                {/* Status badges */}
-                <div className="absolute top-3 right-3 flex flex-col gap-1.5">
-                    {Number(averageRating.toFixed(1)) >= 4.5 && (
-                        <span className="flex items-center gap-1 rounded-full bg-yellow-500/90 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white shadow-lg shadow-yellow-500/30">
-                            <Star className="h-3 w-3 fill-white" />
-                            Top Rated
-                        </span>
+                <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-black/70 to-transparent" />
+
+                {rating >= 4.5 && (
+                    <span className="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-amber-400 px-2.5 py-1 text-xs font-semibold text-amber-950 shadow-lg">
+                        <Star className="size-3 fill-amber-950" />
+                        Top rated
+                    </span>
+                )}
+
+                <span className="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-full bg-background/95 px-3 py-1.5 text-sm font-bold text-foreground shadow-lg backdrop-blur-sm">
+                    <DollarSign className="size-3.5 text-emerald-500" />
+                    {service.price}
+                    {service.hourlyRate && (
+                        <span className="text-xs font-medium text-muted-foreground">/hr</span>
                     )}
-                </div>
-
-                {/* Price badge - floating */}
-                <div className="absolute bottom-3 left-3 rounded-full bg-black/80 dark:bg-black/90 backdrop-blur-sm px-4 py-1.5 text-white shadow-lg">
-                    <div className="flex items-center gap-1">
-                        <DollarSign className="h-3.5 w-3.5 text-emerald-400" />
-                        <span className="text-sm font-bold">{service.price}</span>
-                        {service.hourlyRate && (
-                            <span className="text-xs text-gray-200">/hr</span>
-                        )}
-                    </div>
-                </div>
-            </div>
+                </span>
+            </Link>
 
             <div className="flex flex-1 flex-col p-5">
-                {/* Category and title */}
-                <div className="space-y-2.5">
-                    <div className="flex items-center justify-between">
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 dark:bg-accent px-2 py-1 text-xs font-semibold text-primary dark:text-foreground transition-colors group-hover:bg-primary/20">
-                            <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                            {service.category.name}
+                <div className="flex items-center justify-between gap-3">
+                    <span className="inline-flex max-w-[70%] items-center gap-1.5 truncate rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
+                        <span className="size-1.5 shrink-0 rounded-full bg-primary" />
+                        <span className="truncate">{service.category?.name}</span>
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-sm font-semibold text-foreground">
+                        <Star className="size-3.5 fill-amber-400 text-amber-400" />
+                        {rating.toFixed(1)}
+                        {reviewCount > 0 && (
+                            <span className="text-xs font-normal text-muted-foreground">({reviewCount})</span>
+                        )}
+                    </span>
+                </div>
+
+                <Link
+                    href={detailsHref}
+                    className="mt-3 line-clamp-2 text-lg font-bold text-foreground transition-colors group-hover:text-primary"
+                >
+                    {service.title}
+                </Link>
+                <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+                    {service.description}
+                </p>
+
+                <div className="my-4 h-px bg-border/70" />
+
+                <div className="flex items-center justify-between gap-3 text-sm">
+                    <div className="flex min-w-0 items-center gap-2">
+                        <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                            <User className="size-4" />
                         </span>
-                        <div className="flex items-center gap-1">
-                            <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
-                            <span className={`text-sm font-semibold ${getRatingColor(averageRating)}`}>
-                                {averageRating.toFixed(1)}
-                            </span>
+                        <div className="min-w-0">
+                            <p className="truncate font-semibold text-foreground">
+                                {service.technician?.user?.name}
+                            </p>
+                            <p className="flex items-center gap-1 truncate text-xs text-muted-foreground">
+                                <MapPin className="size-3 shrink-0" />
+                                {service.technician?.location}
+                            </p>
                         </div>
                     </div>
-
-                    <h3 className="line-clamp-1 text-xl font-bold text-gray-900 dark:text-foreground transition-colors group-hover:text-primary">
-                        {service.title}
-                    </h3>
-
-                    <p className="text-gray-600 dark:text-muted-foreground leading-relaxed line-clamp-2">
-                        {service.description}
-                    </p>
+                    <span className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-muted-foreground">
+                        <Clock className="size-3.5" />
+                        {service.duration} min
+                    </span>
                 </div>
 
-                {/* Divider */}
-                <div className="my-3 h-px bg-linear-to-r from-transparent via-gray-200 dark:via-gray-700 to-transparent" />
-
-                {/* Technician info */}
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 dark:bg-primary/30 text-primary dark:text-blue-500">
-                            <User className="h-4 w-4" />
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <span className="text-sm font-semibold text-gray-800 dark:text-foreground">
-                                {service.technician.user.name}
-                            </span>
-                            <div className="flex items-center gap-1 text-xs text-foreground/80">
-                                <MapPin className="h-3 w-3" />
-                                <span>{service.technician.location}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-1 text-sm text-foreground/80">
-                        <Clock className="h-3.5 w-3.5" />
-                        <span className="font-medium text-gray-700 dark:text-foreground/80">{service.duration} min</span>
-                    </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="mt-4 grid grid-cols-2 gap-2.5">
+                <div className="mt-5 grid grid-cols-2 gap-2">
                     <Link
-                        href={`/technicians/${service.technician.id}`}
-                        className="group/btn flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-card px-3 py-2 text-sm font-semibold text-gray-700 dark:text-foreground transition-all hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
+                        href={`/technicians/${service.technician?.id}`}
+                        className="inline-flex h-10 items-center justify-center gap-1.5 rounded-xl border border-border/70 bg-background px-3 text-sm font-semibold text-foreground transition-colors hover:border-primary/40 hover:bg-primary/5 hover:text-primary dark:bg-card"
                     >
-                        <span>Technician</span>
-                        <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
+                        Technician
+                        <ArrowRight className="size-4" />
                     </Link>
-
-                    {/* View Details Button - Always visible */}
                     <Link
                         href={detailsHref}
-                        className="flex items-center justify-center gap-2 rounded-xl bg-linear-to-r from-primary to-primary/80 px-3 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:shadow-xl hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98]"
+                        className="inline-flex h-10 items-center justify-center gap-1.5 rounded-xl bg-primary px-3 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/85 hover:shadow-md active:scale-[0.98]"
                     >
-                        <CalendarCheck className="h-4 w-4" />
-                        View Details
+                        <CalendarCheck className="size-4" />
+                        View details
                     </Link>
                 </div>
             </div>
-
-            {/* Decorative corner accent */}
-            <div className="absolute bottom-0 right-0 h-20 w-20 bg-linear-to-tl from-primary/5 to-transparent rounded-tl-full pointer-events-none" />
-        </div>
-    )
+        </article>
+    );
 }

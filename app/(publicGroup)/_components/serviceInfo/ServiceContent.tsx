@@ -26,6 +26,7 @@ const ServiceContent = async () => {
                 services={services}
                 meta={meta}
                 showPagination={false}
+                showHeading={false}
             />
 
             {meta.total > 6 && (
