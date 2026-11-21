@@ -1,4 +1,3 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MyProfileProps } from "@/lib/type";
@@ -17,16 +16,10 @@ import {
 import Link from "next/link";
 import InfoCard from "./InfoCard";
 import InfoItem from "./InfoItem";
+import { ProfilePictureUpload } from "./ProfilePictureUpload";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "radix-ui/tooltip";
 
 export default function MyProfile({ user }: MyProfileProps) {
-    const initials = user.name
-        ?.split(" ")
-        .slice(0, 2)
-        .map((word) => word[0])
-        .join("")
-        .toUpperCase();
-
     const isActive = user.status === "ACTIVE";
     const isTechnician = user.role === "TECHNICIAN";
     const isAdmin = user.role === "ADMIN";
@@ -49,20 +42,16 @@ export default function MyProfile({ user }: MyProfileProps) {
     };
 
     return (
-        <div className="bg-linear-to-br from-background via-background to-secondary/5">
+        <div className="bg-linear-to-br from-background via-background to-secondary/5 p-6 rounded-2xl shadow-sm">
             {/* Hero Section - Improved Responsiveness */}
-            <div className="mb-10">
+            <div className="mb-14">
                 <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
                     {/* Avatar - Centered on mobile, left-aligned on larger screens */}
-                    <div className="relative shrink-0">
-                        <Avatar className="h-30 w-30 border-4 shadow-xl transition-all duration-300">
-                            <AvatarFallback className="bg-primary text-3xl font-bold text-primary-foreground">
-                                {initials}
-                            </AvatarFallback>
-                        </Avatar>
-                        <span className={`absolute bottom-1 right-1 h-6 w-6 rounded-full border-4 border-background transition-colors duration-300 ${isActive ? "bg-green-500" : "bg-gray-400"}`}
-                        />
-                    </div>
+                    <ProfilePictureUpload
+                        name={user.name}
+                        imageUrl={user.imageUrl}
+                        isActive={isActive}
+                    />
 
                     {/* User Info - Centered on mobile, left-aligned on larger screens */}
                     <div className="flex-1 text-center sm:text-left min-w-0">

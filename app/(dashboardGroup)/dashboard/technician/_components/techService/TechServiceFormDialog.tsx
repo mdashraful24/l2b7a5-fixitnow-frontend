@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client"
 
 import { Button } from "@/components/ui/button";
@@ -8,7 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { PencilIcon, PlusIcon } from "lucide-react";
-import { useActionState, useEffect, useState } from "react";
+import Image from "next/image";
+import { useActionState, useEffect, useState, type ChangeEvent } from "react";
 import { toast } from "sonner";
 import { ICategory, ITechService } from "@/lib/type";
 import { createService, updatedService } from "@/app/(dashboardGroup)/_actions/technician";
@@ -22,6 +24,23 @@ type ServiceFormDialogProps = {
 export function TechServiceFormDialog({ mode, service, categories }: ServiceFormDialogProps) {
     const [open, setOpen] = useState(false);
     const [selectedCategoryId, setSelectedCategoryId] = useState(service?.categoryId ?? service?.category?.id ?? "");
+    const [imagePreview, setImagePreview] = useState<string | null>(service?.serviceImage ?? null);
+
+    useEffect(() => {
+        setSelectedCategoryId(service?.categoryId ?? service?.category?.id ?? "");
+        setImagePreview(service?.serviceImage ?? null);
+    }, [service, open]);
+
+    useEffect(() => () => {
+        if (imagePreview?.startsWith("blob:")) {
+            URL.revokeObjectURL(imagePreview);
+        }
+    }, [imagePreview]);
+
+    const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        setImagePreview(file ? URL.createObjectURL(file) : service?.serviceImage ?? null);
+    };
 
     const action = mode === "edit" && service
         ? updatedService.bind(null, service.id)
@@ -34,7 +53,6 @@ export function TechServiceFormDialog({ mode, service, categories }: ServiceForm
 
         if (state.success) {
             toast.success(state.message || (mode === "edit" ? "Service updated successfully" : "Service created successfully"));
-            // eslint-disable-next-line react-hooks/set-state-in-effect -- closing the dialog is the intended reaction to the server action's result, not a render loop
             setOpen(false);
         } else {
             toast.error(state.message || "Something went wrong");
@@ -86,18 +104,30 @@ export function TechServiceFormDialog({ mode, service, categories }: ServiceForm
                         )}
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="serviceImage" className="text-foreground">Service Image URL</Label>
+                        <Label htmlFor="serviceImage" className="text-foreground">Service Image</Label>
                         <Input
                             id="serviceImage"
                             name="serviceImage"
-                            type="url"
-                            placeholder="https://example.com/image.jpg"
-                            defaultValue={service?.serviceImage || ""}
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            className="cursor-pointer"
                         />
                         {state?.fieldErrors?.serviceImage && (
                             <p className="text-sm text-destructive">
                                 {state.fieldErrors.serviceImage}
                             </p>
+                        )}
+                        {imagePreview && (
+                            <div className="relative h-32 w-full overflow-hidden rounded-lg border border-border">
+                                <Image
+                                    src={imagePreview}
+                                    alt="Service image preview"
+                                    fill
+                                    unoptimized
+                                    className="object-cover"
+                                />
+                            </div>
                         )}
                     </div>
                     <div className="grid grid-cols-2 gap-4">

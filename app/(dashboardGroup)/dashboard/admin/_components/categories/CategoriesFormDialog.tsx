@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { PencilIcon, PlusIcon } from "lucide-react";
-import { useActionState, useEffect, useState } from "react";
+import Image from "next/image";
+import { useActionState, useEffect, useState, type ChangeEvent } from "react";
 import { toast } from "sonner";
 import { ICategory } from "@/lib/type";
 import { createCategory, updateCategory } from "@/app/(dashboardGroup)/_actions/admin";
@@ -22,10 +23,25 @@ type CategoriesFormDialogProps = {
 export function CategoriesFormDialog({ mode, category }: CategoriesFormDialogProps) {
     const [open, setOpen] = useState(false);
     const [isActive, setIsActive] = useState(category?.isActive ?? true);
+    const [imagePreview, setImagePreview] = useState<string | null>(
+        category?.categoryImage ?? category?.icon ?? null
+    );
 
     useEffect(() => {
         setIsActive(category?.isActive ?? true);
-    }, [category]);
+        setImagePreview(category?.categoryImage ?? category?.icon ?? null);
+    }, [category, open]);
+
+    useEffect(() => () => {
+        if (imagePreview?.startsWith("blob:")) {
+            URL.revokeObjectURL(imagePreview);
+        }
+    }, [imagePreview]);
+
+    const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        setImagePreview(file ? URL.createObjectURL(file) : category?.categoryImage ?? category?.icon ?? null);
+    };
 
     const action = mode === "edit" && category
         ? updateCategory.bind(null, category.id)
@@ -99,11 +115,37 @@ export function CategoriesFormDialog({ mode, category }: CategoriesFormDialogPro
                         <Input
                             id="icon"
                             name="icon"
-                            defaultValue={category?.icon}
+                            defaultValue={category?.icon ?? ""}
                             placeholder="https://example.com/icons/category.png"
                         />
                         {state?.fieldErrors?.icon && (
                             <p className="text-sm text-destructive">{state.fieldErrors.icon}</p>
+                        )}
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label htmlFor="categoryImage" className="text-foreground">Category Image</Label>
+                        <Input
+                            id="categoryImage"
+                            name="categoryImage"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            className="cursor-pointer"
+                        />
+                        {state?.fieldErrors?.categoryImage && (
+                            <p className="text-sm text-destructive">{state.fieldErrors.categoryImage}</p>
+                        )}
+                        {imagePreview && (
+                            <div className="relative h-24 w-full overflow-hidden rounded-lg border border-border">
+                                <Image
+                                    src={imagePreview}
+                                    alt="Category image preview"
+                                    fill
+                                    unoptimized
+                                    className="object-cover"
+                                />
+                            </div>
                         )}
                     </div>
 

@@ -1,5 +1,6 @@
 'use client';
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -149,9 +150,14 @@ export function Navbar({ user }: NavbarProps) {
                                             {/* User info */}
                                             <div className="mb-2">
                                                 <div className="flex items-center gap-3 rounded-lg bg-secondary/50 p-2">
-                                                    <div className="flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs">
-                                                        {initials || <User className="size-4" />}
-                                                    </div>
+                                                    <Avatar className="size-8">
+                                                        {user?.data?.imageUrl && (
+                                                            <AvatarImage src={user.data.imageUrl} alt={user.data.name} />
+                                                        )}
+                                                        <AvatarFallback className="bg-primary text-xs text-primary-foreground">
+                                                            {initials || <User className="size-4" />}
+                                                        </AvatarFallback>
+                                                    </Avatar>
                                                     <div className="flex-1 min-w-0">
                                                         <p className="truncate text-sm font-medium">
                                                             {user?.data?.name || 'User'}
@@ -278,9 +284,14 @@ export function Navbar({ user }: NavbarProps) {
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <div className="cursor-pointer">
-                                        <div className="flex size-10 items-center justify-center rounded-full bg-primary text-white">
-                                            {initials || <User className="size-5 text-primary" />}
-                                        </div>
+                                        <Avatar className="size-10">
+                                            {user?.data?.imageUrl && (
+                                                <AvatarImage src={user.data.imageUrl} alt={user.data.name} />
+                                            )}
+                                            <AvatarFallback className="bg-primary text-white">
+                                                {initials || <User className="size-5 text-primary" />}
+                                            </AvatarFallback>
+                                        </Avatar>
                                     </div>
                                 </DropdownMenuTrigger>
 
@@ -292,9 +303,14 @@ export function Navbar({ user }: NavbarProps) {
                                         {/* User Header */}
                                         <div className="bg-linear-to-r from-primary/15 via-primary/10 to-primary/5 rounded-xl p-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="flex size-12 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                                                    {initials || <User className="size-6" />}
-                                                </div>
+                                                <Avatar className="size-12">
+                                                    {user?.data?.imageUrl && (
+                                                        <AvatarImage src={user.data.imageUrl} alt={user.data.name} />
+                                                    )}
+                                                    <AvatarFallback className="bg-primary text-primary-foreground">
+                                                        {initials || <User className="size-6" />}
+                                                    </AvatarFallback>
+                                                </Avatar>
 
                                                 <div className="flex-1">
                                                     <h4 className="whitespace-nowrap text-base font-semibold text-accent-foreground">

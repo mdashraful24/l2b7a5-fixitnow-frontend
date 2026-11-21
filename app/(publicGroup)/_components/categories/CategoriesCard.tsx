@@ -38,6 +38,7 @@ const CategoriesCard: React.FC<CategoriesCardProps> = ({ category }) => {
 
   const gradientClass = getGradientColors(category.name);
   const emoji = getCategoryEmoji(category.name);
+  const categoryImage = category.categoryImage ?? category.icon;
 
   return (
     <div
@@ -47,10 +48,10 @@ const CategoriesCard: React.FC<CategoriesCardProps> = ({ category }) => {
     >
       {/* Image Container with overlay */}
       <div className="relative h-64 w-full overflow-hidden">
-        {category.icon && !imageError ? (
+        {categoryImage && !imageError ? (
           <>
             <Image
-              src={category.icon}
+              src={categoryImage}
               alt={category.name}
               unoptimized
               fill

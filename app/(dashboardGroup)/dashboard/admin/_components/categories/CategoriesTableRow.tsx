@@ -16,6 +16,7 @@ type CategoriesTableRowProps = {
 
 export function CategoriesTableRow({ category, index }: CategoriesTableRowProps) {
     const [imageError, setImageError] = useState(false);
+    const categoryImage = category.categoryImage ?? category.icon;
 
     return (
         <TableRow className="group hover:bg-muted/50 transition-colors">
@@ -26,9 +27,9 @@ export function CategoriesTableRow({ category, index }: CategoriesTableRowProps)
             <TableCell>
                 <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center overflow-hidden text-primary flex-shrink-0">
-                        {category.icon && !imageError ? (
+                        {categoryImage && !imageError ? (
                             <Image
-                                src={category.icon}
+                                src={categoryImage}
                                 unoptimized
                                 alt={category.name}
                                 width={32}

@@ -35,6 +35,8 @@ export type IUser = {
         email: string;
         activeStatus: string;
         role: UserRole;
+        imageUrl?: string | null;
+        imagePublicId?: string | null;
         createdAt: string;
         updatedAt: string;
         technicianProfile?: TechnicianProfile;
@@ -52,6 +54,8 @@ export interface IUserProfile {
     address?: string;
     role: string;
     status: string;
+    imageUrl?: string | null;
+    imagePublicId?: string | null;
     technicianProfile?: {
         bio: string;
         skills: string[];
@@ -95,7 +99,12 @@ export interface ICategory {
     id: string;
     name: string;
     description: string;
-    icon: string;
+    icon?: string | null;
+    categoryImage?: string | null;
+    categoryImagePublicId?: string | null;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface ICreateTechServicePayload {
@@ -117,7 +126,8 @@ export interface ITechService {
     hourlyRate: number | null;
     duration: number;
     isAvailable: boolean;
-    serviceImage: string;
+    serviceImage?: string | null;
+    serviceImagePublicId?: string | null;
     categoryId: string;
     category: ICategory;
     createdAt?: string;
@@ -130,7 +140,8 @@ export interface IService {
     categoryId: string;
     title: string;
     description: string;
-    serviceImage: string;
+    serviceImage?: string | null;
+    serviceImagePublicId?: string | null;
     price: number;
     hourlyRate: number | null;
     duration: number;
@@ -550,16 +561,6 @@ export type TotalBookingsCountStats = {
     inProgressBookings?: number;
     completedBookings?: number;
     cancelledBookings?: number;
-}
-
-export interface ICategory {
-    id: string;
-    name: string;
-    description: string;
-    icon: string;
-    isActive: boolean;
-    createdAt: string;
-    updatedAt: string;
 }
 
 export interface IPayment {

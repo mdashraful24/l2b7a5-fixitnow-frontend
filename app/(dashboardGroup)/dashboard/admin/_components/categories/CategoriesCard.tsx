@@ -15,6 +15,7 @@ type CategoriesCardProps = {
 
 export function CategoriesCard({ category }: CategoriesCardProps) {
     const [imageError, setImageError] = useState(false);
+    const categoryImage = category.categoryImage ?? category.icon;
 
     // Common props for action buttons
     const buttonClassName = "transition-all duration-300";
@@ -26,9 +27,9 @@ export function CategoriesCard({ category }: CategoriesCardProps) {
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
                             <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center overflow-hidden text-primary">
-                                {category.icon && !imageError ? (
+                                {categoryImage && !imageError ? (
                                     <Image
-                                        src={category.icon}
+                                        src={categoryImage}
                                         unoptimized
                                         alt={category.name}
                                         width={50}

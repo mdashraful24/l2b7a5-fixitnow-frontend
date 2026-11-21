@@ -3,8 +3,9 @@
 import { cookies } from "next/headers";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
-import { CreateAvailabilityPayload, ICreateTechServicePayload, TechnicianActionResult, TechnicianBookingsResponse, UpdateTechnicianAvailabilityPayload, UpdateTechnicianBookingStatusPayload, UpdateTechnicianProfilePayload } from "@/lib/type";
+import { CreateAvailabilityPayload, TechnicianActionResult, TechnicianBookingsResponse, UpdateTechnicianAvailabilityPayload, UpdateTechnicianBookingStatusPayload, UpdateTechnicianProfilePayload } from "@/lib/type";
 import { getValidAccessToken } from "@/services/refreshToken";
+import { getUploadedImage, toUploadFormData, validateUploadedImage } from "@/lib/utils";
 
 const dayOptions = [
     "Sunday",
@@ -344,7 +345,6 @@ const serviceSchema = z.object({
     duration: z.coerce.number().int().positive("Duration must be greater than 0"),
     categoryId: z.string().trim().min(1, "Category is required"),
     hourlyRate: z.coerce.number().positive().optional().or(z.literal("")),
-    serviceImage: z.string().trim().url("Please enter a valid image URL").optional().or(z.literal("")),
     isAvailable: z.coerce.boolean().optional(),
 });
 
@@ -352,7 +352,6 @@ export const createService = async (prevState: unknown, formData: FormData): Pro
     const raw = {
         title: formData.get("title"),
         description: formData.get("description"),
-        serviceImage: formData.get("serviceImage") || undefined,
         price: formData.get("price"),
         duration: formData.get("duration"),
         categoryId: formData.get("categoryId"),
@@ -376,24 +375,29 @@ export const createService = async (prevState: unknown, formData: FormData): Pro
         return { success: false, message: "Not authenticated" };
     }
 
-    const payload: ICreateTechServicePayload = {
-        title: parsed.data.title,
-        description: parsed.data.description,
-        serviceImage: parsed.data.serviceImage,
-        price: parsed.data.price,
-        duration: parsed.data.duration,
-        categoryId: parsed.data.categoryId,
-        ...(typeof parsed.data.hourlyRate === "number" && { hourlyRate: parsed.data.hourlyRate }),
-        // isAvailable: parsed.data.isAvailable ?? true,
-    };
+    const imageError = validateUploadedImage(getUploadedImage(formData, "serviceImage"));
+
+    if (imageError) {
+        return {
+            success: false,
+            message: imageError,
+            fieldErrors: { serviceImage: imageError },
+        };
+    }
+
+    const payload = toUploadFormData(formData, "serviceImage");
+    payload.delete("hourlyRate");
+
+    if (typeof parsed.data.hourlyRate === "number") {
+        payload.set("hourlyRate", String(parsed.data.hourlyRate));
+    }
 
     const res = await fetch(`${process.env.BACKEND_API_URL}/api/services`, {
         method: "POST",
         headers: {
             cookie: `accessToken=${accessToken}`,
-            "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: payload,
     });
 
     const result = await res.json();
@@ -463,7 +467,6 @@ export const updatedService = async (serviceId: string, prevState: unknown, form
     const raw = {
         title: formData.get("title"),
         description: formData.get("description"),
-        serviceImage: formData.get("serviceImage"),
         price: formData.get("price"),
         duration: formData.get("duration"),
         categoryId: formData.get("categoryId"),
@@ -487,22 +490,29 @@ export const updatedService = async (serviceId: string, prevState: unknown, form
         return { success: false, message: "Not authenticated" };
     }
 
+    const imageError = validateUploadedImage(getUploadedImage(formData, "serviceImage"));
+
+    if (imageError) {
+        return {
+            success: false,
+            message: imageError,
+            fieldErrors: { serviceImage: imageError },
+        };
+    }
+
+    const payload = toUploadFormData(formData, "serviceImage");
+    payload.delete("hourlyRate");
+
+    if (typeof parsed.data.hourlyRate === "number") {
+        payload.set("hourlyRate", String(parsed.data.hourlyRate));
+    }
+
     const res = await fetch(`${process.env.BACKEND_API_URL}/api/services/${serviceId}`, {
         method: "PATCH",
         headers: {
             cookie: `accessToken=${accessToken}`,
-            "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-            title: parsed.data.title,
-            description: parsed.data.description,
-            serviceImage: parsed.data.serviceImage,
-            price: parsed.data.price,
-            duration: parsed.data.duration,
-            categoryId: parsed.data.categoryId,
-            ...(typeof parsed.data.hourlyRate === "number" && { hourlyRate: parsed.data.hourlyRate }),
-            // isAvailable: parsed.data.isAvailable,
-        }),
+        body: payload,
     });
 
     const result = await res.json();

@@ -3,6 +3,7 @@
 import { cookies } from "next/headers";
 import { revalidateTag } from "next/cache";
 import { ICategory } from "@/lib/type";
+import { getUploadedImage, toUploadFormData, validateUploadedImage } from "@/lib/utils";
 
 export const getAllUsers = async ({
     query
@@ -252,25 +253,18 @@ export const createCategory = async (prevState: ICategory, formData: FormData) =
         return { success: false, message: "Not authenticated" };
     }
 
-    const name = formData.get("name") as string;
-    const description = formData.get("description") as string;
-    const icon = formData.get("icon") as string;
-    const isActive = formData.get("isActive") === "true";
+    const imageError = validateUploadedImage(getUploadedImage(formData, "categoryImage"));
 
-    const payload = {
-        name,
-        description,
-        icon,
-        isActive
-    };
+    if (imageError) {
+        return { success: false, message: imageError, fieldErrors: { categoryImage: imageError } };
+    }
 
     const res = await fetch(`${process.env.BACKEND_API_URL}/api/admin/categories`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
             cookie: `accessToken=${accessToken}`,
         },
-        body: JSON.stringify(payload),
+        body: toUploadFormData(formData, "categoryImage"),
     });
 
     const data = await res.json();
@@ -298,20 +292,18 @@ export const updateCategory = async (categoryId: string, prevState: ICategory, f
         return { success: false, message: "Not authenticated" };
     }
 
-    const payload = {
-        name: formData.get("name") ?? "",
-        description: formData.get("description") ?? "",
-        icon: formData.get("icon") ?? "",
-        isActive: formData.get("isActive") === "true",
-    };
+    const imageError = validateUploadedImage(getUploadedImage(formData, "categoryImage"));
+
+    if (imageError) {
+        return { success: false, message: imageError, fieldErrors: { categoryImage: imageError } };
+    }
 
     const res = await fetch(`${process.env.BACKEND_API_URL}/api/admin/categories/${categoryId}`, {
         method: "PATCH",
         headers: {
-            "Content-Type": "application/json",
             cookie: `accessToken=${accessToken}`,
         },
-        body: JSON.stringify(payload),
+        body: toUploadFormData(formData, "categoryImage"),
     });
 
     const data = await res.json();
