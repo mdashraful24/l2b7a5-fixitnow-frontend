@@ -38,7 +38,7 @@ const renderCustomLabel = ({ name, percent, cx, cy, midAngle, innerRadius, outer
             style={{
                 fontSize: '12px',
                 fontWeight: '600',
-                fill: 'hsl(var(--foreground))',
+                fill: 'var(--foreground)',
                 fontFamily: 'inherit'
             }}
         >
@@ -60,7 +60,7 @@ export default function ClientCharts({
     return (
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {/* Bar Chart - Monthly Bookings */}
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border border-border/80 bg-card p-5 shadow-sm">
                 <h3 className="text-sm font-semibold text-foreground mb-4">Monthly Bookings</h3>
                 <div className="h-64">
                     {hasMonthlyData ? (
@@ -71,12 +71,12 @@ export default function ClientCharts({
                                 <YAxis />
                                 <Tooltip
                                     contentStyle={{
-                                        backgroundColor: 'hsl(var(--background))',
-                                        border: '1px solid hsl(var(--border))'
+                                        backgroundColor: 'var(--background)',
+                                        border: '1px solid var(--border)'
                                     }}
                                 />
                                 <Legend />
-                                <Bar dataKey="bookings" fill="#3b82f6" name="Bookings" />
+                                <Bar dataKey="bookings" fill="var(--chart-1)" name="Bookings" />
                             </BarChart>
                         </ResponsiveContainer>
                     ) : (
@@ -88,7 +88,7 @@ export default function ClientCharts({
             </div>
 
             {/* Pie Chart - Status Distribution */}
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border border-border/80 bg-card p-5 shadow-sm">
                 <h3 className="text-sm font-semibold text-foreground mb-4">Booking Status Distribution</h3>
                 <div className="h-64">
                     {hasStatusData ? (
@@ -101,7 +101,7 @@ export default function ClientCharts({
                                     labelLine={false}
                                     label={renderCustomLabel}
                                     outerRadius={125}
-                                    fill="#8884d8"
+                                    fill="var(--chart-2)"
                                     dataKey="value"
                                     nameKey="name"
                                 >
@@ -111,8 +111,8 @@ export default function ClientCharts({
                                 </Pie>
                                 {/* <Tooltip
                                     contentStyle={{
-                                        backgroundColor: 'hsl(var(--background))',
-                                        border: '1px solid hsl(var(--border))'
+                                        backgroundColor: 'var(--background)',
+                                        border: '1px solid var(--border)'
                                     }}
                                     formatter={(value: any) => [`${value} bookings`, 'Count']}
                                 /> */}
@@ -127,7 +127,7 @@ export default function ClientCharts({
             </div>
 
             {/* Line Chart - Weekly Trend */}
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm lg:col-span-2">
+            <div className="rounded-xl border border-border/80 bg-card p-5 shadow-sm lg:col-span-2">
                 <h3 className="text-sm font-semibold text-foreground mb-4">Weekly Booking Trend</h3>
                 <div className="h-64">
                     {hasWeeklyData ? (
@@ -138,18 +138,18 @@ export default function ClientCharts({
                                 <YAxis />
                                 <Tooltip
                                     contentStyle={{
-                                        backgroundColor: 'hsl(var(--background))',
-                                        border: '1px solid hsl(var(--border))'
+                                        backgroundColor: 'var(--background)',
+                                        border: '1px solid var(--border)'
                                     }}
                                 />
                                 <Legend />
                                 <Line
                                     type="monotone"
                                     dataKey="bookings"
-                                    stroke="#8b5cf6"
+                                    stroke="var(--chart-2)"
                                     name="Bookings"
                                     strokeWidth={2}
-                                    dot={{ stroke: '#8b5cf6', strokeWidth: 2, r: 4 }}
+                                    dot={{ stroke: 'var(--chart-2)', strokeWidth: 2, r: 4 }}
                                 />
                             </LineChart>
                         </ResponsiveContainer>

@@ -39,7 +39,7 @@ const renderCustomLabel = ({ name, percent, cx, cy, midAngle, innerRadius, outer
             style={{
                 fontSize: '12px',
                 fontWeight: '600',
-                fill: 'hsl(var(--foreground))',
+                fill: 'var(--foreground)',
                 fontFamily: 'inherit'
             }}
         >
@@ -61,7 +61,13 @@ export default function AdminCharts({
     servicePopularity,
 }: AdminChartsProps) {
     // Colors for bar charts
-    const barColors = ['#3b82f6', '#8b5cf6', '#22c55e', '#eab308', '#ef4444', '#06b6d4', '#f97316'];
+    const barColors = [
+        'var(--chart-1)',
+        'var(--chart-2)',
+        'var(--chart-3)',
+        'var(--chart-4)',
+        'var(--chart-5)',
+    ];
 
     // Check if there's data to display
     const hasMonthlyData = monthlyData.some(item => item.bookings > 0);
@@ -72,7 +78,7 @@ export default function AdminCharts({
     return (
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {/* Bar Chart - Monthly Bookings */}
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border border-border/80 bg-card p-5 shadow-sm">
                 <h3 className="text-sm font-semibold text-foreground mb-4">Monthly Bookings</h3>
                 <div className="h-64">
                     {hasMonthlyData ? (
@@ -83,16 +89,16 @@ export default function AdminCharts({
                                 <YAxis />
                                 <Tooltip
                                     contentStyle={{
-                                        backgroundColor: 'hsl(var(--background))',
-                                        border: '1px solid hsl(var(--border))'
+                                        backgroundColor: 'var(--background)',
+                                        border: '1px solid var(--border)'
                                     }}
                                 />
                                 <Legend />
-                                <Bar dataKey="bookings" fill="#3b82f6" name="Bookings" />
+                                <Bar dataKey="bookings" fill="var(--chart-1)" name="Bookings" />
                             </BarChart>
                         </ResponsiveContainer>
                     ) : (
-                        <div className="flex h-full items-center justify-center text-foreground/80 font-semibold">
+                        <div className="flex h-full items-center justify-center text-muted-foreground">
                             No booking data available
                         </div>
                     )}
@@ -100,7 +106,7 @@ export default function AdminCharts({
             </div>
 
             {/* Pie Chart - Status Distribution */}
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border border-border/80 bg-card p-5 shadow-sm">
                 <h3 className="text-sm font-semibold text-foreground mb-4">Booking Status Distribution</h3>
                 <div className="h-64">
                     {hasStatusData ? (
@@ -113,7 +119,7 @@ export default function AdminCharts({
                                     labelLine={false}
                                     label={renderCustomLabel}
                                     outerRadius={125}
-                                    fill="#8884d8"
+                                    fill="var(--chart-2)"
                                     dataKey="value"
                                     nameKey="name"
                                 >
@@ -123,15 +129,15 @@ export default function AdminCharts({
                                 </Pie>
                                 {/* <Tooltip
                                     contentStyle={{
-                                        backgroundColor: 'hsl(var(--background))',
-                                        border: '1px solid hsl(var(--border))'
+                                        backgroundColor: 'var(--background)',
+                                        border: '1px solid var(--border)'
                                     }}
                                     formatter={(value: any) => [`${value} bookings`, 'Count']}
                                 /> */}
                             </PieChart>
                         </ResponsiveContainer>
                     ) : (
-                        <div className="flex h-full items-center justify-center text-foreground/80 font-semibold">
+                        <div className="flex h-full items-center justify-center text-muted-foreground">
                             No status data available
                         </div>
                     )}
@@ -139,7 +145,7 @@ export default function AdminCharts({
             </div>
 
             {/* Line Chart - Revenue Trend */}
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border border-border/80 bg-card p-5 shadow-sm">
                 <h3 className="text-sm font-semibold text-foreground mb-4">Revenue Trend</h3>
                 <div className="h-64">
                     {hasRevenueData ? (
@@ -150,8 +156,8 @@ export default function AdminCharts({
                                 <YAxis />
                                 <Tooltip
                                     contentStyle={{
-                                        backgroundColor: 'hsl(var(--background))',
-                                        border: '1px solid hsl(var(--border))'
+                                        backgroundColor: 'var(--background)',
+                                        border: '1px solid var(--border)'
                                     }}
                                     formatter={formatCurrency}
                                 />
@@ -159,10 +165,10 @@ export default function AdminCharts({
                                 <Line
                                     type="monotone"
                                     dataKey="revenue"
-                                    stroke="#22c55e"
+                                    stroke="var(--chart-3)"
                                     name="Revenue"
                                     strokeWidth={2}
-                                    dot={{ stroke: '#22c55e', strokeWidth: 2, r: 4 }}
+                                    dot={{ stroke: 'var(--chart-3)', strokeWidth: 2, r: 4 }}
                                 />
                             </LineChart>
                         </ResponsiveContainer>
@@ -175,7 +181,7 @@ export default function AdminCharts({
             </div>
 
             {/* Bar Chart - Service Popularity */}
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border border-border/80 bg-card p-5 shadow-sm">
                 <h3 className="text-sm font-semibold text-foreground mb-4">Popular Services</h3>
                 <div className="h-64">
                     {hasServiceData ? (
@@ -195,8 +201,8 @@ export default function AdminCharts({
                                 />
                                 <Tooltip
                                     contentStyle={{
-                                        backgroundColor: 'hsl(var(--background))',
-                                        border: '1px solid hsl(var(--border))'
+                                        backgroundColor: 'var(--background)',
+                                        border: '1px solid var(--border)'
                                     }}
                                     formatter={(value: any) => [`${value} bookings`, 'Bookings']}
                                 />
@@ -204,7 +210,7 @@ export default function AdminCharts({
                                 <Bar
                                     dataKey="bookings"
                                     name="Bookings"
-                                    fill="#8b5cf6"
+                                    fill="var(--chart-2)"
                                 >
                                     {servicePopularity.map((_entry, index) => (
                                         <Cell

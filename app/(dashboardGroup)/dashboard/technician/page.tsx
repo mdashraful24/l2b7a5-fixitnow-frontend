@@ -5,8 +5,21 @@ import { getMe } from "@/services/getMe";
 import { getTechnicianById } from "@/app/(publicGroup)/_actions/getTechnician";
 import { getTechnicianBookings } from "@/app/(dashboardGroup)/_actions/technician";
 import { bookingStatCardThemes, buildBookingStatCards } from "@/lib/bookingConstants";
+import { PageHeader } from "@/components/dashboard/page-header";
+import { StatCard, type StatTone } from "@/components/dashboard/stat-card";
 import ClientCharts from "./_components/dashboard/ClientCharts";
-import BookingsTable from "./_components/dashboard/BookingsTable";
+
+const statTones: Record<string, StatTone> = {
+    total: "slate",
+    requested: "amber",
+    declined: "rose",
+    accepted: "blue",
+    paid: "violet",
+    inProgress: "blue",
+    completed: "emerald",
+    cancelled: "rose",
+    earnings: "emerald",
+};
 
 export default async function TechnicianDashboardPage() {
     const user = await getMe();
@@ -68,40 +81,41 @@ export default async function TechnicianDashboardPage() {
     const monthlyData = getMonthlyData(bookings);
     const statusDistribution = getStatusDistribution(bookings);
     const weeklyTrend = getWeeklyTrend(bookings);
-    const recentBookings = bookings.slice(0, 10);
     const statCards = buildBookingStatCards(stats);
 
     return (
-        <div className="space-y-8">
-            {/* Header Section */}
-            <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-6 shadow-sm lg:flex-row lg:items-center lg:justify-between">
-                <div>
-                    <p className="text-sm font-medium text-primary dark:text-blue-500">Technician dashboard</p>
-                    <h1 className="mt-1 text-2xl font-bold text-foreground">Welcome back, {technician.user.name}</h1>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                        Track bookings, manage availability, and keep your service profile updated.
-                    </p>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                    <Link href="/dashboard/technician/updated-profile" className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90">
-                        Edit Profile
-                    </Link>
-                    <Link href="/dashboard/technician/availability" className="rounded-lg border border-border px-4 py-2 text-sm font-semibold text-muted-foreground hover:border-primary/40 hover:text-primary">
-                        Manage Availability
-                    </Link>
-                </div>
-            </div>
+        <div className="space-y-6">
+            <PageHeader
+                eyebrow="Technician workspace"
+                title={`Welcome back, ${technician.user.name}`}
+                description="Track bookings, manage availability, and keep your service profile updated."
+                actions={
+                    <>
+                        <Link
+                            href="/dashboard/technician/updated-profile"
+                            className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+                        >
+                            Edit Profile
+                        </Link>
+                        <Link
+                            href="/dashboard/technician/availability"
+                            className="rounded-lg border border-border px-4 py-2 text-sm font-semibold text-muted-foreground hover:border-primary/40 hover:text-primary"
+                        >
+                            Manage Availability
+                        </Link>
+                    </>
+                }
+            />
 
-            {/* Stats Cards */}
-            <div className="grid grid-cols-2 gap-4 xl:grid-cols-5">
-                {statCards.map((item) => ( // ${item.color} 
-                    <div key={item.label} className={`bg-linear-to-br from-blue-700 to-blue-900 rounded-xl px-5 py-3 text-white shadow-lg transition-transform hover:scale-[1.02]`}>
-                        <div className="flex items-center gap-2 mb-2">
-                            <item.icon className={`h-5 w-5 ${item.iconColor}`} />
-                            <p className="text-sm text-white/90">{item.label}</p>
-                        </div>
-                        <p className="text-2xl font-bold">{item.value}</p>
-                    </div>
+            <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-5">
+                {statCards.map((item) => (
+                    <StatCard
+                        key={item.label}
+                        label={item.label}
+                        value={item.value}
+                        icon={item.icon}
+                        tone={statTones[item.key] ?? "blue"}
+                    />
                 ))}
             </div>
 

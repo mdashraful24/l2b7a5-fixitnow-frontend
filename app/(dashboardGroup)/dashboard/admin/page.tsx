@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Calendar, Clock, CheckCircle, XCircle, Loader2, Users, DollarSign, ArrowUpRight, BookOpen, Star, Briefcase, UserStar, TrendingUp, TrendingDown } from "lucide-react";
+import { Calendar, Clock, CheckCircle, XCircle, Loader2, Users, DollarSign, ArrowUpRight, BookOpen, Star, Briefcase, UserStar } from "lucide-react";
+import { PageHeader } from "@/components/dashboard/page-header";
+import { StatCard } from "@/components/dashboard/stat-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getAllBookings, getAllUsers } from "@/app/(dashboardGroup)/_actions/admin";
 import { getDashboardStats } from "@/lib/adminConstants";
-import { StatCard } from "./_components/dashboardStats/StatCard";
-import { MiniStatCard } from "./_components/dashboardStats/MiniStatCard";
 import AdminCharts from "./_components/dashboardStats/AdminCharts";
 import AdminBookingsDataTable from "./_components/dashboardStats/AdminBookingsDataTable";
 import { getAllServices } from "@/app/(publicGroup)/_actions/allServices";
@@ -38,118 +38,93 @@ export default async function AdminDashboardPage() {
     const servicePopularity = await getServicePopularity();
 
     return (
-        <div className="space-y-8">
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                <div className="space-y-2">
-                    <h1 className="text-3xl font-bold tracking-tight text-foreground">Dashboard Overview</h1>
-                    <p className="text-sm md:text-base text-muted-foreground">
-                        Welcome back! Here&apos;s what&apos;s happening with your platform today.
-                    </p>
-                </div>
-                <div className="flex items-center gap-3">
-                    <Badge variant="outline" className="px-3 py-4 text-sm bg-background border-border">
-                        <Calendar className="h-3.5 w-3.5 mr-1.5" />
-                        {new Date().toLocaleDateString('en-US', {
-                            weekday: 'long',
-                            month: 'long',
-                            day: 'numeric',
-                            year: 'numeric',
+        <div className="space-y-6">
+            <PageHeader
+                eyebrow="Admin overview"
+                title="Dashboard Overview"
+                description="Monitor bookings, revenue, and platform activity at a glance."
+                actions={
+                    <Badge variant="outline" className="gap-1.5 px-3 py-2 text-xs font-medium">
+                        <Calendar className="size-3.5" />
+                        {new Date().toLocaleDateString("en-US", {
+                            weekday: "long",
+                            month: "long",
+                            day: "numeric",
+                            year: "numeric",
                         })}
                     </Badge>
-                </div>
-            </div>
+                }
+            />
 
-            {/* Main stats cards */}
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
                 <StatCard
-                    title="Total Revenue"
+                    label="Total Revenue"
                     value={`$${totalRevenue.toLocaleString()}`}
                     icon={DollarSign}
-                    description={`${bookings.completedBookings} completed bookings`}
-                    color="text-green-500"
-                    bgColor="bg-green-50 dark:bg-green-950/30"
-                    cardBgColor="bg-gradient-to-br from-blue-700 to-blue-900"
+                    tone="emerald"
+                    hint={`${bookings.completedBookings} completed bookings`}
                 />
                 <StatCard
-                    title="Total Bookings"
+                    label="Total Bookings"
                     value={bookings.totalBookings}
                     icon={Briefcase}
-                    description={`${bookings.thisMonth} this month`}
+                    tone="blue"
                     trend={growthRate}
-                    color="text-blue-500"
-                    bgColor="bg-blue-50 dark:bg-blue-950/30"
-                    cardBgColor="bg-gradient-to-br from-blue-700 to-blue-900"
+                    hint={`${bookings.thisMonth} this month`}
                 />
                 <StatCard
-                    title="Total Users"
+                    label="Total Users"
                     value={users.totalUsers}
                     icon={Users}
-                    description={`${users.activeUsers} active, ${users.bannedUsers} banned`}
-                    color="text-purple-500"
-                    bgColor="bg-purple-50 dark:bg-purple-950/30"
-                    cardBgColor="bg-gradient-to-br from-blue-700 to-blue-900"
+                    tone="violet"
+                    hint={`${users.activeUsers} active / ${users.bannedUsers} banned`}
                 />
                 <StatCard
-                    title="Avg. Rating"
-                    value={averageRating > 0 ? averageRating.toFixed(1) : 'N/A'}
+                    label="Avg. Rating"
+                    value={averageRating > 0 ? averageRating.toFixed(1) : "N/A"}
                     icon={Star}
-                    description={`${users.totalTechnicians} technicians`}
-                    color="text-yellow-500"
-                    bgColor="bg-yellow-50 dark:bg-yellow-950/30"
-                    cardBgColor="bg-gradient-to-br from-blue-700 to-blue-900"
+                    tone="amber"
+                    hint={`${users.totalTechnicians} technicians`}
                 />
                 <StatCard
-                    title="Total Reviews"
-                    value={totalReviews > 0 ? totalReviews.toFixed(1) : 'N/A'}
+                    label="Total Reviews"
+                    value={totalReviews > 0 ? totalReviews.toFixed(1) : "N/A"}
                     icon={UserStar}
-                    description={`${users.totalTechnicians} technicians`}
-                    color="text-red-500"
-                    bgColor="bg-red-50 dark:bg-red-950/30"
-                    cardBgColor="bg-gradient-to-br from-blue-700 to-blue-900"
+                    tone="rose"
+                    hint={`${users.totalTechnicians} technicians`}
                 />
             </div>
 
-            {/* Bookings Related */}
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
-                <MiniStatCard
-                    title="Requested"
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+                <StatCard
+                    label="Requested"
                     value={bookings.requestedBookings}
-                    color="text-black"
                     icon={Clock}
-                    iconBgColor="bg-orange-100"
-                    bgColor="bg-gradient-to-br from-blue-700 to-blue-900"
+                    tone="amber"
                 />
-                <MiniStatCard
-                    title="In Progress"
+                <StatCard
+                    label="In Progress"
                     value={bookings.inProgressBookings}
-                    color="text-black"
                     icon={Loader2}
-                    iconBgColor="bg-green-100"
-                    bgColor="bg-gradient-to-br from-blue-700 to-blue-900"
+                    tone="blue"
                 />
-                <MiniStatCard
-                    title="Completed"
+                <StatCard
+                    label="Completed"
                     value={bookings.completedBookings}
-                    color="text-black"
                     icon={CheckCircle}
-                    iconBgColor="bg-blue-100"
-                    bgColor="bg-gradient-to-br from-blue-700 to-blue-900"
+                    tone="emerald"
                 />
-                <MiniStatCard
-                    title="Cancelled"
+                <StatCard
+                    label="Cancelled"
                     value={bookings.cancelledBookings}
-                    color="text-black"
                     icon={XCircle}
-                    iconBgColor="bg-red-100"
-                    bgColor="bg-gradient-to-br from-blue-700 to-blue-900"
+                    tone="rose"
                 />
-                <MiniStatCard
-                    title="Categories"
+                <StatCard
+                    label="Categories"
                     value={totalCategories}
-                    color="text-black"
                     icon={BookOpen}
-                    iconBgColor="bg-indigo-100"
-                    bgColor="bg-gradient-to-br from-blue-700 to-blue-900"
+                    tone="violet"
                 />
                 <ContactCountBadge />
             </div>
@@ -163,7 +138,7 @@ export default async function AdminDashboardPage() {
             />
 
             {/* Data Table Section - Showing only 5 most recent bookings */}
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border border-border/80 bg-card p-5 shadow-sm">
                 <div className="flex items-center justify-between gap-4 mb-4">
                     <div>
                         <h2 className="text-lg font-semibold text-foreground">Recent Bookings</h2>
@@ -336,7 +311,7 @@ async function getServicePopularity() {
             }))
             .sort((a: any, b: any) => b.bookings - a.bookings)
             .slice(0, 10);
-    } catch (error) {
+    } catch {
         return [];
     }
 }

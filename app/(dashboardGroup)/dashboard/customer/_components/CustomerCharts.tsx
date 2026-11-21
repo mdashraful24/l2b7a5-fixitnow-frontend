@@ -40,7 +40,7 @@ const renderCustomLabel = (props: any) => {
             style={{
                 fontSize: '10px',
                 fontWeight: '600',
-                fill: 'hsl(var(--foreground))',
+                fill: 'var(--foreground)',
                 fontFamily: 'inherit'
             }}
         >
@@ -55,7 +55,13 @@ export default function CustomerCharts({
     weeklyTrend,
     servicePopularity,
 }: CustomerChartsProps) {
-    const barColors = ['#3b82f6', '#8b5cf6', '#22c55e', '#eab308', '#ef4444', '#06b6d4', '#f97316'];
+    const barColors = [
+        'var(--chart-1)',
+        'var(--chart-2)',
+        'var(--chart-3)',
+        'var(--chart-4)',
+        'var(--chart-5)',
+    ];
 
     const hasMonthlyData = monthlyData.some(item => item.bookings > 0);
     const hasStatusData = statusDistribution.length > 0;
@@ -65,7 +71,7 @@ export default function CustomerCharts({
     return (
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {/* Bar Chart - Monthly Bookings */}
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border border-border/80 bg-card p-5 shadow-sm">
                 <h3 className="text-sm font-semibold text-foreground mb-4">Monthly Bookings</h3>
                 <div className="h-64">
                     {hasMonthlyData ? (
@@ -76,12 +82,12 @@ export default function CustomerCharts({
                                 <YAxis />
                                 <Tooltip
                                     contentStyle={{
-                                        backgroundColor: 'hsl(var(--background))',
-                                        border: '1px solid hsl(var(--border))'
+                                        backgroundColor: 'var(--background)',
+                                        border: '1px solid var(--border)'
                                     }}
                                 />
                                 <Legend />
-                                <Bar dataKey="bookings" fill="#3b82f6" name="Bookings" />
+                                <Bar dataKey="bookings" fill="var(--chart-1)" name="Bookings" />
                             </BarChart>
                         </ResponsiveContainer>
                     ) : (
@@ -93,7 +99,7 @@ export default function CustomerCharts({
             </div>
 
             {/* Pie Chart - Status Distribution */}
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border border-border/80 bg-card p-5 shadow-sm">
                 <h3 className="text-sm font-semibold text-foreground mb-4">Booking Status Distribution</h3>
                 <div className="h-64">
                     {hasStatusData ? (
@@ -106,7 +112,7 @@ export default function CustomerCharts({
                                     labelLine={false}
                                     label={renderCustomLabel}
                                     outerRadius={125}
-                                    fill="#8884d8"
+                                    fill="var(--chart-2)"
                                     dataKey="value"
                                     nameKey="name"
                                 >
@@ -125,7 +131,7 @@ export default function CustomerCharts({
             </div>
 
             {/* Line Chart - Weekly Trend */}
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border border-border/80 bg-card p-5 shadow-sm">
                 <h3 className="text-sm font-semibold text-foreground mb-4">Weekly Booking Trend</h3>
                 <div className="h-64">
                     {hasWeeklyData ? (
@@ -136,18 +142,18 @@ export default function CustomerCharts({
                                 <YAxis />
                                 <Tooltip
                                     contentStyle={{
-                                        backgroundColor: 'hsl(var(--background))',
-                                        border: '1px solid hsl(var(--border))'
+                                        backgroundColor: 'var(--background)',
+                                        border: '1px solid var(--border)'
                                     }}
                                 />
                                 <Legend />
                                 <Line
                                     type="monotone"
                                     dataKey="bookings"
-                                    stroke="#8b5cf6"
+                                    stroke="var(--chart-2)"
                                     name="Bookings"
                                     strokeWidth={2}
-                                    dot={{ stroke: '#8b5cf6', strokeWidth: 2, r: 4 }}
+                                    dot={{ stroke: 'var(--chart-2)', strokeWidth: 2, r: 4 }}
                                 />
                             </LineChart>
                         </ResponsiveContainer>
@@ -160,7 +166,7 @@ export default function CustomerCharts({
             </div>
 
             {/* Bar Chart - Service Popularity */}
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border border-border/80 bg-card p-5 shadow-sm">
                 <h3 className="text-sm font-semibold text-foreground mb-4">Your Most Booked Services</h3>
                 <div className="h-64">
                     {hasServiceData ? (
@@ -180,13 +186,13 @@ export default function CustomerCharts({
                                 />
                                 <Tooltip
                                     contentStyle={{
-                                        backgroundColor: 'hsl(var(--background))',
-                                        border: '1px solid hsl(var(--border))'
+                                        backgroundColor: 'var(--background)',
+                                        border: '1px solid var(--border)'
                                     }}
                                     formatter={(value: any) => [`${value} bookings`, 'Bookings']}
                                 />
                                 <Legend />
-                                <Bar dataKey="bookings" name="Bookings" fill="#8b5cf6">
+                                <Bar dataKey="bookings" name="Bookings" fill="var(--chart-2)">
                                     {servicePopularity.map((_entry, index) => (
                                         <Cell
                                             key={`cell-${index}`}

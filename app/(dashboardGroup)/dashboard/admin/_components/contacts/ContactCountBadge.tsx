@@ -43,19 +43,17 @@ const ContactCountBadge = ({ className }: ContactCountBadgeProps) => {
 
     if (loading) {
         return (
-            <Card className="shadow-sm hover:shadow-md transition-shadow border-border bg-linear-to-br from-blue-700 to-blue-900">
-                <CardHeader className="flex flex-row items-center justify-between">
-                    <CardTitle className="text-sm font-medium text-white">
+            <Card className={`border-border/80 bg-card p-5 shadow-sm ${className ?? ""}`}>
+                <CardHeader className="flex flex-row items-center justify-between p-0">
+                    <CardTitle className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
                         Messages
                     </CardTitle>
-                    <div className="rounded-full p-1.5 bg-blue-100">
-                        <Mail className="h-4 w-4 text-blue-600" />
+                    <div className="grid size-10 place-items-center rounded-lg bg-blue-500/10">
+                        <Mail className="size-5 text-blue-600 dark:text-blue-400" />
                     </div>
                 </CardHeader>
-                <CardContent className="-mt-4">
-                    <div className="flex items-baseline gap-2">
-                        <div className="text-2xl font-bold text-white">...</div>
-                    </div>
+                <CardContent className="p-0 pt-4">
+                    <p className="text-2xl font-semibold tracking-tight text-foreground">...</p>
                 </CardContent>
             </Card>
         );
@@ -63,27 +61,26 @@ const ContactCountBadge = ({ className }: ContactCountBadgeProps) => {
 
     return (
         <Link href="/dashboard/admin/contacts" className="block">
-            <Card className="shadow-sm hover:shadow-md transition-shadow border-border bg-linear-to-br from-blue-700 to-blue-900 hover:scale-[1.02]">
-                <CardHeader className="flex flex-row items-center justify-between">
-                    <CardTitle className="text-sm font-medium text-white">
+            <Card className={`border-border/80 bg-card p-5 shadow-sm transition-shadow hover:shadow-md ${className ?? ""}`}>
+                <CardHeader className="flex flex-row items-center justify-between p-0">
+                    <CardTitle className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
                         Messages
                     </CardTitle>
-                    <div className="rounded-full p-1.5 bg-blue-100">
-                        <Mail className="h-4 w-4 text-blue-600" />
+                    <div className="grid size-10 place-items-center rounded-lg bg-blue-500/10">
+                        <Mail className="size-5 text-blue-600 dark:text-blue-400" />
                     </div>
                 </CardHeader>
-                <CardContent className="-mt-4">
-                    <div className="flex items-baseline gap-2">
-                        <div className="text-2xl font-bold text-white">{count}</div>
+                <CardContent className="p-0 pt-4">
+                    <div className="flex flex-wrap items-center gap-2">
+                        <p className="text-2xl font-semibold tracking-tight text-foreground">{count}</p>
                         {unrepliedCount !== null && (
-                            <div className={`flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${unrepliedCount > 0
-                                    ? 'text-yellow-200 bg-yellow-500/20'
-                                    : 'text-green-200 bg-green-500/30'
-                                }`}>
-                                <AlertCircle className="h-3 w-3" />
-                                {unrepliedCount > 0
-                                    ? `${unrepliedCount} pending`
-                                    : 'All replied ✓'}
+                            <div className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${
+                                unrepliedCount > 0
+                                    ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                                    : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                            }`}>
+                                <AlertCircle className="size-3" />
+                                {unrepliedCount > 0 ? `${unrepliedCount} pending` : "All replied"}
                             </div>
                         )}
                     </div>
